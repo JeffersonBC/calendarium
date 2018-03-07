@@ -6,9 +6,9 @@ services:
 
   back:
     build: ./django
-    command: python3 django/manage.py runserver 0.0.0.0:8000
+    command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/code
+      - ./django:/code
     ports:
       - "8000:8000"
     depends_on:
@@ -16,6 +16,8 @@ services:
 
   front:
     build: ./angular
+    volumes:
+      - ./angular:/code
     ports:
       - "80:80" # nginx configurado para a porta 80
     depends_on:
