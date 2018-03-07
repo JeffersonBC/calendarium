@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  db:
+    image: postgres # Por padrão já expõe a porta 5432
+
+  back:
+    build: ./django
+    command: python3 django/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  # front:
+  #   image: angular
+  #   depends_on:
+  #     - back
