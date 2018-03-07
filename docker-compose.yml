@@ -14,7 +14,9 @@ services:
     depends_on:
       - db
 
-  # front:
-  #   image: angular
-  #   depends_on:
-  #     - back
+  front:
+    build: ./angular
+    ports:
+      - "80:80" # nginx configurado para a porta 80
+    depends_on:
+      - back
