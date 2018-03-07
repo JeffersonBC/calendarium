@@ -1,0 +1,77 @@
+{% extends "website/base.html" %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col s12 m8 l6 offset-m2 offset-l3">
+				{% if form.instance.pk %}
+					<h3>Adicionar Evento</h3>
+				{% else %}
+					<h3>Adicionar Evento</h3>
+				{% endif %}
+
+				<form
+					{% if form.instance.pk %}
+						action="{% url "event_edit" form.instance.pk %}"
+					{% else %}
+						action="{% url "event_add" %}"
+					{% endif %}
+					method="post"
+				>
+					{% csrf_token %}
+
+					{% include "renders/form.html" with form=form only %}
+
+					<div class="right">
+						{% if form.instance.pk %}
+							<button class="waves-effect waves-light btn" name="delete_event" onclick="return confirm('Tem CERTEZA que deseja DELETAR este evento?');"><i class="material-icons left">delete</i>Deletar</button>
+						{% endif %}
+						<button type="submit" class="btn waves-effect waves-light"><i class="material-icons left">save</i>Salvar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+
+{% block js %}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			// Inicializa campos de data
+			$('input[id$="datetime_0"]').pickadate({
+				monthsShort: [ 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez' ],
+				monthsFull: [ 'Janeiro', 'Fevereiro', 'Marco', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro' , 'Dezembro' ],
+				weekdaysFull: [ 'Domingo', 'Segunda-Feira', 'Terca-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sabado' ],
+				weekdaysShort: [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab' ],
+				weekdaysLetter: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+				format: 'dd/mm/yyyy',
+				min: [2018, 0, 01],
+				max: [2023, 11, 31],
+				selectMonths: true,
+				selectYears: 20,
+				today: 'Hoje',
+				clear: 'Limpar',
+				close: 'Ok',
+				closeOnSelect: false
+			});
+
+			// Inicializa campos de hora
+			$('input[id$="datetime_1"]').pickatime({
+				default: '12:00',
+				twelvehour: false,
+				donetext: 'OK',
+				cleartext: 'Limpar',
+				canceltext: 'Cancelar',
+				autoclose: false,
+			});
+
+			// Faz com que campos com erro de validação fiquem vermelhos
+			$('.error-field > input').addClass('validate invalid');
+
+			// Inicializa corretamente o campo de texto
+			$("textarea").addClass('materialize-textarea')
+				.attr('length', function () {return $(this).attr('maxlength');}).characterCounter();
+		});
+	</script>
+{% endblock %}

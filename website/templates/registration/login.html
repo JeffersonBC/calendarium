@@ -1,0 +1,41 @@
+{% extends "website/base.html" %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col s12 m8 l6 offset-m2 offset-l3">
+				<h3>Login</h3>
+				{% if form.errors %}
+					<div class="card-panel red darken-1 white-text">Dados incorretos, favor tentar novamente.</div>
+				{% endif %}
+				<br>
+				<form action="{% url "login" %}" method="post">
+					{% csrf_token %}
+					{% include "renders/form.html" with form=form only %}
+
+					<div class="right" style="margin-top: 1rem;">
+						<button type="submit" value="login" class="btn waves-effect waves-light"><i class="material-icons left">exit_to_app</i>Login</button>
+					</div>
+				</form>
+			</div>
+			<div class="col s12 m8 l6 offset-m2 offset-l3">
+				<br>
+				<a href="{% url "register" %}" class="btn-flat waves-effect"><i class="material-icons left">person_add</i>Não tem conta? Cadastre-se</a>
+				<a href="#" class="btn-flat waves-effect"><i class="material-icons left">lock_open</i>Esqueceu a senha?</a>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block js %}
+	<script type="text/javascript">
+		// Inicializa corretamente o campo de texto
+		$(document).ready(function(){
+			$("textarea").addClass('materialize-textarea').attr('length', function () {
+				return $(this).attr('maxlength');
+			}).characterCounter();
+		});
+		// Faz com que campos com erro de validação fiquem vermelhos
+		$('.error-field > input').addClass('validate invalid');
+	</script>
+{% endblock %}

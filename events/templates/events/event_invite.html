@@ -1,0 +1,71 @@
+{% extends "website/base.html" %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col s12 m8 l6 offset-m2 offset-l3">
+				<h3>Convidar para evento</h3>
+
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title">{{ event.name }}</span>
+						{% if event.description %}
+							<p>{{ event.description }}</p>
+							<br>
+						{% endif %}
+						<p><span class="grey-text">De: </span>{{ event.start_datetime }}</p>
+						<p><span class="grey-text">Até: </span>{{ event.end_datetime }}</p>
+
+						{% if subscribed %}
+							<div class="divider" style="margin: 1rem 0;"></div>
+							<span class="card-title">Confirmados</span>
+							{% for subs in subscribed %}
+								<p>{{ subs.user }}</p>
+							{% endfor %}
+						{% endif %}
+
+						{% if invited %}
+							<div class="divider" style="margin: 1rem 0;"></div>
+							<span class="card-title">Convidados</span>
+							{% for inv in invited %}
+								<p>{{ inv.user }}</p>
+							{% endfor %}
+						{% endif %}
+
+						{% if rejected %}
+							<div class="divider" style="margin: 1rem 0;"></div>
+							<span class="card-title">Não irão</span>
+							{% for rej in rejected %}
+								<p>{{ rej.user }}</p>
+							{% endfor %}
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="col s12 m8 l6 offset-m2 offset-l3">
+				<form action="{% url "event_invite" pk %}" method="post">
+					{% csrf_token %}
+
+					{% include "renders/form.html" with form=form only %}
+
+					<div class="right">
+						<button type="submit" class="btn waves-effect waves-light"><i class="material-icons left">send</i>Enviar Convite</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+
+{% block js %}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			// Inicializa corretamente o campo de seleção
+			$('select').material_select();
+
+			// Faz com que campos com erro de validação fiquem vermelhos
+			$('.error-field > .select-wrapper > input').addClass('validate invalid');
+		});
+	</script>
+{% endblock %}

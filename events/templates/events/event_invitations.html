@@ -1,0 +1,27 @@
+{% extends "website/base.html" %}
+
+{% block content %}
+	<div class="container">
+		<div class="col s12 m8 offset-m2">
+			<h3>Convites</h3>
+
+			{% if messages %}
+				<ul class="messages card red lighten-1 white-text">
+					<div class="card-content">
+						{% for message in messages %}
+							<li class="{{ message.tags }}">{{ message|linebreaks }}</li>
+						{% endfor %}
+					</div>
+				</ul>
+			{% endif %}
+
+			{% if invitations %}
+				{% include 'renders/event_list_render.html' with events=invitations %}
+			{% else %}
+				<div class="card-panel">
+					Não há nenhum convite pendente.
+				</div>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

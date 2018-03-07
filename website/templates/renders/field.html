@@ -1,0 +1,13 @@
+<div class="input-field
+	{% if field.errors %}
+		tooltipped error-field" data-position="bottom" data-delay="50" data-tooltip="
+			{% for error in field.errors %}
+				{{ error }}
+			{% endfor %}"
+{% else %}
+	"
+{% endif %}>
+	{{ field }}
+	{{ field.label_tag }}
+	<small>{% autoescape off %}{{ field.help_text }}{% endautoescape %}</small>
+</div>
