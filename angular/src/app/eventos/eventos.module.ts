@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { EventosComponent } from './eventos.component';
 import { EventosRoutingModule } from './eventos.routing.module';
 
-import { EventosAdicionarComponent } from './eventos-adicionar/eventos-adicionar.component';
+import { EventosComponent } from './eventos.component';
 import { EventosConvitesComponent } from './eventos-convites/eventos-convites.component';
 import { EventosEditarComponent } from './eventos-editar/eventos-editar.component';
+import { EventosConvidarComponent } from './eventos-convidar/eventos-convidar.component';
 
 
 @NgModule({
@@ -16,9 +16,9 @@ import { EventosEditarComponent } from './eventos-editar/eventos-editar.componen
   ],
   declarations: [
     EventosComponent,
-    EventosAdicionarComponent,
     EventosConvitesComponent,
     EventosEditarComponent,
+    EventosConvidarComponent
   ]
 })
 export class EventosModule { }
