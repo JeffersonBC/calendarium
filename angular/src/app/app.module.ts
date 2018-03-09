@@ -1,22 +1,24 @@
+import { MaterializeModule } from 'angular2-materialize';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app.routing.module';
-import { ContasModule } from './contas/contas.module';
-import { EventosModule } from './eventos/eventos.module';
+import { HomeComponent } from './home/home.component';
+import { Page404Component } from './page404/page404.component';
 
+import { AppRoutingModule } from './app.routing.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    Page404Component,
   ],
   imports: [
+    MaterializeModule,
     BrowserModule,
     AppRoutingModule,
-    ContasModule,
-    EventosModule
   ],
   providers: [],
   bootstrap: [AppComponent]

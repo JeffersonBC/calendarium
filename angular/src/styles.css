@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+header, main, footer {
+	padding-left: 300px;
+}
+
+.side-nav {
+	margin-top: 64px;
+}
+
+@media only screen and (max-width : 992px) {
+	header, main, footer {
+		padding-left: 0;
+	}
+
+	.side-nav {
+		margin-top: 0;
+	}
+}
+
+.bold {
+	font-weight: bold;
+}

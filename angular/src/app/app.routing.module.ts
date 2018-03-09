@@ -1,12 +1,14 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ContasComponent } from './contas/contas.component';
-import { EventosComponent } from './eventos/eventos.component';
+import { HomeComponent } from './home/home.component';
+import { Page404Component } from './page404/page404.component';
 
 const appRoutes: Routes = [
-    { path: 'contas', component: ContasComponent },
-    { path: 'eventos', component: EventosComponent },
+    { path: '', component: HomeComponent },
+    { path: 'conta', loadChildren: 'app/contas/contas.module#ContasModule' },
+    { path: 'eventos', loadChildren: 'app/eventos/eventos.module#EventosModule' },
+    { path: ':404', component: Page404Component },
 ];
 
 @NgModule({
