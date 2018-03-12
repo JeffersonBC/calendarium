@@ -1,6 +1,6 @@
 from django.urls import path, re_path
 
-from .views import event, invite
+from ..views import event, invite
 
 urlpatterns = [
     path(r'', event.list_event, name='event_calendar'),
