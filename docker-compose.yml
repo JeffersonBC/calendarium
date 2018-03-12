@@ -2,7 +2,7 @@ version: '3'
 
 services:
   db:
-    image: postgres # Por padrão já expõe a porta 5432
+    image: postgres # Por padrão já expõe a porta 5432 pros outros containers
 
   back:
     build: ./django
@@ -16,9 +16,10 @@ services:
 
   front:
     build: ./angular
-    volumes:
-      - ./angular:/code
+    command: ng serve --host 0.0.0.0
     ports:
-      - "80:80" # nginx configurado para a porta 80
+      - "4200:4200"
+    volumes:
+      - ./angular/:/code
     depends_on:
       - back
