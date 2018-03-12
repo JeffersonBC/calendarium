@@ -2,19 +2,36 @@
   <div class="col s12 m8 l6 offset-m2 offset-l3">
     <h3>Login</h3>
 
-      <div class="card-panel red darken-1 white-text">Dados incorretos, favor tentar novamente.</div>
+    <div class="card-panel red darken-1 white-text">Dados incorretos, favor tentar novamente.</div>
 
     <br>
-    <form action="" method="post">
+    <form>
+
+      <div class="input-field">
+        <input id="user_email" type="text" class="validate">
+        <label for="user_email">Email</label>
+      </div>
+
+      <div class="input-field">
+        <input id="user_password1" type="text" class="validate">
+        <label for="user_password1">Senha</label>
+      </div>
 
       <div class="right" style="margin-top: 1rem;">
-        <button type="submit" value="login" class="btn waves-effect waves-light"><i class="material-icons left">exit_to_app</i>Login</button>
+        <button type="submit" value="login" class="btn waves-effect waves-light">
+          <i class="material-icons left">exit_to_app</i>Login</button>
       </div>
     </form>
   </div>
+
   <div class="col s12 m8 l6 offset-m2 offset-l3">
     <br>
-    <a  class="btn-flat waves-effect"><i class="material-icons left">person_add</i>Não tem conta? Cadastre-se</a>
-    <a  class="btn-flat waves-effect"><i class="material-icons left">lock_open</i>Esqueceu a senha?</a>
+    <a routerLink="/conta/registrar" class="btn-flat waves-effect" style="padding-left: 0;">
+      <i class="material-icons left">person_add</i>Não tem conta? Cadastre-se
+    </a>
+
+    <a routerLink="/conta/esqueceu_senha" class="btn-flat waves-effect" style="padding-left: 0;">
+      <i class="material-icons left">lock_open</i>Esqueceu a senha?
+    </a>
   </div>
 </div>

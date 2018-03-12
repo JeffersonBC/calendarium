@@ -1,5 +1,8 @@
+import { MaterializeModule } from 'angular2-materialize';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { EventosRoutingModule } from './eventos.routing.module';
 
@@ -11,7 +14,9 @@ import { EventosConvidarComponent } from './eventos-convidar/eventos-convidar.co
 
 @NgModule({
   imports: [
+    MaterializeModule,
     CommonModule,
+    FormsModule,
     EventosRoutingModule,
   ],
   declarations: [

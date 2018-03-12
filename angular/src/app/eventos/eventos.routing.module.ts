@@ -12,7 +12,7 @@ const routes: Routes = [
     { path: 'adicionar', component: EventosEditarComponent },
     { path: 'editar/:id', component: EventosEditarComponent },
     { path: 'convites', component: EventosConvitesComponent },
-    { path: 'convidar', component: EventosConvidarComponent },
+    { path: 'convidar/:id', component: EventosConvidarComponent },
 ];
 
 

@@ -5,6 +5,7 @@ import { ContasRoutingModule } from './contas.routing.module';
 
 import { ContaRegistrarComponent } from './conta-registrar/conta-registrar.component';
 import { ContaLoginComponent } from './conta-login/conta-login.component';
+import { ContaEsqueceuComponent } from './conta-esqueceu/conta-esqueceu.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { ContaLoginComponent } from './conta-login/conta-login.component';
   declarations: [
     ContaRegistrarComponent,
     ContaLoginComponent,
+    ContaEsqueceuComponent
   ]
 })
 export class ContasModule { }
