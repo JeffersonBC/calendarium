@@ -38,13 +38,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Rest Framework apps
     'rest_framework',
+    'rest_framework.authtoken',
+    'corsheaders',
 
+    'accounts',
     'events',
     'website',
 ]
 
 MIDDLEWARE = [
+    # Middleware for django-cors-headers
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -129,3 +138,19 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = 'event_calendar'
 LOGOUT_REDIRECT_URL = 'index'
+
+
+# Rest Framework
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
+
+
+CORS_ORIGIN_WHITELIST = (
+    'localhost:4200',
+)
+CORS_ORIGIN_REGEX_WHITELIST = (
+    'localhost:4200',
+)
