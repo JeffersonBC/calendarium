@@ -24,6 +24,9 @@ class Event(models.Model):
             self.name + ': ' + str(self.start_datetime)
         )
 
+    def set_creator(self, creator_pk):
+        self.creator = get_user_model().objects.get(pk=creator_pk)
+
 
 class EventSubscription(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)

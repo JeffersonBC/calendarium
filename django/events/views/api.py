@@ -1,51 +1,58 @@
 from django.http import (
-    JsonResponse, HttpResponseBadRequest, HttpResponseForbidden
+    HttpResponseBadRequest, HttpResponseForbidden
 )
 from django.db.models import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
-import json
-import random
-import string
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
+import json
 from json import JSONDecodeError
 
-
 from events.models import Event, EventSubscription
+from events.serializers.event import EventSerializer
 
 
-@csrf_exempt
-@require_http_methods(['GET'])
+@api_view(['GET'])
+@permission_classes((IsAuthenticated,))
 def event_teste(request):
+    return Response({'success': True})
 
-  return JsonResponse({'success': True})
 
-
-@csrf_exempt
-@require_http_methods(['POST'])
+@api_view(['POST'])
+@permission_classes((IsAuthenticated,))
 def event_add(request):
-  success = True
+    success = True
+    msg = ''
+    errors = ''
 
-  # Tenta extrair um json do request. Se não for possível, retorna status de erro
-  json_request, error = json_from_request(request)
+    # Tenta extrair um json do request.
+    # Se não for possível, retorna status de erro
+    json_request, error = json_from_request(request)
 
-  if error:
-    success = False
+    if error:
+        success = False
+        errors = 'Não foi possível ler um JSON da requisição.'
 
-  elif 'name' not in json_request or 'description' not in json_request:
-    success = False
+    else:
+        serializer = EventSerializer(data=json_request)
 
-  else:
-    e = Event(
-      name = json_request["name"],
-      description = json_request["description"],
-      creator_id = 1
-    )
+        success = serializer.is_valid()
 
-    e.save()
+        if success:
+            serializer.save()
+            msg = 'Evento criado com sucesso'
+        else:
+            errors = serializer.errors
 
-  return JsonResponse({'success': success})
+    return Response({
+        'success': success,
+        'msg': msg,
+        'errors': errors
+    })
 
 
 # Processa o request para ver se ele apresenta um json válido
