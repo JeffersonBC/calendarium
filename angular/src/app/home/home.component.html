@@ -1,8 +1,14 @@
 <div class="col s12 m10 offset-m1">
-    <h3>Bem vindo ao Calendarium!</h3>
-    <br>
-    <div class="card-panel">Com o Calendarium é possível cadastrar eventos e convidar seus amigos para partipar!<br>Para começar a usar basta <a routerLink="/conta/registrar" class="bold">criar uma conta</a>, ou caso você já tenha uma é só fazer <a routerLink="/conta/login" class="bold">login</a>.</div>
-    <h3>Bem vindo, </h3>
+    <div *ngIf="!loggedIn">
+      <h3>Bem vindo ao Calendarium!</h3>
+      <br>
+      <div class="card-panel">Com o Calendarium é possível cadastrar eventos e convidar seus amigos para partipar!<br>Para começar a usar basta <a routerLink="/conta/registrar" class="bold">criar uma conta</a>, ou caso você já tenha uma é só fazer <a routerLink="/conta/login" class="bold">login</a>.</div>
+    </div>
+
+    <div *ngIf="loggedIn">
+      <h3>Bem vindo, </h3>
       <br>
       <h4>Próximos Eventos</h4>
+    </div>
+
 </div>

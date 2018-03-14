@@ -1,8 +1,13 @@
-import { Component, OnInit, Injectable } from '@angular/core';
-import { Http, RequestOptions, Headers, Response, RequestMethod } from '@angular/http';
+import { Component, OnInit, Injectable, EventEmitter } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+
+import { FormSharedService } from '../../shared/form/form.service';
+import { LoginEmitService } from '../../login-emit.service';
 
 
 @Component({
@@ -12,30 +17,67 @@ import 'rxjs/add/operator/map';
 })
 export class ContaLoginComponent implements OnInit {
 
-  constructor(private http: Http) { }
+  public formulario: FormGroup;
+
+  public loginError = false;
+  public errorMessage = '';
+
+  fezLoginEmmiter = new EventEmitter();
+
+  constructor(
+    private http: HttpClient,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private loginEmitService: LoginEmitService,
+    public formService: FormSharedService,
+  ) { }
 
   ngOnInit() {
+    this.formulario = this.formBuilder.group({
+      username: [null, Validators.required],
+      password: [null, Validators.required]
+    });
   }
 
-  tryLogin(user: string, password: string) {
-    const json = {username: user, password: password};
+  tryLogin() {
 
-    const header = new Headers();
-    header.append('Content-Type', 'application/json');
-    const options = new RequestOptions({ headers: header });
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
 
     this.http.post(
       'http://localhost:8000/api/accounts/get_auth_token/',
-      JSON.stringify(json),
-      options
+      JSON.stringify(this.formulario.value),
+      httpOptions
     )
-      .map(response => response.json())
+      .map(response => response)
       .subscribe(
         dados => {
-          alert(dados['token']);
+          if (dados['token']) {
+            localStorage.setItem('auth_token', dados['token']);
+
+            this.loginEmitService.emitChange(true);
+
+            this.router.navigate(['']);
+
+          } else {
+            console.error(JSON.stringify(dados));
+
+            this.loginError = true;
+            this.errorMessage = 'O servidor de login respondeu de maneira incorreta.';
+
+            this.formulario.patchValue({password: ''});
+          }
+
         },
         (error: any) => {
-          alert('erro');
+          console.error(JSON.stringify(error));
+          this.loginError = true;
+          this.errorMessage = 'Ocorreu algum erro ao tentar se conectar ao servidor.';
+
+          this.formulario.patchValue({password: ''});
         }
       );
 

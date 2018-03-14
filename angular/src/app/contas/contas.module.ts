@@ -1,6 +1,9 @@
+import { MaterializeModule } from 'angular2-materialize';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ContasRoutingModule } from './contas.routing.module';
 
@@ -8,13 +11,17 @@ import { ContaRegistrarComponent } from './conta-registrar/conta-registrar.compo
 import { ContaLoginComponent } from './conta-login/conta-login.component';
 import { ContaEsqueceuComponent } from './conta-esqueceu/conta-esqueceu.component';
 
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
   imports: [
+    MaterializeModule,
     CommonModule,
-    HttpModule,
+    ReactiveFormsModule,
+    HttpClientModule,
     ContasRoutingModule,
+    SharedModule,
   ],
   declarations: [
     ContaRegistrarComponent,

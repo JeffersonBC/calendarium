@@ -2,27 +2,34 @@
   <div class="col s12 m8 l6 offset-m2 offset-l3">
     <h3>Login</h3>
 
-    <div class="card-panel red darken-1 white-text">Dados incorretos, favor tentar novamente.</div>
-
+    <div *ngIf="loginError">
+      <div class="card-panel red darken-1 white-text">{{ errorMessage }}</div>
+    </div>
     <br>
-    <form>
 
-      <div class="input-field">
-        <input id="user_email" type="text" class="validate">
-        <label for="user_email">Email</label>
+    <form [formGroup]="formulario" (ngSubmit)="tryLogin()">
+
+      <div class="input-field tooltip">
+        <input id="user_name" type="text" formControlName="username" [ngClass]="formService.inputInvalidoCss(formulario, 'username')"/>
+
+        <label for="user_name">Usuário</label>
+        <span class="tooltiptext" *ngIf="formService.verificaInvalidTouched(formulario, 'username')">Este campo é obrigatório</span>
       </div>
 
-      <div class="input-field">
-        <input id="user_password1" type="text" class="validate">
-        <label for="user_password1">Senha</label>
+      <div class="input-field tooltip">
+        <input id="user_password" type="password" formControlName="password" [ngClass]="formService.inputInvalidoCss(formulario, 'password')">
+
+        <label for="user_password">Senha</label>
+        <span class="tooltiptext" *ngIf="formService.verificaInvalidTouched(formulario, 'password')">Este campo é obrigatório</span>
       </div>
 
       <div class="right" style="margin-top: 1rem;">
-        <button class="btn waves-effect waves-light" (click)="tryLogin('Teste','a12345678')">
+        <button class="btn waves-effect waves-light" type="submit" name="action" [disabled]="formulario.invalid">
           <i class="material-icons left">exit_to_app</i>Login</button>
       </div>
 
     </form>
+
   </div>
 
   <div class="col s12 m8 l6 offset-m2 offset-l3">

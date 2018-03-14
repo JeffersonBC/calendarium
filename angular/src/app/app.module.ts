@@ -9,6 +9,8 @@ import { Page404Component } from './page404/page404.component';
 
 import { AppRoutingModule } from './app.routing.module';
 
+import { LoginEmitService } from './login-emit.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,9 +20,11 @@ import { AppRoutingModule } from './app.routing.module';
   imports: [
     MaterializeModule,
     BrowserModule,
-    AppRoutingModule,
+    AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    LoginEmitService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
