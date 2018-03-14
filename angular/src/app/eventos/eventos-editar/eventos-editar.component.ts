@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+
+import { EventosService } from '../../services/eventos.service';
+import { FormService } from '../../services/form.service';
+
+import { Evento } from '../models/evento.model';
 
 
 declare const Materialize;
@@ -11,11 +17,13 @@ declare const Materialize;
 })
 export class EventosEditarComponent implements OnInit {
 
+  public formulario: FormGroup;
+
   private date_params = [{
     monthsShort: [ 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez' ],
-    monthsFull: [ 'Janeiro', 'Fevereiro', 'Marco', 'Abril', 'Maio', 'Junho',
+    monthsFull: [ 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro' , 'Dezembro' ],
-    weekdaysFull: [ 'Domingo', 'Segunda-Feira', 'Terca-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sabado' ],
+    weekdaysFull: [ 'Domingo', 'Segunda-Feira', 'Terça-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sábado' ],
     weekdaysShort: [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab' ],
     weekdaysLetter: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
     format: 'dd/mm/yyyy',
@@ -38,7 +46,11 @@ export class EventosEditarComponent implements OnInit {
     autoclose: false
   }];
 
-  constructor() { }
+  constructor(
+    private eventoService: EventosService,
+    private formBuilder: FormBuilder,
+    public formService: FormService,
+  ) { }
 
   materializeDateParams() {
     return this.date_params;
@@ -50,6 +62,38 @@ export class EventosEditarComponent implements OnInit {
 
   ngOnInit() {
     Materialize.updateTextFields();
+
+    this.formulario = this.formBuilder.group({
+      name: [null, Validators.required],
+      description: [null],
+      start_date: [null, Validators.required],
+      start_time: [null, Validators.required],
+      end_date: [null, Validators.required],
+      end_time: [null, Validators.required],
+    });
+  }
+
+  onSubmit() {
+    const s_date: string[] = this.formulario.value['start_date'].split('/');
+    const s_time: string[] = this.formulario.value['start_time'].split(':');
+
+    const e_date: string[] = this.formulario.value['end_date'].split('/');
+    const e_time: string[] = this.formulario.value['end_time'].split(':');
+
+    const start_datetime = `${s_date[2]}-${s_date[1]}-${s_date[0]}T${s_time[0]}:${s_time[1]}:00`;
+    const end_datetime   = `${e_date[2]}-${e_date[1]}-${e_date[0]}T${e_time[0]}:${e_time[1]}:00`;
+
+    const evento: Evento = {
+      name: this.formulario.value['name'],
+      description: this.formulario.value['description'] == null ? '' : this.formulario.value['description'],
+      start_datetime: start_datetime,
+      end_datetime: end_datetime
+    };
+
+
+    this.eventoService.postAdicionarEvento(evento).subscribe(
+      dados => console.log(dados)
+    );
   }
 
 }

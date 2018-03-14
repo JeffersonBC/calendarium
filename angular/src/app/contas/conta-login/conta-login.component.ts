@@ -6,8 +6,8 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import { FormSharedService } from '../../shared/form/form.service';
-import { LoginEmitService } from '../../login-emit.service';
+import { FormService } from '../../services/form.service';
+import { LoginEmitService } from '../../services/login-emit.service';
 
 
 @Component({
@@ -22,14 +22,12 @@ export class ContaLoginComponent implements OnInit {
   public loginError = false;
   public errorMessage = '';
 
-  fezLoginEmmiter = new EventEmitter();
-
   constructor(
     private http: HttpClient,
     private formBuilder: FormBuilder,
     private router: Router,
     private loginEmitService: LoginEmitService,
-    public formService: FormSharedService,
+    public formService: FormService,
   ) { }
 
   ngOnInit() {

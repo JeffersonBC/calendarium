@@ -2,7 +2,7 @@ import { FormGroup } from '@angular/forms';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class FormSharedService {
+export class FormService {
     verificaInvalidTouched(formulario: FormGroup, nomeCampo: string) {
         const campo = formulario.get(nomeCampo);
 

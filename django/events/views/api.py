@@ -43,7 +43,7 @@ def event_add(request):
         success = serializer.is_valid()
 
         if success:
-            serializer.save()
+            serializer.save(creator=request.user.pk)
             msg = 'Evento criado com sucesso'
         else:
             errors = serializer.errors

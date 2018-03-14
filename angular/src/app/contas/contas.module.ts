@@ -11,8 +11,6 @@ import { ContaRegistrarComponent } from './conta-registrar/conta-registrar.compo
 import { ContaLoginComponent } from './conta-login/conta-login.component';
 import { ContaEsqueceuComponent } from './conta-esqueceu/conta-esqueceu.component';
 
-import { SharedModule } from '../shared/shared.module';
-
 
 @NgModule({
   imports: [
@@ -21,7 +19,6 @@ import { SharedModule } from '../shared/shared.module';
     ReactiveFormsModule,
     HttpClientModule,
     ContasRoutingModule,
-    SharedModule,
   ],
   declarations: [
     ContaRegistrarComponent,

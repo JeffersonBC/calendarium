@@ -9,7 +9,6 @@ from ..models import Event
 class EventSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=254)
     description = serializers.CharField(allow_blank=True)
-    creator = serializers.IntegerField()
     start_datetime = serializers.DateTimeField(default=now)
     end_datetime = serializers.DateTimeField(default=now)
 
@@ -21,7 +20,6 @@ class EventSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'description',
-            'creator',
             'start_datetime',
             'end_datetime',
         )
