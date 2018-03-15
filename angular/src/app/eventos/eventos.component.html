@@ -2,43 +2,113 @@
   <div class="col s12">
     <h3>Eventos</h3>
     <div class="fixed-action-btn">
-      <a routerLink="adicionar" class="btn-floating btn-large waves-effect waves-light"><i class="large material-icons">add</i></a>
+      <a routerLink="adicionar" class="btn-floating btn-large waves-effect waves-light">
+        <i class="large material-icons">add</i>
+      </a>
     </div>
   </div>
 
   <div class="col s12 card">
-    <div class="card-action pagination">
-      <a class="black-text">Jan</a>
-      <a class="black-text">Fev</a>
-      <a class="black-text">Mar</a>
-      <a class="black-text">Abr</a>
-      <a class="black-text">Mai</a>
-      <a class="black-text">Jun</a>
-      <a class="black-text">Jul</a>
-      <a class="black-text">Ago</a>
-      <a class="black-text">Set</a>
-      <a class="black-text">Out</a>
-      <a class="black-text">Nov</a>
-      <a class="black-text">Dez</a>
-    </div>
+    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(1 )" [ngClass]="{'bold black-text': hoje_mes == 1 }">Jan</button>
+    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(2 )" [ngClass]="{'bold black-text': hoje_mes == 2 }">Fev</button>
+    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(3 )" [ngClass]="{'bold black-text': hoje_mes == 3 }">Mar</button>
+    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(4 )" [ngClass]="{'bold black-text': hoje_mes == 4 }">Abr</button>
+    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(5 )" [ngClass]="{'bold black-text': hoje_mes == 5 }">Mai</button>
+    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(6 )" [ngClass]="{'bold black-text': hoje_mes == 6 }">Jun</button>
+    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(7 )" [ngClass]="{'bold black-text': hoje_mes == 7 }">Jul</button>
+    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(8 )" [ngClass]="{'bold black-text': hoje_mes == 8 }">Ago</button>
+    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(9 )" [ngClass]="{'bold black-text': hoje_mes == 9 }">Set</button>
+    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(10)" [ngClass]="{'bold black-text': hoje_mes == 10}">Out</button>
+    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(11)" [ngClass]="{'bold black-text': hoje_mes == 11}">Nov</button>
+    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(12)" [ngClass]="{'bold black-text': hoje_mes == 12}">Dez</button>
   </div>
 
   <div class="row">
     <div class="col s12 center-align">
       <ul class="pagination" style="margin-top: 0;">
-        <li class="waves-effect"><a>2018</a></li>
-        <li class="waves-effect"><a>2019</a></li>
-        <li class="waves-effect"><a>2020</a></li>
-        <li class="waves-effect"><a>2021</a></li>
-        <li class="waves-effect"><a>2022</a></li>
-        <li class="waves-effect"><a>2023</a></li>
+        <li (click)="setAno(2018)" [ngClass]="{'active': hoje_ano == 2018, 'waves-effect': hoje_ano != 2018}"><a>2018</a></li>
+        <li (click)="setAno(2019)" [ngClass]="{'active': hoje_ano == 2019, 'waves-effect': hoje_ano != 2019}"><a>2019</a></li>
+        <li (click)="setAno(2020)" [ngClass]="{'active': hoje_ano == 2020, 'waves-effect': hoje_ano != 2020}"><a>2020</a></li>
+        <li (click)="setAno(2021)" [ngClass]="{'active': hoje_ano == 2021, 'waves-effect': hoje_ano != 2021}"><a>2021</a></li>
+        <li (click)="setAno(2022)" [ngClass]="{'active': hoje_ano == 2022, 'waves-effect': hoje_ano != 2022}"><a>2022</a></li>
+        <li (click)="setAno(2023)" [ngClass]="{'active': hoje_ano == 2023, 'waves-effect': hoje_ano != 2023}"><a>2023</a></li>
       </ul>
     </div>
   </div>
 
+  <div *ngFor="let mes of meses">
+    <div *ngFor="let ano of anos" >
+      <div *ngIf="getMes() == mes && getAno() == ano">
 
-    <div class="card-panel">
-      Não há nenhum cadastrado evento neste mês.
+        <ul materialize="collapsible" class="collapsible popout" style="margin: 0" data-collapsible="accordion"
+          *ngFor="let event of observables_eventos.get(ano.toString() + '-' + mes.toString()) | async">
+
+            <li class="card">
+              <div class="collapsible-header" style="padding: 0;">
+
+                  <div class="row" style="width: 100%; margin-bottom: 0; margin-left: 0;">
+                    <div class="m8 s7 col" style="min-height: 100%; padding: .5rem 24px;">
+                      <span><strong>{{ event['name'] }}</strong></span>
+                      <br>
+
+                    </div>
+
+                    <div class="m4 s5 col center-align" style="margin-left: 0; padding: .5rem 24px .5rem 0;">
+                      <!-- MESMO DIA -->
+                      <div *ngIf="comaparaDatas(event['start_datetime'], event['end_datetime']) == 'igual'" >
+                          <span>Dia {{ event['start_datetime'] | date:'dd' }}</span>
+                          <div class="divider"></div>
+                          <span class="grey-text">
+                            <div *ngIf=" comparaHoras(event['start_datetime'], event['end_datetime'])">
+                              Às {{ event['start_datetime'] | date:'HH:mm' }}
+                            </div>
+                            <div *ngIf="!comparaHoras(event['start_datetime'], event['end_datetime'])">
+                              Das {{ event['start_datetime'] | date:'HH:mm' }} até as {{ event['end_datetime'] | date:'HH:mm' }}
+                            </div>
+                          </span>
+                      </div>
+
+                      <!-- MESMO MÊS, DIAS DIFERENTES -->
+                      <div *ngIf="comaparaDatas(event['start_datetime'], event['end_datetime']) == 'dia_dif'" >
+                        <span>Dia {{ event['start_datetime'] | date:'dd \'às\' HH:mm'}}</span>
+                        <div class="divider"></div>
+                        <span class="grey-text">Até dia {{ event['end_datetime'] | date:'dd \'às\' HH:mm'}}</span>
+                      </div>
+
+                      <!-- MESMO ANO, MESES DIFERENTES -->
+                      <div *ngIf="comaparaDatas(event['start_datetime'], event['end_datetime']) == 'mes_dif'" >
+                        <span>{{ event['start_datetime'] | date:'dd/MM \'às\' HH:mm'}}</span>
+                        <div class="divider"></div>
+                        <span class="grey-text">Até {{ event['end_datetime'] | date:'dd/MM \'às\' HH:mm'}}</span>
+                      </div>
+
+                      <!-- ANOS DIFERENTES -->
+                      <div *ngIf="comaparaDatas(event['start_datetime'], event['end_datetime']) == 'ano_dif'" >
+                        <span>{{ event['start_datetime'] | date:'dd/MM/yyyy \'às\' HH:mm'}}</span>
+                        <div class="divider"></div>
+                        <span class="grey-text">Até {{ event['end_datetime'] | date:'dd/MM/yyyy \'às\' HH:mm'}}</span>
+                      </div>
+                    </div>
+                  </div>
+
+              </div>
+              <div class="collapsible-body" style="padding: 0;">
+                <div *ngIf="event['description'] != ''" class="card-content">
+                  {{ event['description']}}
+                </div>
+                <div class="card-action">
+                  <p>{{ event | json }}</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+
+      </div>
     </div>
+  </div>
+
+  <div *ngIf="dataAtualVazia()" class="card-panel">
+    Não há nenhum cadastrado evento neste mês.
+  </div>
 
 </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 import { EventosService } from '../../services/eventos.service';
 import { FormService } from '../../services/form.service';
@@ -18,6 +19,7 @@ declare const Materialize;
 export class EventosEditarComponent implements OnInit {
 
   public formulario: FormGroup;
+  public editing: boolean;
 
   private date_params = [{
     monthsShort: [ 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez' ],
@@ -50,6 +52,7 @@ export class EventosEditarComponent implements OnInit {
     private eventoService: EventosService,
     private formBuilder: FormBuilder,
     public formService: FormService,
+    public activatedRoute: ActivatedRoute
   ) { }
 
   materializeDateParams() {
@@ -61,6 +64,8 @@ export class EventosEditarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.editing = this.activatedRoute.snapshot.routeConfig.path === 'editar/:id';
+
     Materialize.updateTextFields();
 
     this.formulario = this.formBuilder.group({

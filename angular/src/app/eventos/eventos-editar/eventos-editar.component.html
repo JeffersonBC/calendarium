@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col s12 m8 offset-m2">
-      <h3>Adicionar Evento</h3>
-      <h3>Editar Evento</h3>
+      <h3 *ngIf="!editing">Adicionar Evento</h3>
+      <h3 *ngIf="editing">Editar Evento</h3>
 
     <form materialize [formGroup]="formulario" (ngSubmit)="onSubmit()">
 
@@ -73,7 +73,7 @@
 
 
       <div class="right">
-        <button class="waves-effect waves-light btn"><i class="material-icons left">delete</i>Deletar</button>
+        <button *ngIf="editing"  class="waves-effect waves-light btn"><i class="material-icons left">delete</i>Deletar</button>
 
         <button type="submit" class="btn waves-effect waves-light"><i class="material-icons left">save</i>Salvar</button>
       </div>
@@ -82,5 +82,3 @@
 
   </div>
 </div>
-
-{{ formulario.value | json }}

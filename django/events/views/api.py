@@ -27,7 +27,6 @@ def event_teste(request):
 def event_add(request):
     success = True
     msg = ''
-    errors = ''
 
     # Tenta extrair um json do request.
     # Se não for possível, retorna status de erro
@@ -35,23 +34,55 @@ def event_add(request):
 
     if error:
         success = False
-        errors = 'Não foi possível ler um JSON da requisição.'
+        msg = 'Não foi possível ler um JSON da requisição.'
 
     else:
         serializer = EventSerializer(data=json_request)
-
         success = serializer.is_valid()
 
         if success:
-            serializer.save(creator=request.user.pk)
+            event = serializer.save(creator=request.user.pk)
+            EventSubscription(user=request.user, event=event).save()
+
             msg = 'Evento criado com sucesso'
         else:
-            errors = serializer.errors
+            msg = serializer.errors
 
     return Response({
         'success': success,
-        'msg': msg,
-        'errors': errors
+        'msg': msg
+    })
+
+
+@api_view(['POST'])
+@permission_classes((IsAuthenticated,))
+def event_get_subscriptions(request):
+    success = True
+    msg = ''
+
+    json_request, error = json_from_request(request)
+
+    if error:
+        success = False
+        msg = 'Não foi possível ler um JSON da requisição.'
+
+    elif 'month' not in json_request or 'year' not in json_request:
+        return HttpResponseBadRequest()
+
+    else:
+        event_subscriptions = EventSubscription.objects \
+            .filter(user_id=request.user) \
+            .filter(event__start_datetime__month=json_request['month']) \
+            .filter(event__start_datetime__year=json_request['year']) \
+            .order_by('event__start_datetime')
+
+        msg = []
+        for idx, subs in enumerate(event_subscriptions):
+            msg.append(EventSerializer(subs.event).data)
+
+    return Response({
+        'success': success,
+        'msg': msg
     })
 
 

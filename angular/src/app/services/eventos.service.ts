@@ -11,20 +11,32 @@ import { Evento } from '../eventos/models/evento.model';
 @Injectable()
 export class EventosService {
 
+    private httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json'
+        })
+    };
+
     constructor(private http: HttpClient) { }
 
     postAdicionarEvento(evento: Evento) {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json'
-            })
-        };
-
         return this.http.post(
             'http://localhost:8000/api/events/add/',
             JSON.stringify(evento),
-            httpOptions
+            this.httpOptions
         )
             .map(response => response);
+    }
+
+    postListarEventosInscrito(mes: number, ano: number) {
+        return this.http.post(
+            'http://localhost:8000/api/events/get_by_date/',
+            JSON.stringify({
+                month: mes,
+                year: ano
+            }),
+            this.httpOptions
+        )
+            .map(response => response['msg']);
     }
 }
