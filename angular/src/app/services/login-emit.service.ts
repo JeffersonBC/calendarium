@@ -6,13 +6,13 @@ import { Subject } from 'rxjs/Subject';
 @Injectable()
 export class LoginEmitService {
     // Observable string sources
-    private emitChangeSource = new Subject<any>();
+    private emitChangeStatus = new Subject<any>();
 
     // Observable string streams
-    changeEmitted$ = this.emitChangeSource.asObservable();
+    changeEmitted$ = this.emitChangeStatus.asObservable();
 
     // Service message commands
     emitChange(change: any) {
-        this.emitChangeSource.next(change);
+        this.emitChangeStatus.next(change);
     }
 }

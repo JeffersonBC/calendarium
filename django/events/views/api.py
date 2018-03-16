@@ -77,8 +77,15 @@ def event_get_subscriptions(request):
             .order_by('event__start_datetime')
 
         msg = []
-        for idx, subs in enumerate(event_subscriptions):
-            msg.append(EventSerializer(subs.event).data)
+        for idx, sub in enumerate(event_subscriptions):
+            msg.append({
+                'event': EventSerializer(sub.event).data,
+                'creator': (
+                    sub.event.creator.first_name + sub.event.creator.last_name
+                    if sub.event.creator != request.user else None
+                    # 'None' vira 'null' ao parsear em JSON
+                )
+            })
 
     return Response({
         'success': success,

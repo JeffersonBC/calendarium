@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { EventosService } from '../../services/eventos.service';
 import { FormService } from '../../services/form.service';
@@ -49,6 +49,7 @@ export class EventosEditarComponent implements OnInit {
   }];
 
   constructor(
+    private router: Router,
     private eventoService: EventosService,
     private formBuilder: FormBuilder,
     public formService: FormService,
@@ -95,10 +96,11 @@ export class EventosEditarComponent implements OnInit {
       end_datetime: end_datetime
     };
 
-
     this.eventoService.postAdicionarEvento(evento).subscribe(
       dados => console.log(dados)
     );
+
+    this.router.navigate(['/eventos']);
   }
 
 }
