@@ -38,7 +38,11 @@ def invite_event(request, pk):
         form = EventInviteForm()
 
     form.fields['user'].queryset = get_user_model().objects \
-        .exclude(pk=request.user.pk).exclude(is_superuser=True)
+        .exclude(pk=request.user.pk) \
+        .exclude(is_superuser=True) \
+        .exclude(id__in=[subs.user.id for subs in subscribed]) \
+        .exclude(id__in=[invt.user.id for invt in invited]) \
+        .exclude(id__in=[rejc.user.id for rejc in rejected]) \
 
     return render(
         request,

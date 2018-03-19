@@ -49,3 +49,9 @@ class EventInvitation(models.Model):
     def __str__(self):
         return (str(self.user) + ' invited to ' + str(self.event) +
                 '(refused? ' + str(self.rejected) + ')')
+
+    def set_user(self, user_pk):
+        self.user = get_user_model().objects.get(pk=user_pk)
+
+    def set_event(self, event_pk):
+        self.event = Event.objects.get(pk=event_pk)

@@ -50,6 +50,15 @@
                     <div class="m8 s7 col" style="min-height: 100%; padding: .5rem 24px;">
                       <span><strong>{{ subscription['event']['name'] }}</strong></span>
                       <br>
+
+                      <!-- EVENTO CRIADO -->
+                      <div *ngIf="subscription['creator'] == null">
+                        <span class="grey-text">Confirmados:&nbsp;</span><span>{{ subscription['subscribed'] }}</span>
+                        <span class="grey-text">Pendentes:&nbsp;</span><span>{{ subscription['invited'] }}</span>
+                        <span class="grey-text">Não&nbsp;irão:&nbsp;</span><span>{{ subscription['rejected'] }}</span>
+                      </div>
+
+                      <!-- EVENTO CONVIDADO -->
                       <div *ngIf="subscription['creator'] != null">
                         <span class="grey-text">De: </span>{{ subscription['creator'] }}
                       </div>
@@ -105,7 +114,7 @@
                 <div class="card-action">
                   <div *ngIf="subscription['creator'] == null" >
                     <a >Editar</a>
-                    <a >Enviar convite</a>
+                    <a routerLink="convidar/{{ subscription['event']['id'] }}">Enviar convite</a>
                   </div>
                   <div *ngIf="subscription['creator'] != null" >
                     <a >Cancelar</a>

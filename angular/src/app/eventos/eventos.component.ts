@@ -21,7 +21,6 @@ export class EventosComponent implements OnInit {
 
   public observables_eventos = new Map();
 
-  actions1 = new EventEmitter<string|MaterializeAction>();
 
   constructor(
     private eventoService: EventosService

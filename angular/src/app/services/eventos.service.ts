@@ -39,4 +39,12 @@ export class EventosService {
         )
             .map(response => response['msg']);
     }
+
+    getDetalhesEventoConvite(id: number) {
+        return this.http.get(
+            `http://localhost:8000/api/events/invite/${id}/`,
+            this.httpOptions
+        )
+            .map(response => response['msg']);
+    }
 }
