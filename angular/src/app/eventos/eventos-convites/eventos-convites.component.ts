@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { EventosService } from '../../services/eventos.service';
+
+
 @Component({
   selector: 'app-eventos-convites',
   templateUrl: './eventos-convites.component.html',
@@ -7,9 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventosConvitesComponent implements OnInit {
 
-  constructor() { }
+  public listaConvites$;
+  public mensagem = '';
+  public temConvitesPendentes = false;
+
+  constructor(
+    private eventosService: EventosService,
+  ) { }
 
   ngOnInit() {
+    this.listaConvites$ = this.eventosService.getListarEventosConvidado();
+  }
+
+  onMensagem(mensagem: string) {
+    console.log(mensagem);
+    this.mensagem = mensagem;
   }
 
 }

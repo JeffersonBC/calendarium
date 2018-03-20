@@ -50,38 +50,6 @@ export class EventosComponent implements OnInit {
     return this.hoje_ano;
   }
 
-  public comaparaDatas(inicio: string, fim: string): string {
-    const d0 = new Date(inicio);
-    const df = new Date(fim);
-
-    if (d0.getFullYear() === df.getFullYear()) {
-      if (d0.getMonth() === df.getMonth()) {
-        if (d0.getDate() === df.getDate()) {
-          return 'igual';
-        } else {
-          return 'dia_dif';
-        }
-      } else {
-        return 'mes_dif';
-      }
-    } else {
-      return 'ano_dif';
-    }
-  }
-
-  public comparaHoras(inicio: string, fim: string): boolean {
-    const d0 = new Date(inicio);
-    const df = new Date(fim);
-
-    const result = (
-      d0.getHours() === df.getHours() &&
-      d0.getMinutes() === df.getMinutes()
-    );
-
-    return result;
-  }
-
-
   public dataAtualVazia(): boolean {
   /*
     if (!(this.hoje_ano.toString() in this.dados_eventos)) {

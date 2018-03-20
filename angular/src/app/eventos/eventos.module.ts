@@ -12,6 +12,7 @@ import { EventosComponent } from './eventos.component';
 import { EventosConvitesComponent } from './eventos-convites/eventos-convites.component';
 import { EventosEditarComponent } from './eventos-editar/eventos-editar.component';
 import { EventosConvidarComponent } from './eventos-convidar/eventos-convidar.component';
+import { EventosListaComponent } from './eventos-lista/eventos-lista.component';
 
 
 
@@ -29,7 +30,8 @@ import { EventosConvidarComponent } from './eventos-convidar/eventos-convidar.co
     EventosComponent,
     EventosConvitesComponent,
     EventosEditarComponent,
-    EventosConvidarComponent
+    EventosConvidarComponent,
+    EventosListaComponent
   ]
 })
 export class EventosModule { }

@@ -19,7 +19,7 @@ export class EventosService {
 
     constructor(private http: HttpClient) { }
 
-    postAdicionarEvento(evento: Evento) {
+    public postAdicionarEvento(evento: Evento) {
         return this.http.post(
             'http://localhost:8000/api/events/add/',
             JSON.stringify(evento),
@@ -28,7 +28,7 @@ export class EventosService {
             .map(response => response);
     }
 
-    postListarEventosInscrito(mes: number, ano: number) {
+    public postListarEventosInscrito(mes: number, ano: number) {
         return this.http.post(
             'http://localhost:8000/api/events/get_by_date/',
             JSON.stringify({
@@ -40,11 +40,58 @@ export class EventosService {
             .map(response => response['msg']);
     }
 
-    getDetalhesEventoConvite(id: number) {
+    public getDetalhesEventoConvite(id: number) {
         return this.http.get(
             `http://localhost:8000/api/events/invite/${id}/`,
             this.httpOptions
         )
             .map(response => response['msg']);
+    }
+
+    public postAdicionarConvite(ids_usuario: string, evento: number) {
+        return this.http.post(
+            `http://localhost:8000/api/events/invite/${evento}/add/`,
+            JSON.stringify({
+                user: ids_usuario,
+                event: evento
+            }),
+            this.httpOptions
+        )
+            .map(response => response);
+    }
+
+    public getListarEventosConvidado() {
+        return this.http.get(
+            `http://localhost:8000/api/events/invitations/`,
+            this.httpOptions
+        )
+            .map(response => response['msg']);
+    }
+
+    public postAceitarConvite(convite: number) {
+        return this.http.post(
+            `http://localhost:8000/api/events/invitations/accept/${convite}/`,
+            JSON.stringify({}),
+            this.httpOptions
+        )
+            .map(response => response);
+    }
+
+    public postRejeitarConvite(convite: number) {
+        return this.http.post(
+            `http://localhost:8000/api/events/invitations/reject/${convite}/`,
+            JSON.stringify({}),
+            this.httpOptions
+        )
+            .map(response => response);
+    }
+
+    public postCancelarConvite(convite: number) {
+        return this.http.post(
+            `http://localhost:8000/api/events/invitations/cancel/${convite}/`,
+            JSON.stringify({}),
+            this.httpOptions
+        )
+            .map(response => response);
     }
 }

@@ -9,18 +9,18 @@
   </div>
 
   <div class="col s12 card">
-    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(1 )" [ngClass]="{'bold black-text': hoje_mes == 1 }">Jan</button>
-    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(2 )" [ngClass]="{'bold black-text': hoje_mes == 2 }">Fev</button>
-    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(3 )" [ngClass]="{'bold black-text': hoje_mes == 3 }">Mar</button>
-    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(4 )" [ngClass]="{'bold black-text': hoje_mes == 4 }">Abr</button>
-    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(5 )" [ngClass]="{'bold black-text': hoje_mes == 5 }">Mai</button>
-    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(6 )" [ngClass]="{'bold black-text': hoje_mes == 6 }">Jun</button>
-    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(7 )" [ngClass]="{'bold black-text': hoje_mes == 7 }">Jul</button>
-    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(8 )" [ngClass]="{'bold black-text': hoje_mes == 8 }">Ago</button>
-    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(9 )" [ngClass]="{'bold black-text': hoje_mes == 9 }">Set</button>
-    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(10)" [ngClass]="{'bold black-text': hoje_mes == 10}">Out</button>
-    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(11)" [ngClass]="{'bold black-text': hoje_mes == 11}">Nov</button>
-    <button class="btn-flat waves-effect waves-green col s2" (click)="setMes(12)" [ngClass]="{'bold black-text': hoje_mes == 12}">Dez</button>
+    <button class="btn-flat waves-effect waves-green green-text col s2 m1" (click)="setMes(1 )" [ngClass]="{'bold black-text': hoje_mes == 1 }">Jan</button>
+    <button class="btn-flat waves-effect waves-green green-text col s2 m1" (click)="setMes(2 )" [ngClass]="{'bold black-text': hoje_mes == 2 }">Fev</button>
+    <button class="btn-flat waves-effect waves-green green-text col s2 m1" (click)="setMes(3 )" [ngClass]="{'bold black-text': hoje_mes == 3 }">Mar</button>
+    <button class="btn-flat waves-effect waves-green green-text col s2 m1" (click)="setMes(4 )" [ngClass]="{'bold black-text': hoje_mes == 4 }">Abr</button>
+    <button class="btn-flat waves-effect waves-green green-text col s2 m1" (click)="setMes(5 )" [ngClass]="{'bold black-text': hoje_mes == 5 }">Mai</button>
+    <button class="btn-flat waves-effect waves-green green-text col s2 m1" (click)="setMes(6 )" [ngClass]="{'bold black-text': hoje_mes == 6 }">Jun</button>
+    <button class="btn-flat waves-effect waves-green green-text col s2 m1" (click)="setMes(7 )" [ngClass]="{'bold black-text': hoje_mes == 7 }">Jul</button>
+    <button class="btn-flat waves-effect waves-green green-text col s2 m1" (click)="setMes(8 )" [ngClass]="{'bold black-text': hoje_mes == 8 }">Ago</button>
+    <button class="btn-flat waves-effect waves-green green-text col s2 m1" (click)="setMes(9 )" [ngClass]="{'bold black-text': hoje_mes == 9 }">Set</button>
+    <button class="btn-flat waves-effect waves-green green-text col s2 m1" (click)="setMes(10)" [ngClass]="{'bold black-text': hoje_mes == 10}">Out</button>
+    <button class="btn-flat waves-effect waves-green green-text col s2 m1" (click)="setMes(11)" [ngClass]="{'bold black-text': hoje_mes == 11}">Nov</button>
+    <button class="btn-flat waves-effect waves-green green-text col s2 m1" (click)="setMes(12)" [ngClass]="{'bold black-text': hoje_mes == 12}">Dez</button>
   </div>
 
   <div class="row">
@@ -40,90 +40,7 @@
     <div *ngFor="let ano of anos" >
       <div *ngIf="getMes() == mes && getAno() == ano">
 
-        <ul materialize="collapsible" class="collapsible popout" style="margin: 0" data-collapsible="accordion"
-          *ngFor="let subscription of observables_eventos.get(ano.toString() + '-' + mes.toString()) | async">
-
-            <li class="card" [ngClass]="{'yellow lighten-4': subscription['creator'] != null}">
-              <div class="collapsible-header" style="padding: 0;" [ngClass]="{'yellow lighten-4': subscription['creator'] != null}">
-
-                  <div class="row" style="width: 100%; margin-bottom: 0; margin-left: 0;">
-                    <div class="m8 s7 col" style="min-height: 100%; padding: .5rem 24px;">
-                      <span><strong>{{ subscription['event']['name'] }}</strong></span>
-                      <br>
-
-                      <!-- EVENTO CRIADO -->
-                      <div *ngIf="subscription['creator'] == null">
-                        <span class="grey-text">Confirmados:&nbsp;</span><span>{{ subscription['subscribed'] }}</span>
-                        <span class="grey-text">Pendentes:&nbsp;</span><span>{{ subscription['invited'] }}</span>
-                        <span class="grey-text">Não&nbsp;irão:&nbsp;</span><span>{{ subscription['rejected'] }}</span>
-                      </div>
-
-                      <!-- EVENTO CONVIDADO -->
-                      <div *ngIf="subscription['creator'] != null">
-                        <span class="grey-text">De: </span>{{ subscription['creator'] }}
-                      </div>
-
-                    </div>
-
-                    <!-- DATA/ HORA -->
-                    <div class="m4 s5 col center-align" style="margin-left: 0; padding: .5rem 24px .5rem 0;">
-                      <!-- MESMO DIA -->
-                      <div *ngIf="comaparaDatas(subscription['event']['start_datetime'], subscription['event']['end_datetime']) == 'igual'" >
-                          <span>Dia {{ subscription['event']['start_datetime'] | date:'dd' }}</span>
-                          <div class="divider"></div>
-                          <span class="grey-text">
-                            <div *ngIf=" comparaHoras(subscription['event']['start_datetime'], subscription['event']['end_datetime'])">
-                              Às {{ subscription['event']['start_datetime'] | date:'HH:mm' }}
-                            </div>
-                            <div *ngIf="!comparaHoras(subscription['start_datetime'], subscription['end_datetime'])">
-                              Das {{ subscription['event']['start_datetime'] | date:'HH:mm' }} até as {{ subscription['event']['end_datetime'] | date:'HH:mm' }}
-                            </div>
-                          </span>
-                      </div>
-
-                      <!-- MESMO MÊS, DIAS DIFERENTES -->
-                      <div *ngIf="comaparaDatas(subscription['event']['start_datetime'], subscription['event']['end_datetime']) == 'dia_dif'" >
-                        <span>Dia {{ subscription['event']['start_datetime'] | date:'dd \'às\' HH:mm'}}</span>
-                        <div class="divider"></div>
-                        <span class="grey-text">Até dia {{ subscription['event']['end_datetime'] | date:'dd \'às\' HH:mm'}}</span>
-                      </div>
-
-                      <!-- MESMO ANO, MESES DIFERENTES -->
-                      <div *ngIf="comaparaDatas(subscription['event']['start_datetime'], subscription['event']['end_datetime']) == 'mes_dif'" >
-                        <span>{{ subscription['start_datetime'] | date:'dd/MM \'às\' HH:mm'}}</span>
-                        <div class="divider"></div>
-                        <span class="grey-text">Até {{ subscription['event']['end_datetime'] | date:'dd/MM \'às\' HH:mm'}}</span>
-                      </div>
-
-                      <!-- ANOS DIFERENTES -->
-                      <div *ngIf="comaparaDatas(subscription['event']['start_datetime'], subscription['event']['end_datetime']) == 'ano_dif'" >
-                        <span>{{ subscription['event']['start_datetime'] | date:'dd/MM/yyyy \'às\' HH:mm'}}</span>
-                        <div class="divider"></div>
-                        <span class="grey-text">Até {{ subscription['event']['end_datetime'] | date:'dd/MM/yyyy \'às\' HH:mm'}}</span>
-                      </div>
-                    </div>
-                  </div>
-
-              </div>
-              <div class="collapsible-body" style="padding: 0;">
-                <div *ngIf="subscription['event']['description'] != ''" class="card-content">
-                  {{ subscription['event']['description']}}
-                </div>
-
-                <!-- AÇÕES DO CARD -->
-                <div class="card-action">
-                  <div *ngIf="subscription['creator'] == null" >
-                    <a >Editar</a>
-                    <a routerLink="convidar/{{ subscription['event']['id'] }}">Enviar convite</a>
-                  </div>
-                  <div *ngIf="subscription['creator'] != null" >
-                    <a >Cancelar</a>
-                  </div>
-                </div>
-
-              </div>
-            </li>
-          </ul>
+        <app-eventos-lista [objetos$]="observables_eventos.get(ano.toString() + '-' + mes.toString())"></app-eventos-lista>
 
       </div>
     </div>
