@@ -34,6 +34,7 @@ export class ConviteService {
         );
     }
 
+
     public getConviteDetalhesEvento(id: number) {
         return this.get(`http://localhost:8000/api/events/invite/${id}/`)
             .map(response => response['msg']);

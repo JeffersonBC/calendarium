@@ -42,8 +42,6 @@ export class EventosEditarComponent implements OnInit {
   ngOnInit() {
     this.editando = this.activatedRoute.snapshot.routeConfig.path === 'editar/:id';
 
-    Materialize.updateTextFields();
-
     this.formulario = this.formBuilder.group({
       name: [null, Validators.required],
       description: [null],
@@ -52,6 +50,28 @@ export class EventosEditarComponent implements OnInit {
       end_date: [null, Validators.required],
       end_time: [null, Validators.required],
     });
+
+    if (this.editando) {
+      this.eventoService.getEvento(this.activatedRoute.snapshot.params['id'])
+        .subscribe(dados => {
+            const start = this.formService.isoDateToArray(dados['msg']['start_datetime']);
+            const end = this.formService.isoDateToArray(dados['msg']['end_datetime']);
+
+            this.formulario.patchValue({
+              name: dados['msg']['name'],
+              description: dados['msg']['description'],
+              start_date: `${start[2]}/${start[1]}/${start[0]}`,
+              start_time: `${start[3]}:${start[4]}`,
+              end_date: `${end[2]}/${end[1]}/${end[0]}`,
+              end_time: `${end[3]}:${end[4]}`,
+            });
+            Materialize.updateTextFields();
+          }
+        );
+
+    } else {
+      Materialize.updateTextFields();
+    }
   }
 
   onSubmit() {
@@ -72,12 +92,23 @@ export class EventosEditarComponent implements OnInit {
         end_datetime: end_datetime
       };
 
-      this.eventoService.postEventoAdicionar(evento).subscribe(
-        dados => {
-          console.log(dados);
-          this.router.navigate(['/eventos']);
-        }
-      );
+      if (this.editando) {
+        this.eventoService.postEventoAtualizar(evento, this.activatedRoute.snapshot.params['id']).subscribe(
+          dados => {
+            console.log(evento);
+            console.log(dados);
+            this.router.navigate(['/eventos']);
+          }
+        );
+
+      } else {
+        this.eventoService.postEventoAdicionar(evento).subscribe(
+          dados => {
+            console.log(dados);
+            this.router.navigate(['/eventos']);
+          }
+        );
+      }
 
     } else {
       this.formService.verificaValidacoesForm(this.formulario);
@@ -85,9 +116,7 @@ export class EventosEditarComponent implements OnInit {
   }
 
   delete() {
-    if (confirm(
-      `Tem certeza que deseja DELETAR este evento?`
-    )) {
+    if (confirm('Tem certeza que deseja DELETAR este evento?')) {
       this.eventoService.postEventoDeletar(this.activatedRoute.snapshot.params['id'])
       .subscribe(dados => {
           console.log(dados);

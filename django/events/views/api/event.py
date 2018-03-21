@@ -54,6 +54,32 @@ def event_add(request):
 def event_update(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
 
+    success = True
+    msg = ''
+
+    # Tenta extrair um json do request.
+    # Se não for possível, retorna status de erro
+    json_request, error = json_from_request(request)
+
+    if error:
+        success = False
+        msg = 'Não foi possível ler um JSON da requisição.'
+
+    else:
+        serializer = EventSerializer(event, data=json_request)
+        success = serializer.is_valid()
+
+        if success:
+            event = serializer.save()
+            msg = 'Evento atualizado com sucesso'
+        else:
+            msg = serializer.errors
+
+    return Response({
+        'success': success,
+        'msg': msg
+    })
+
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))

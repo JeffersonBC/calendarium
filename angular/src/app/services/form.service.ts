@@ -38,6 +38,16 @@ export class FormService {
         return this.time_params;
     }
 
+    public isoDateToArray(isoDate: string) {
+        return isoDate
+            .replace(/-/g, ' ')
+            .replace(/T/g, ' ')
+            .replace(/:/g, ' ')
+            .replace(/Z/g, ' ')
+            .replace(/\+/g, ' ')
+            .split(' ');
+    }
+
     verificaInvalidTouched(formulario: FormGroup, nomeCampo: string) {
         const campo = formulario.get(nomeCampo);
 

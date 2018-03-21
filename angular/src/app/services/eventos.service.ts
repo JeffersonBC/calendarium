@@ -27,6 +27,13 @@ export class EventosService {
         );
     }
 
+    private get(url: string) {
+        return this.http.get(
+            url,
+            this.httpOptions
+        );
+    }
+
     public postEventoAdicionar(evento: Evento) {
         return this.post('http://localhost:8000/api/events/add/', evento)
             .map(response => response);
@@ -34,6 +41,16 @@ export class EventosService {
 
     public postEventoDeletar(evento_id: number) {
         return this.post(`http://localhost:8000/api/events/delete/${evento_id}/`, {})
+            .map(response => response);
+    }
+
+    public getEvento(evento_id: number) {
+        return this.get(`http://localhost:8000/api/events/get/${evento_id}/`)
+            .map(response => response);
+    }
+
+    public postEventoAtualizar(evento: Evento, evento_id: number) {
+        return this.post(`http://localhost:8000/api/events/update/${evento_id}/`, evento)
             .map(response => response);
     }
 

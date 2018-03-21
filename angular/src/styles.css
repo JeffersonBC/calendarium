@@ -20,6 +20,10 @@ header, main, footer {
 	font-weight: bold;
 }
 
+.row.no-space {
+    margin-bottom: 0;
+}
+
 /* Corrige bug do Materialize que fazia data-erros terem a largura da label */
 label[data-error], label[data-success] {
 	width: 100%;
