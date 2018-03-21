@@ -1,3 +1,9 @@
+<div *ngIf="arrayVazio" >
+  <div class="card-panel">
+    {{ mensagemArrayVazio }}
+  </div>
+</div>
+
 <ul materialize="collapsible" class="collapsible popout" style="margin: 0" data-collapsible="accordion"
 *ngFor="let objeto of objetos; index as idx">
 
@@ -30,11 +36,12 @@
           <div *ngIf="comaparaDatas(objeto['event']['start_datetime'], objeto['event']['end_datetime']) == 'igual'" >
               <span>Dia {{ objeto['event']['start_datetime'] | date:'dd' }}</span>
               <div class="divider"></div>
+
               <span class="grey-text">
                 <div *ngIf=" comparaHoras(objeto['event']['start_datetime'], objeto['event']['end_datetime'])">
                   Às {{ objeto['event']['start_datetime'] | date:'HH:mm' }}
                 </div>
-                <div *ngIf="!comparaHoras(objeto['start_datetime'], objeto['end_datetime'])">
+                <div *ngIf="!comparaHoras(objeto['event']['start_datetime'], objeto['event']['end_datetime'])">
                   Das {{ objeto['event']['start_datetime'] | date:'HH:mm' }} até as {{ objeto['event']['end_datetime'] | date:'HH:mm' }}
                 </div>
               </span>

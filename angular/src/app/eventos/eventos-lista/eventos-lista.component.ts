@@ -9,9 +9,13 @@ import { EventosService } from '../../services/eventos.service';
 export class EventosListaComponent implements OnInit {
 
   @Input() public objetos$;
+  @Input() public mensagemArrayVazio: string;
+
   @Output() public onMensagem = new EventEmitter<string>();
 
   public objetos: any[];
+  public arrayVazio = false;
+
 
   constructor(
     private eventosService: EventosService
@@ -20,6 +24,10 @@ export class EventosListaComponent implements OnInit {
   ngOnInit() {
     this.objetos$.subscribe(dados => {
         this.objetos = dados;
+
+        if (this.objetos.length === 0) {
+          this.arrayVazio = true;
+        }
       }
     );
   }
@@ -63,6 +71,10 @@ export class EventosListaComponent implements OnInit {
         dados => {
           if (dados['success']) {
             this.objetos.splice(array_id, 1);
+
+            if (this.objetos.length === 0) {
+              this.arrayVazio = true;
+            }
           } else {
             this.onMensagem.emit(dados['msg']);
           }
@@ -77,6 +89,10 @@ export class EventosListaComponent implements OnInit {
         dados => {
           if (dados['success']) {
             this.objetos.splice(array_id, 1);
+
+            if (this.objetos.length === 0) {
+              this.arrayVazio = true;
+            }
           } else {
             this.onMensagem.emit(dados['msg']);
           }
@@ -84,15 +100,23 @@ export class EventosListaComponent implements OnInit {
       );
 
     } else {
-      const responder$ = this.eventosService.postRejeitarConvite(object_id).subscribe(
-        dados => {
-          if (dados['success']) {
-            this.objetos.splice(array_id, 1);
-          } else {
-            this.onMensagem.emit(dados['msg']);
+      if (confirm(
+        `Tem certeza que deseja rejeitar o convite para o evento \'${this.objetos[array_id]['event']['name']}\'?`
+      )) {
+        const responder$ = this.eventosService.postRejeitarConvite(object_id).subscribe(
+          dados => {
+            if (dados['success']) {
+              this.objetos.splice(array_id, 1);
+
+              if (this.objetos.length === 0) {
+                this.arrayVazio = true;
+              }
+            } else {
+              this.onMensagem.emit(dados['msg']);
+            }
           }
-        }
-      );
+        );
+      }
     }
   }
 }

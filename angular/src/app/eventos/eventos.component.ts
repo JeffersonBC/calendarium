@@ -12,7 +12,9 @@ import { EventosService } from '../services/eventos.service';
   styleUrls: ['./eventos.component.css']
 })
 export class EventosComponent implements OnInit {
-  public meses: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  public meses: string[] = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+    'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+
   public anos: number[] = [2018, 2019, 2020, 2021, 2022, 2023];
 
   private hoje = new Date();
@@ -48,21 +50,6 @@ export class EventosComponent implements OnInit {
 
   public getAno(): number {
     return this.hoje_ano;
-  }
-
-  public dataAtualVazia(): boolean {
-  /*
-    if (!(this.hoje_ano.toString() in this.dados_eventos)) {
-      return true;
-
-    } else if (!(this.hoje_mes.toString() in this.dados_eventos[this.hoje_ano.toString()])) {
-      return true;
-
-    } else if (this.dados_eventos[this.hoje_ano.toString()][this.hoje_mes.toString()] === {}) {
-      return true;
-    }
-  */
-    return false;
   }
 
 }
