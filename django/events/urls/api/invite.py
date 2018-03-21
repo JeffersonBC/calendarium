@@ -1,10 +1,6 @@
 from django.conf.urls import url
 
-from ..views.api.event import (
-    event_add,
-    event_subscriptions_list,
-)
-from ..views.api.invite import (
+from events.views.api.invite import (
     event_invite_details,
     event_invite_add,
     event_invite_list,
@@ -13,18 +9,8 @@ from ..views.api.invite import (
     event_invite_cancel,
 )
 
-urlpatterns = [
-    url(
-        r'^add/$',
-        event_add,
-        name='api_event_add'
-    ),
-    url(
-        r'^get_by_date/$',
-        event_subscriptions_list,
-        name='api_event_get_by_date'
-    ),
 
+urlpatterns = [
     url(
         r'^invite/(?P<id>[0-9]+)/$',
         event_invite_details,

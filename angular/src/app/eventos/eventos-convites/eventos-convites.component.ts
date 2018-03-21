@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { EventosService } from '../../services/eventos.service';
+import { ConviteService } from '../../services/convite.service';
 
 
 @Component({
@@ -15,11 +15,11 @@ export class EventosConvitesComponent implements OnInit {
   public temConvitesPendentes = false;
 
   constructor(
-    private eventosService: EventosService,
+    private conviteService: ConviteService,
   ) { }
 
   ngOnInit() {
-    this.listaConvites$ = this.eventosService.getListarEventosConvidado();
+    this.listaConvites$ = this.conviteService.getConviteListar();
   }
 
   onMensagem(mensagem: string) {

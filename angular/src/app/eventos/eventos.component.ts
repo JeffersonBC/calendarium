@@ -31,7 +31,7 @@ export class EventosComponent implements OnInit {
   ngOnInit() {
     for (let ano = 2018; ano <= 2023; ano++) {
       for (let mes = 1; mes <= 12; mes++) {
-        this.observables_eventos.set(`${ano}-${mes}`, this.eventoService.postListarEventosInscrito(mes, ano));
+        this.observables_eventos.set(`${ano}-${mes}`, this.eventoService.postEventoListar(mes, ano));
       }
     }
   }

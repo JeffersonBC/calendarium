@@ -38,9 +38,11 @@
               <div class="divider"></div>
 
               <span class="grey-text">
+                <!-- HORA DE ÍNICIO E FIM DIFERENTES -->
                 <div *ngIf=" comparaHoras(objeto['event']['start_datetime'], objeto['event']['end_datetime'])">
                   Às {{ objeto['event']['start_datetime'] | date:'HH:mm' }}
                 </div>
+                <!-- HORA DE ÍNICIO E FIM IGUAIS -->
                 <div *ngIf="!comparaHoras(objeto['event']['start_datetime'], objeto['event']['end_datetime'])">
                   Das {{ objeto['event']['start_datetime'] | date:'HH:mm' }} até as {{ objeto['event']['end_datetime'] | date:'HH:mm' }}
                 </div>
@@ -79,7 +81,7 @@
       <!-- AÇÕES DO CARD -->
       <div class="card-action">
         <div *ngIf="objeto['creator'] == null" >
-          <a >Editar</a>
+          <a routerLink="editar/{{ objeto['event']['id'] }}">Editar</a>
           <a routerLink="convidar/{{ objeto['event']['id'] }}">Enviar convite</a>
         </div>
 

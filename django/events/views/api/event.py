@@ -51,6 +51,35 @@ def event_add(request):
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
+def event_update(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+
+
+@api_view(['POST'])
+@permission_classes((IsAuthenticated,))
+def event_delete(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+    event.delete()
+
+    return Response({
+        'success': True,
+        'msg': 'Evento deletado com sucesso.'
+    })
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated,))
+def event_get(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+
+    return Response({
+        'success': True,
+        'msg': EventSerializer(event).data
+    })
+
+
+@api_view(['POST'])
+@permission_classes((IsAuthenticated,))
 def event_subscriptions_list(request):
     success = True
     msg = ''

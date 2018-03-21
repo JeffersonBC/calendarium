@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { EventosService } from '../../services/eventos.service';
+import { ConviteService } from '../../services/convite.service';
 
 @Component({
   selector: 'app-eventos-lista',
@@ -18,7 +19,7 @@ export class EventosListaComponent implements OnInit {
 
 
   constructor(
-    private eventosService: EventosService
+    private conviteService: ConviteService
   ) { }
 
   ngOnInit() {
@@ -67,7 +68,7 @@ export class EventosListaComponent implements OnInit {
     if (confirm(
       `Tem certeza que deseja cancelar sua inscrição no evento \'${this.objetos[array_id]['event']['name']}\'?`
     )) {
-      const responder$ = this.eventosService.postCancelarConvite(object_id).subscribe(
+      const responder$ = this.conviteService.postConviteCancelar(object_id).subscribe(
         dados => {
           if (dados['success']) {
             this.objetos.splice(array_id, 1);
@@ -85,7 +86,7 @@ export class EventosListaComponent implements OnInit {
 
   public responderConvite(aceitar: boolean, array_id: number, object_id: number) {
     if (aceitar) {
-      const responder$ = this.eventosService.postAceitarConvite(object_id).subscribe(
+      const responder$ = this.conviteService.postConviteAceitar(object_id).subscribe(
         dados => {
           if (dados['success']) {
             this.objetos.splice(array_id, 1);
@@ -103,7 +104,7 @@ export class EventosListaComponent implements OnInit {
       if (confirm(
         `Tem certeza que deseja rejeitar o convite para o evento \'${this.objetos[array_id]['event']['name']}\'?`
       )) {
-        const responder$ = this.eventosService.postRejeitarConvite(object_id).subscribe(
+        const responder$ = this.conviteService.postConviteRejeitar(object_id).subscribe(
           dados => {
             if (dados['success']) {
               this.objetos.splice(array_id, 1);

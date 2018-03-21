@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Select2OptionData } from 'ng2-select2';
 
-import { EventosService } from '../../services/eventos.service';
+import { ConviteService } from '../../services/convite.service';
 
 
 @Component({
@@ -20,27 +20,28 @@ export class EventosConvidarComponent implements OnInit {
   public ids_usuarios = '';
 
   constructor(
-    private eventosService: EventosService,
+    private conviteService: ConviteService,
     private route: ActivatedRoute,
     private router: Router,
   ) { }
 
   ngOnInit() {
-    this.evento_detalhes$ = this.eventosService.getDetalhesEventoConvite(this.route.snapshot.params['id']);
+    this.evento_detalhes$ = this.conviteService.getConviteDetalhesEvento(this.route.snapshot.params['id']);
     this.options = {
       multiple: true,
     };
   }
 
   onSubmit() {
-    this.eventosService.postAdicionarConvite(
+    this.conviteService.postConviteAdicionar(
       this.ids_usuarios,
       this.route.snapshot.params['id']
     ).subscribe(
-      dados => console.log(dados)
+      dados => {
+        console.log(dados);
+        this.router.navigate(['/eventos']);
+      }
     );
-
-    this.router.navigate(['/eventos']);
   }
 
   changed(data: {value: string[]}) {
