@@ -3,7 +3,7 @@ from django.utils.timezone import now
 
 from rest_framework import serializers
 
-from ..models import Event
+from ..models import Event, EventSubscription
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -25,10 +25,37 @@ class EventSerializer(serializers.ModelSerializer):
         )
 
     def validate(self, data):
+        # Checa se data/hora de início é menor que de fim
         if data['start_datetime'] > data['end_datetime']:
             raise serializers.ValidationError(
                 "Fim do evento deve acontecer após o início")
 
+        # Checa conflitos de horário
+        instance = None
+        if 'instance' in self.context:
+            instance = self.context['instance']
+
+        events = EventSubscription.objects \
+            .filter(user=self.context['user']) \
+            .exclude(event__start_datetime__gte=data['end_datetime']) \
+            .exclude(event__end_datetime__lte=data['start_datetime']) \
+            .exclude(event=instance) \
+            .order_by('event__start_datetime')
+
+        count = events.count()
+        if count > 0:
+            msg = 'O horário selecionado está conflitando com os seguintes ' \
+                'eventos: '
+
+            for i, e in enumerate(events):
+                i += 1
+                msg += e.event.name
+                if i < count:
+                    msg += ', '
+
+            raise serializers.ValidationError(msg)
+
+        # Se nenhum erro foi encontrado, retorna os dados
         return data
 
     def create(self, validated_data):

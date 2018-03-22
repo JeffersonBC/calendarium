@@ -20,7 +20,8 @@ export class EventosEditarComponent implements OnInit {
 
   public formulario: FormGroup;
   public editando: boolean;
-  public formularioValidado = false;
+
+  public mensagemErro = '';
 
   constructor(
     public formService: FormService,
@@ -95,17 +96,24 @@ export class EventosEditarComponent implements OnInit {
       if (this.editando) {
         this.eventoService.postEventoAtualizar(evento, this.activatedRoute.snapshot.params['id']).subscribe(
           dados => {
-            console.log(evento);
-            console.log(dados);
-            this.router.navigate(['/eventos']);
+            if (dados['success']) {
+              this.router.navigate(['/eventos']);
+
+            } else {
+              this.mensagemErro = dados['msg'];
+            }
           }
         );
 
       } else {
         this.eventoService.postEventoAdicionar(evento).subscribe(
           dados => {
-            console.log(dados);
-            this.router.navigate(['/eventos']);
+            if (dados['success']) {
+              this.router.navigate(['/eventos']);
+
+            } else {
+              this.mensagemErro = dados['msg'];
+            }
           }
         );
       }

@@ -32,7 +32,10 @@ def event_add(request):
         msg = 'Não foi possível ler um JSON da requisição.'
 
     else:
-        serializer = EventSerializer(data=json_request)
+        serializer = EventSerializer(
+            data=json_request,
+            context={'user': request.user}
+        )
         success = serializer.is_valid()
 
         if success:
@@ -41,7 +44,8 @@ def event_add(request):
 
             msg = 'Evento criado com sucesso'
         else:
-            msg = serializer.errors
+            for key, value in serializer.errors.items():
+                msg = msg.join(value)
 
     return Response({
         'success': success,
@@ -66,14 +70,19 @@ def event_update(request, event_id):
         msg = 'Não foi possível ler um JSON da requisição.'
 
     else:
-        serializer = EventSerializer(event, data=json_request)
+        serializer = EventSerializer(
+            event,
+            data=json_request,
+            context={'user': request.user, 'instance': event}
+        )
         success = serializer.is_valid()
 
         if success:
             event = serializer.save()
             msg = 'Evento atualizado com sucesso'
         else:
-            msg = serializer.errors
+            for key, value in serializer.errors.items():
+                msg = msg.join(value)
 
     return Response({
         'success': success,
