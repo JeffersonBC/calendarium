@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 import { LoginEmitService } from '../services/login-emit.service';
+import { ContasService } from '../services/contas.service';
 
 
 @Component({
@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
   public user_first_name = '';
 
   constructor(
-    private http: HttpClient,
+    private contasService: ContasService,
     private loginEmitService: LoginEmitService,
   ) {
     loginEmitService.changeEmitted$.subscribe(
@@ -34,12 +34,9 @@ export class HomeComponent implements OnInit {
   }
 
   getUserName() {
-    this.http.get('http://localhost:8000/api/accounts/get_current_user/')
-      .subscribe(
-        dados => {
-          this.user_first_name = dados['first_name'];
-        }
-      );
+    this.contasService.getUsuarioLogado().subscribe(
+      dados => this.user_first_name = dados['msg']['first_name'],
+      (error: any) => console.log(error)
+    );
   }
-
 }

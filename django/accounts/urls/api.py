@@ -1,15 +1,25 @@
 from django.conf.urls import url
-from django.conf import settings
-from django.conf.urls.static import static
 
-from rest_framework.generics import ListCreateAPIView
 from rest_framework.authtoken import views as rest_framework_views
 
-from ..views.api import current_user
+from accounts.views.api import current_user, user_create
+
 
 urlpatterns = [
-    url(r'^get_auth_token/$', rest_framework_views.obtain_auth_token,
-        name='get_auth_token'),
-    url(r'^get_current_user/$', current_user, name='get_current_user')
+    url(
+        r'^auth_token_get/$',
+        rest_framework_views.obtain_auth_token,
+        name='api_auth_token_get'
+    ),
+    url(
+        r'^user_get_current/$',
+        current_user,
+        name='api_user_get'
+    ),
+    url(
+        r'^user_create/$',
+        user_create,
+        name='api_user_create'
+    )
 
 ]

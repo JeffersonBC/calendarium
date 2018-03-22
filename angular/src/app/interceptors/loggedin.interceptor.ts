@@ -12,13 +12,16 @@ import 'rxjs/add/operator/do';
 
 @Injectable()
 export class LoggedInInterceptor implements HttpInterceptor {
-  intercept( req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    req = req.clone({
-        setHeaders: {
-            Authorization: 'Token ' + localStorage.getItem('auth_token')
-        }
-    });
 
-    return next.handle(req);
-  }
+    intercept( req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        if (localStorage.getItem('auth_token') !== null) {
+            req = req.clone({
+                setHeaders: {
+                    Authorization: 'Token ' + localStorage.getItem('auth_token')
+                }
+            });
+        }
+
+        return next.handle(req);
+    }
 }

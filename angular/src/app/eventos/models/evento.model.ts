@@ -4,6 +4,3 @@ export interface Evento {
     start_datetime: string;
     end_datetime: string;
 }
-
-
-

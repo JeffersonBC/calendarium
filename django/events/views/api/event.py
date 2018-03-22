@@ -42,7 +42,7 @@ def event_add(request):
             event = serializer.save(creator=request.user.pk)
             EventSubscription(user=request.user, event=event).save()
 
-            msg = 'Evento criado com sucesso'
+            msg = 'Evento criado com sucesso.'
         else:
             for key, value in serializer.errors.items():
                 msg = msg.join(value)
@@ -79,7 +79,7 @@ def event_update(request, event_id):
 
         if success:
             event = serializer.save()
-            msg = 'Evento atualizado com sucesso'
+            msg = 'Evento atualizado com sucesso.'
         else:
             for key, value in serializer.errors.items():
                 msg = msg.join(value)
