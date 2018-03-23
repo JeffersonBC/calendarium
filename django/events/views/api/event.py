@@ -1,10 +1,8 @@
-from django.http import (
-    HttpResponseBadRequest, HttpResponseForbidden
-)
 from django.contrib.auth import get_user_model
 from django.db.models import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -23,34 +21,34 @@ def event_add(request):
     success = True
     msg = ''
 
-    # Tenta extrair um json do request.
-    # Se não for possível, retorna status de erro
-    json_request, error = json_from_request(request)
+    # Tenta serializar dados recebidos num evento válido
+    serializer = EventSerializer(
+        data=request.data,
+        context={'user': request.user}
+    )
+    success = serializer.is_valid()
 
-    if error:
-        success = False
-        msg = 'Não foi possível ler um JSON da requisição.'
+    if success:
+        event = serializer.save(creator=request.user.pk)
+        EventSubscription(user=request.user, event=event).save()
+
+        msg = 'Evento criado com sucesso.'
+
+        return Response({
+                'success': success,
+                'msg': msg
+            }, status=status.HTTP_201_CREATED
+        )
 
     else:
-        serializer = EventSerializer(
-            data=json_request,
-            context={'user': request.user}
+        for key, value in serializer.errors.items():
+            msg = msg.join(value)
+
+        return Response({
+                'success': success,
+                'msg': msg
+            }, status=status.HTTP_304_NOT_MODIFIED
         )
-        success = serializer.is_valid()
-
-        if success:
-            event = serializer.save(creator=request.user.pk)
-            EventSubscription(user=request.user, event=event).save()
-
-            msg = 'Evento criado com sucesso.'
-        else:
-            for key, value in serializer.errors.items():
-                msg = msg.join(value)
-
-    return Response({
-        'success': success,
-        'msg': msg
-    })
 
 
 @api_view(['POST'])
@@ -61,33 +59,32 @@ def event_update(request, event_id):
     success = True
     msg = ''
 
-    # Tenta extrair um json do request.
-    # Se não for possível, retorna status de erro
-    json_request, error = json_from_request(request)
+    serializer = EventSerializer(
+        event,
+        data=request.data,
+        context={'user': request.user, 'instance': event}
+    )
+    success = serializer.is_valid()
 
-    if error:
-        success = False
-        msg = 'Não foi possível ler um JSON da requisição.'
+    if success:
+        event = serializer.save()
+        msg = 'Evento atualizado com sucesso.'
+
+        return Response({
+                'success': success,
+                'msg': msg
+            }, status=status.HTTP_202_ACCEPTED
+        )
 
     else:
-        serializer = EventSerializer(
-            event,
-            data=json_request,
-            context={'user': request.user, 'instance': event}
+        for key, value in serializer.errors.items():
+            msg = msg.join(value)
+
+        return Response({
+                'success': success,
+                'msg': msg
+            }, status=status.HTTP_304_NOT_MODIFIED
         )
-        success = serializer.is_valid()
-
-        if success:
-            event = serializer.save()
-            msg = 'Evento atualizado com sucesso.'
-        else:
-            for key, value in serializer.errors.items():
-                msg = msg.join(value)
-
-    return Response({
-        'success': success,
-        'msg': msg
-    })
 
 
 @api_view(['POST'])
@@ -97,9 +94,10 @@ def event_delete(request, event_id):
     event.delete()
 
     return Response({
-        'success': True,
-        'msg': 'Evento deletado com sucesso.'
-    })
+            'success': True,
+            'msg': 'Evento deletado com sucesso.'
+        }, status=status.HTTP_202_ACCEPTED
+    )
 
 
 @api_view(['GET'])
@@ -108,9 +106,10 @@ def event_get(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
 
     return Response({
-        'success': True,
-        'msg': EventSerializer(event).data
-    })
+            'success': True,
+            'msg': EventSerializer(event).data
+        }, status=status.HTTP_200_OK
+    )
 
 
 @api_view(['POST'])
@@ -126,7 +125,11 @@ def event_subscriptions_list(request):
         msg = 'Não foi possível ler um JSON da requisição.'
 
     elif 'month' not in json_request or 'year' not in json_request:
-        return HttpResponseBadRequest()
+        return Response({
+                'success': False,
+                'msg': 'Requisição não contém campos necessários.'
+            }, status=status.HTTP_400_BAD_REQUEST
+        )
 
     else:
         event_subscriptions = EventSubscription.objects \
@@ -166,9 +169,10 @@ def event_subscriptions_list(request):
                 })
 
     return Response({
-        'success': success,
-        'msg': msg
-    })
+            'success': success,
+            'msg': msg
+        }, status=status.HTTP_200_OK
+    )
 
 
 # Processa o request para ver se ele apresenta um json válido

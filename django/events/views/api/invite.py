@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
-from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404
 
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -20,7 +20,12 @@ def event_invite_details(request, id):
     event = get_object_or_404(Event, id=id)
 
     if (event.creator != request.user):
-        return HttpResponseForbidden()
+        return Response({
+                'success': False,
+                'msg': 'Você não tem autorização para convidar outros usuários'
+                       ' para este evento.'
+            }, status=status.HTTP_403_FORBIDDEN
+        )
 
     # Busca de informações
     subscribed = EventSubscription.objects.filter(event=event) \
@@ -63,9 +68,10 @@ def event_invite_details(request, id):
     })
 
     return Response({
-        'success': success,
-        'msg': msg
-    })
+            'success': success,
+            'msg': msg
+        }, status=status.HTTP_200_OK
+    )
 
 
 @api_view(['POST'])
@@ -123,17 +129,18 @@ def event_invite_add(request, id):
                         )
 
                         msg.append(
-                            'Convite para o usuário {0} ao evento {1} criado com '
-                            'sucesso.'.format(u_id, json_request['event'])
+                            'Convite para o usuário {0} ao evento {1} criado '
+                            'com sucesso.'.format(u_id, json_request['event'])
                         )
 
                     else:
                         msg.append(serializer.errors)
 
     return Response({
-        'success': success,
-        'msg': msg
-    })
+            'success': success,
+            'msg': msg
+        }, status=status.HTTP_201_CREATED
+    )
 
 
 @api_view(['GET'])
@@ -173,7 +180,11 @@ def event_invite_accept(request, invitation_id):
     invitation = get_object_or_404(EventInvitation, pk=invitation_id)
 
     if (invitation.user != request.user):
-        return HttpResponseForbidden()
+        return Response({
+                'success': False,
+                'msg': 'Você não tem autorização para aceitar este convite.'
+            }, status=status.HTTP_403_FORBIDDEN
+        )
 
     # Se há conflito de horário com algum evento, retorna mensagem de erro
     conflicting_events = request.user.eventsubscription_set\
@@ -190,6 +201,12 @@ def event_invite_accept(request, invitation_id):
         msg = 'Não é possível aceitar este convite pois há conflito de' \
             ' horário com os seguintes eventos:' + evs
 
+        return Response({
+                'success': success,
+                'msg': msg
+            }, status=status.HTTP_304_NOT_MODIFIED
+        )
+
     # Se não há conflitos...
     else:
         subscription = EventSubscription(
@@ -199,10 +216,11 @@ def event_invite_accept(request, invitation_id):
 
         msg = 'Inscrição no evento confirmada'
 
-    return Response({
-        'success': success,
-        'msg': msg
-    })
+        return Response({
+                'success': success,
+                'msg': msg
+            }, status=status.HTTP_200_OK
+        )
 
 
 @api_view(['POST'])
@@ -211,16 +229,21 @@ def event_invite_reject(request, invitation_id):
     invitation = get_object_or_404(EventInvitation, pk=invitation_id)
 
     if (invitation.user != request.user):
-        return HttpResponseForbidden()
+        return Response({
+                'success': False,
+                'msg': 'Você não tem autorização para rejeitar este convite.'
+            }, status=status.HTTP_403_FORBIDDEN
+        )
 
     else:
         invitation.rejected = True
         invitation.save()
 
     return Response({
-        'success': True,
-        'msg': 'Convite recusado com sucesso.'
-    })
+            'success': True,
+            'msg': 'Convite recusado com sucesso.'
+        }, status=status.HTTP_200_OK
+    )
 
 
 @api_view(['POST'])
@@ -229,11 +252,16 @@ def event_invite_cancel(request, subscription_id):
     subscription = get_object_or_404(EventSubscription, pk=subscription_id)
 
     if (subscription.user != request.user):
-        return HttpResponseForbidden()
+        return Response({
+                'success': False,
+                'msg': 'Você não tem autorização para rejeitar este convite.'
+            }, status=status.HTTP_403_FORBIDDEN
+        )
 
     subscription.delete()
 
     return Response({
-        'success': True,
-        'msg': 'Inscrição cancelada com sucesso.'
-    })
+            'success': True,
+            'msg': 'Inscrição cancelada com sucesso.'
+        }, status=status.HTTP_200_OK
+    )
