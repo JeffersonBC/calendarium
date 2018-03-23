@@ -13,9 +13,9 @@
     </div>
 
     <app-eventos-lista
-      [objetos$]="listaConvites$"
+      [objetos]="cache_convites"
       [mensagemArrayVazio]="'Não há convites pendentes.'"
-      (onMensagem)="onMensagem($event)">
+      (emitirMensagem)="onMensagem($event)">
     </app-eventos-lista>
 
 </div>

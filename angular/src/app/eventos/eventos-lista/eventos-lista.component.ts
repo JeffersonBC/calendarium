@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { EventosService } from '../../services/eventos.service';
 import { ConviteService } from '../../services/convite.service';
 
@@ -7,31 +7,17 @@ import { ConviteService } from '../../services/convite.service';
   templateUrl: './eventos-lista.component.html',
   styleUrls: ['./eventos-lista.component.css']
 })
-export class EventosListaComponent implements OnInit {
+export class EventosListaComponent {
 
-  @Input() public objetos$;
+  @Input() public objetos: any[];
   @Input() public mensagemArrayVazio: string;
 
-  @Output() public onMensagem = new EventEmitter<string>();
-
-  public objetos: any[];
-  public arrayVazio = false;
+  @Output() public emitirMensagem = new EventEmitter<string>();
 
 
   constructor(
     private conviteService: ConviteService
   ) { }
-
-  ngOnInit() {
-    this.objetos$.subscribe(dados => {
-        this.objetos = dados;
-
-        if (this.objetos.length === 0) {
-          this.arrayVazio = true;
-        }
-      }
-    );
-  }
 
   public comaparaDatas(inicio: string, fim: string): string {
     const d0 = new Date(inicio);
@@ -73,11 +59,8 @@ export class EventosListaComponent implements OnInit {
           if (dados['success']) {
             this.objetos.splice(array_id, 1);
 
-            if (this.objetos.length === 0) {
-              this.arrayVazio = true;
-            }
           } else {
-            this.onMensagem.emit(dados['msg']);
+            this.emitirMensagem.emit(dados['msg']);
           }
         }
       );
@@ -91,11 +74,8 @@ export class EventosListaComponent implements OnInit {
           if (dados['success']) {
             this.objetos.splice(array_id, 1);
 
-            if (this.objetos.length === 0) {
-              this.arrayVazio = true;
-            }
           } else {
-            this.onMensagem.emit(dados['msg']);
+            this.emitirMensagem.emit(dados['msg']);
           }
         }
       );
@@ -109,11 +89,8 @@ export class EventosListaComponent implements OnInit {
             if (dados['success']) {
               this.objetos.splice(array_id, 1);
 
-              if (this.objetos.length === 0) {
-                this.arrayVazio = true;
-              }
             } else {
-              this.onMensagem.emit(dados['msg']);
+              this.emitirMensagem.emit(dados['msg']);
             }
           }
         );

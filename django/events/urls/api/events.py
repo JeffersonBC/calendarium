@@ -31,7 +31,12 @@ urlpatterns = [
         name='api_event_get'
     ),
     url(
-        r'^get_by_date/$',
+        r'^get_by_date/(?P<year>[0-9]+)/(?P<month>[0-9]+)/$',
+        event_subscriptions_list,
+        name='api_event_get_by_date'
+    ),
+    url(
+        r'^get_by_date/(?P<year>[0-9]+)/$',
         event_subscriptions_list,
         name='api_event_get_by_date'
     ),

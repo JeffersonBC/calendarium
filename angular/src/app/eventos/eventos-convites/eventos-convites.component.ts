@@ -14,12 +14,17 @@ export class EventosConvitesComponent implements OnInit {
   public mensagem = '';
   public temConvitesPendentes = false;
 
+  public cache_convites: any[];
+
+
   constructor(
     private conviteService: ConviteService,
   ) { }
 
   ngOnInit() {
-    this.listaConvites$ = this.conviteService.getConviteListar();
+    this.conviteService.getConviteListar().subscribe(
+      dados => this.cache_convites = dados
+    );
   }
 
   onMensagem(mensagem: string) {

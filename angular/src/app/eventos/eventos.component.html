@@ -29,16 +29,9 @@
     </div>
   </div>
 
-  <!-- LISTA DE EVENTOS DO MES/ ANO ATUAL -->
-  <div *ngFor="let m of meses; index as mes">
-    <div *ngFor="let ano of anos" >
-      <div *ngIf="getMes() == (mes+1) && getAno() == ano">
-        <app-eventos-lista
-          [objetos$]="observables_eventos.get(ano.toString() + '-' + (mes+1).toString())"
-          [mensagemArrayVazio]="'Não há nenhum evento cadastrado neste mês.'">
-        </app-eventos-lista>
-      </div>
-    </div>
-  </div>
+  <app-eventos-lista
+    [objetos]="cache_eventos['' + hoje_ano]['' + hoje_mes]"
+    [mensagemArrayVazio]="'Não há nenhum evento cadastrado neste mês.'">
+  </app-eventos-lista>
 
 </div>

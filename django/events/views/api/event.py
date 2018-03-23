@@ -112,61 +112,106 @@ def event_get(request, event_id):
     )
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 @permission_classes((IsAuthenticated,))
-def event_subscriptions_list(request):
+def event_subscriptions_list(request, year, month):
     success = True
     msg = ''
 
-    json_request, error = json_from_request(request)
+    event_subscriptions = EventSubscription.objects \
+        .filter(user_id=request.user) \
+        .filter(event__start_datetime__year=year) \
+        .filter(event__start_datetime__month=month) \
+        .order_by('event__start_datetime')
 
-    if error:
-        success = False
-        msg = 'Não foi possível ler um JSON da requisição.'
+    msg = []
+    for index, sub in enumerate(event_subscriptions):
+        msg.append({
+            'event': EventSerializer(sub.event).data,
+            'creator': (
+                sub.event.creator.first_name + ' ' +
+                sub.event.creator.last_name
+                if sub.event.creator != request.user
+                else None
+                # 'None' vira 'null' ao parsear em JSON
+            ),
+            'subscription_id': sub.id
+        })
 
-    elif 'month' not in json_request or 'year' not in json_request:
-        return Response({
-                'success': False,
-                'msg': 'Requisição não contém campos necessários.'
-            }, status=status.HTTP_400_BAD_REQUEST
-        )
+        if sub.event.creator == request.user:
+            subscribed = EventSubscription.objects.filter(event=sub.event)\
+                .exclude(user=request.user).count()
 
-    else:
-        event_subscriptions = EventSubscription.objects \
-            .filter(user_id=request.user) \
-            .filter(event__start_datetime__month=json_request['month']) \
-            .filter(event__start_datetime__year=json_request['year']) \
-            .order_by('event__start_datetime')
+            invited = EventInvitation.objects.filter(event=sub.event)\
+                .exclude(rejected=True).count()
 
-        msg = []
-        for index, sub in enumerate(event_subscriptions):
-            msg.append({
-                'event': EventSerializer(sub.event).data,
-                'creator': (
-                    sub.event.creator.first_name + ' ' +
-                    sub.event.creator.last_name
-                    if sub.event.creator != request.user
-                    else None
-                    # 'None' vira 'null' ao parsear em JSON
-                ),
-                'subscription_id': sub.id
+            rejected = EventInvitation.objects.filter(event=sub.event)\
+                .exclude(rejected=False).count()
+
+            msg[index].update({
+                'invited': invited,
+                'subscribed': subscribed,
+                'rejected': rejected,
             })
 
-            if sub.event.creator == request.user:
-                subscribed = EventSubscription.objects.filter(event=sub.event)\
-                    .exclude(user=request.user).count()
+    return Response({
+            'success': success,
+            'msg': msg
+        }, status=status.HTTP_200_OK
+    )
 
-                invited = EventInvitation.objects.filter(event=sub.event)\
-                    .exclude(rejected=True).count()
 
-                rejected = EventInvitation.objects.filter(event=sub.event)\
-                    .exclude(rejected=False).count()
+@api_view(['GET'])
+@permission_classes((IsAuthenticated,))
+def event_subscriptions_list(request, year):
+    success = True
+    msg = ''
 
-                msg[index].update({
-                    'invited': invited,
-                    'subscribed': subscribed,
-                    'rejected': rejected,
+    event_subscriptions = EventSubscription.objects \
+        .filter(user_id=request.user) \
+        .filter(event__start_datetime__year=year) \
+
+
+    msg = {}
+    for month in range(1, 13):
+        month_subscriptions = event_subscriptions \
+            .filter(event__start_datetime__month=month) \
+            .order_by('event__start_datetime')
+
+        if month_subscriptions.count() > 0:
+            msg[str(month)] = []
+            for index, sub in enumerate(month_subscriptions):
+                msg[str(month)].append({
+                    'event': EventSerializer(sub.event).data,
+                    'creator': (
+                        sub.event.creator.first_name + ' ' +
+                        sub.event.creator.last_name
+                        if sub.event.creator != request.user
+                        else None
+                        # 'None' vira 'null' ao parsear em JSON
+                    ),
+                    'subscription_id': sub.id
                 })
+
+                if sub.event.creator == request.user:
+                    subscribed = EventSubscription.objects \
+                        .filter(event=sub.event) \
+                        .exclude(user=request.user) \
+                        .count()
+                    invited = EventInvitation.objects \
+                        .filter(event=sub.event) \
+                        .exclude(rejected=True) \
+                        .count()
+                    rejected = EventInvitation.objects \
+                        .filter(event=sub.event) \
+                        .exclude(rejected=False) \
+                        .count()
+
+                    msg[str(month)][index].update({
+                        'invited': invited,
+                        'subscribed': subscribed,
+                        'rejected': rejected,
+                    })
 
     return Response({
             'success': success,

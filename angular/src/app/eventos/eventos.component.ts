@@ -18,10 +18,11 @@ export class EventosComponent implements OnInit {
   public anos: number[] = [2018, 2019, 2020, 2021, 2022, 2023];
 
   private hoje = new Date();
-  private hoje_mes = this.hoje.getMonth() + 1;
-  private hoje_ano = this.hoje.getFullYear();
+  public hoje_mes = this.hoje.getMonth() + 1;
+  public hoje_ano = this.hoje.getFullYear();
 
-  public observables_eventos = new Map();
+  public cache_eventos = {};
+
 
 
   constructor(
@@ -30,10 +31,37 @@ export class EventosComponent implements OnInit {
 
   ngOnInit() {
     for (let ano = 2018; ano <= 2023; ano++) {
+      this.cache_eventos[`${ano}`] = {};
+
       for (let mes = 1; mes <= 12; mes++) {
-        this.observables_eventos.set(`${ano}-${mes}`, this.eventoService.postEventoListar(mes, ano));
+        this.cache_eventos[`${ano}`][`${mes}`] = [];
       }
     }
+
+    this.carregarEventosAno(this.hoje_ano);
+  }
+
+  public carregarEventosAno(ano: number) {
+    this.eventoService.getEventoPorData(ano).subscribe(
+      dados => {
+        if (dados['success']) {
+          this.cache_eventos[`${ano}`]['carregado'] = true;
+
+          for (const key in dados['msg']) {
+            if (dados['msg'].hasOwnProperty(key)) {
+
+              for (const evento in dados['msg'][key]) {
+                if (dados['msg'][key].hasOwnProperty(evento)) {
+
+                  this.cache_eventos[`${ano}`][`${key}`]
+                    .push(dados['msg'][key][evento]);
+                }
+              }
+            }
+          }
+        }
+      }
+    );
   }
 
   public setMes(mes: number) {
@@ -42,14 +70,10 @@ export class EventosComponent implements OnInit {
 
   public setAno(ano: number) {
     this.hoje_ano = ano;
-  }
 
-  public getMes(): number {
-    return this.hoje_mes;
-  }
-
-  public getAno(): number {
-    return this.hoje_ano;
+    if (!this.cache_eventos[`${ano}`]['carregado']) {
+      this.carregarEventosAno(ano);
+    }
   }
 
 }

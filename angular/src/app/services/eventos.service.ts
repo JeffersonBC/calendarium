@@ -33,14 +33,10 @@ export class EventosService {
             .map(response => response);
     }
 
-    public postEventoListar(mes: number, ano: number) {
-        const objeto: any = {
-            month: mes,
-            year: ano
-        };
+    public getEventoPorData(ano: number) {
 
-        return this.httpService.post('http://localhost:8000/api/events/get_by_date/', objeto)
-            .map(response => response['msg']);
+        return this.httpService.get(`http://localhost:8000/api/events/get_by_date/${ano}/`)
+            .map(response => response);
     }
 
 }
