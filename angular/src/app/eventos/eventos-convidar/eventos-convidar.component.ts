@@ -15,7 +15,7 @@ import { CacheEventosService } from '../../services/cache-eventos.service';
 })
 export class EventosConvidarComponent implements OnInit {
 
-  public evento_detalhes$;
+  public evento_detalhes;
   public options;
 
   public ids_usuarios = '';
@@ -28,7 +28,10 @@ export class EventosConvidarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.evento_detalhes$ = this.conviteService.getConviteDetalhesEvento(this.route.snapshot.params['id']);
+    this.conviteService.getConviteDetalhesEvento(this.route.snapshot.params['id']).subscribe(
+      dados => this.evento_detalhes = dados
+    );
+
     this.options = {
       multiple: true,
     };
@@ -40,6 +43,7 @@ export class EventosConvidarComponent implements OnInit {
       this.route.snapshot.params['id']
     ).subscribe(
       dados => {
+        this.cacheEventosService.setMesDirtyIsoDate(this.evento_detalhes['event']['start_datetime']);
         this.router.navigate(['/eventos']);
       }
     );

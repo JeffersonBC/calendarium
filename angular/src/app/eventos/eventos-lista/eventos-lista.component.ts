@@ -46,9 +46,7 @@ export class EventosListaComponent {
       const responder$ = this.conviteService.postConviteAceitar(object_id).subscribe(
         dados => {
           if (dados['success']) {
-            // ISO DATE = 'yyyy-MM-ddThh:mm:ss'
-            const start_date = this.formService.isoDateToArray(this.objetos[array_id]['event']['start_datetime']);
-            this.cacheEventosService.setMesDirty(parseInt(start_date[0], 10), parseInt(start_date[1], 10));
+            this.cacheEventosService.setMesDirtyIsoDate(this.objetos[array_id]['event']['start_datetime']);
 
             this.objetos.splice(array_id, 1);
 
