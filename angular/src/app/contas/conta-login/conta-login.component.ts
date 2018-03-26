@@ -45,18 +45,15 @@ export class ContaLoginComponent implements OnInit {
   tryLogin() {
     const login_info: Login = this.formulario.value;
 
-    console.log(login_info);
-
     this.contasService.postLogin(login_info).subscribe(
       dados => {
-        console.log(dados);
 
         if (dados['token']) {
           localStorage.setItem('auth_token', dados['token']);
           this.loginEmitService.emitChange(true);
           this.router.navigate(['']);
-
         }
+
       }
     );
   }

@@ -13,6 +13,10 @@ export class CacheEventosService {
     private eventoService: EventosService
   ) {
 
+    this.inicializarCache();
+  }
+
+  private inicializarCache() {
     for (let ano = 2018; ano <= 2023; ano++) {
       this.cache[`${ano}`] = {};
 
@@ -21,7 +25,6 @@ export class CacheEventosService {
       }
     }
   }
-
 
   public carregarAno(ano: number) {
     this.eventoService.getEventosAno(ano).subscribe(
@@ -35,6 +38,7 @@ export class CacheEventosService {
               this.cache[`${ano}`][`${key}`].push(dados['msg'][key][evento]);
             }
           }
+
         }
       }
     );
@@ -67,17 +71,17 @@ export class CacheEventosService {
             if (dados['success']) {
               this.cache[`${ano}`][`${mes}`] = dados['msg'];
               this.setMesClean(ano, mes);
-
-              console.log('Mês foi atualizado');
             }
           }
         );
 
-      } else {
-        console.log('Mês já estava atualizado');
       }
-
     }
+  }
+
+  public limparCache() {
+    this.inicializarCache();
+    this.meses_dirty = {};
   }
 
 }

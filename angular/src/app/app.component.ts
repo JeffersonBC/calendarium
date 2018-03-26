@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { LoginEmitService } from './services/login-emit.service';
+import { CacheEventosService } from './services/cache-eventos.service';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private loginEmitService: LoginEmitService,
+    private eventosCacheService: CacheEventosService,
   ) {
     loginEmitService.changeEmitted$.subscribe(
       bool => {
@@ -38,6 +40,7 @@ export class AppComponent implements OnInit {
     localStorage.removeItem('auth_token');
     this.loggedIn = false;
     this.loginEmitService.emitChange(false);
+    this.eventosCacheService.limparCache();
 
     this.router.navigate(['']);
   }
