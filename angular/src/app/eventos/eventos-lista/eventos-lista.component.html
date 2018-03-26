@@ -32,8 +32,23 @@
 
         <!-- DATA/ HORA -->
         <div class="m4 s5 col center-align" style="margin-left: 0; padding: .5rem 24px .5rem 0;">
+          <!-- LISTA DE CONVITES -->
+          <div *ngIf="objeto['invite_id']" >
+            <div *ngIf="formService.comaparaDatas(objeto['event']['start_datetime'], objeto['event']['end_datetime']) == 'igual'" >
+                <span>{{ objeto['event']['start_datetime'] | date:'dd/MM/yyyy'}}</span>
+                <div class="divider"></div>
+                <span class="grey-text">{{ objeto['event']['start_datetime'] | date:'HH:mm'}} - {{ objeto['event']['end_datetime'] | date:'HH:mm'}}</span>
+            </div>
+
+            <div *ngIf="formService.comaparaDatas(objeto['event']['start_datetime'], objeto['event']['end_datetime']) != 'igual'" >
+                <span>{{ objeto['event']['start_datetime'] | date:'dd/MM/yyyy \'às\' HH:mm'}}</span>
+                <div class="divider"></div>
+                <span class="grey-text">Até {{ objeto['event']['end_datetime'] | date:'dd/MM/yyyy \'às\' HH:mm'}}</span>
+            </div>
+          </div>
+
           <!-- MESMO DIA -->
-          <div *ngIf="formService.comaparaDatas(objeto['event']['start_datetime'], objeto['event']['end_datetime']) == 'igual'" >
+          <div *ngIf="!objeto['invite_id'] && formService.comaparaDatas(objeto['event']['start_datetime'], objeto['event']['end_datetime']) == 'igual'" >
               <span>Dia {{ objeto['event']['start_datetime'] | date:'dd' }}</span>
               <div class="divider"></div>
 
@@ -50,21 +65,21 @@
           </div>
 
           <!-- MESMO MÊS, DIAS DIFERENTES -->
-          <div *ngIf="formService.comaparaDatas(objeto['event']['start_datetime'], objeto['event']['end_datetime']) == 'dia_dif'" >
+          <div *ngIf="!objeto['invite_id'] && formService.comaparaDatas(objeto['event']['start_datetime'], objeto['event']['end_datetime']) == 'dia_dif'" >
             <span>Dia {{ objeto['event']['start_datetime'] | date:'dd \'às\' HH:mm'}}</span>
             <div class="divider"></div>
             <span class="grey-text">Até dia {{ objeto['event']['end_datetime'] | date:'dd \'às\' HH:mm'}}</span>
           </div>
 
           <!-- MESMO ANO, MESES DIFERENTES -->
-          <div *ngIf="formService.comaparaDatas(objeto['event']['start_datetime'], objeto['event']['end_datetime']) == 'mes_dif'" >
+          <div *ngIf="!objeto['invite_id'] && formService.comaparaDatas(objeto['event']['start_datetime'], objeto['event']['end_datetime']) == 'mes_dif'" >
             <span>{{ objeto['start_datetime'] | date:'dd/MM \'às\' HH:mm'}}</span>
             <div class="divider"></div>
             <span class="grey-text">Até {{ objeto['event']['end_datetime'] | date:'dd/MM \'às\' HH:mm'}}</span>
           </div>
 
           <!-- ANOS DIFERENTES -->
-          <div *ngIf="formService.comaparaDatas(objeto['event']['start_datetime'], objeto['event']['end_datetime']) == 'ano_dif'" >
+          <div *ngIf="!objeto['invite_id'] && formService.comaparaDatas(objeto['event']['start_datetime'], objeto['event']['end_datetime']) == 'ano_dif'" >
             <span>{{ objeto['event']['start_datetime'] | date:'dd/MM/yyyy \'às\' HH:mm'}}</span>
             <div class="divider"></div>
             <span class="grey-text">Até {{ objeto['event']['end_datetime'] | date:'dd/MM/yyyy \'às\' HH:mm'}}</span>

@@ -2,7 +2,7 @@
   <div class="col s12 m8 offset-m2">
     <h3>Convidar para evento</h3>
 
-    <div *ngIf="evento_detalhes.event">
+    <div *ngIf="evento_detalhes?.event">
       <div class="card">
         <div class="card-content">
           <span class="card-title">{{ evento_detalhes.event.name }}</span>
