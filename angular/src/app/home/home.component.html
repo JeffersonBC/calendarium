@@ -1,14 +1,69 @@
 <div class="col s12 m10 offset-m1">
-    <div *ngIf="!loggedIn">
-      <h3>Bem vindo ao Calendarium!</h3>
-      <br>
-      <div class="card-panel">Com o Calendarium é possível cadastrar eventos e convidar seus amigos para partipar!<br>Para começar a usar basta <a routerLink="/conta/registrar" class="bold">criar uma conta</a>, ou caso você já tenha uma é só fazer <a routerLink="/conta/login" class="bold">login</a>.</div>
-    </div>
+  <div *ngIf="!loggedIn">
+    <h3>Bem vindo ao Calendarium!</h3>
+    <br>
+    <div class="card-panel">Com o Calendarium é possível cadastrar eventos e convidar seus amigos para partipar!
+      <br>Para começar a usar basta
+      <a routerLink="/conta/registrar" class="bold">criar uma conta</a>, ou caso você já tenha uma é só fazer
+      <a routerLink="/conta/login" class="bold">login</a>.</div>
+  </div>
 
-    <div *ngIf="loggedIn">
-      <h3>Bem vindo, {{ user_first_name }}</h3>
-      <br>
-      <h4>Próximos Eventos</h4>
-    </div>
+  <div *ngIf="loggedIn">
+    <h3>Bem vindo, {{ user_first_name }}</h3>
+    <br>
+    <h4>Próximos Eventos</h4>
+    <ul class="collection card">
+      <div *ngFor="let evento of eventos; index as i">
+        <div *ngIf="i != 0" class="divider"></div>
+
+        <li class="collection-item" [ngClass]="{'yellow lighten-4': evento['creator']}"  style="padding: 0">
+          <div class="row" style="width: 100%; margin-bottom: 0; margin-left: 0;">
+            <div class="m8 s7 col" style="min-height: 100%; padding: .5rem 24px;">
+              <span>
+                <strong>{{ evento['event']['name'] }}</strong>
+              </span>
+              <br>
+
+              <div *ngIf="evento['creator']">
+                <span class="grey-text">De: </span> {{ evento['creator'] }}
+              </div>
+
+              <div *ngIf="!evento['creator']">
+                <span class="grey-text">Confirmados:&nbsp;</span><span>{{ evento['subscribed'] }}</span>
+                <span class="grey-text">Pendentes:&nbsp;</span><span>{{ evento['invited'] }}</span>
+                <span class="grey-text">Não&nbsp;irão:&nbsp;</span><span>{{ evento['rejected'] }}</span>
+              </div>
+
+            </div>
+
+            <div class="m4 s5 col center-align" style="margin-left: 0; padding: .5rem 24px .5rem 0;">
+
+              <div *ngIf="formService.comaparaDatas(evento['event']['start_datetime'], evento['event']['end_datetime']) == 'igual'">
+                <span>Dia {{ evento['event']['start_datetime'] | date : 'dd/MM/yyyy' }}</span>
+                <div class="divider"></div>
+                <span class="grey-text">
+                  {{ evento['event']['start_datetime'] | date : 'HH:mm' }}
+                  <span *ngIf="!formService.comparaHoras(evento['event']['start_datetime'], evento['event']['end_datetime'])">
+                  - {{ evento['event']['end_datetime'] | date : 'HH:mm' }}
+                  </span>
+                </span>
+              </div>
+
+              <div *ngIf="formService.comaparaDatas(evento['event']['start_datetime'], evento['event']['end_datetime']) != 'igual'">
+                <span>
+                  Dia {{ evento['event']['start_datetime'] | date : 'dd/MM/yyyy'}} às {{ evento['event']['start_datetime'] | date : 'HH:mm' }}
+                </span>
+                <div class="divider"></div>
+                <span class="grey-text">
+                  Até dia {{ evento['event']['end_datetime'] | date : 'dd/MM/yyyy' }} às {{ evento['event']['end_datetime'] | date : 'HH:mm' }}
+                </span>
+              </div>
+
+            </div>
+          </div>
+        </li>
+      </div>
+    </ul>
+  </div>
 
 </div>

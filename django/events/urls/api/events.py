@@ -7,6 +7,7 @@ from events.views.api.event import (
     event_get,
     event_subscriptions_list_month,
     event_subscriptions_list_year,
+    event_next_list
 )
 
 
@@ -40,5 +41,10 @@ urlpatterns = [
         r'^get_by_date/(?P<year>[0-9]+)/$',
         event_subscriptions_list_year,
         name='api_event_get_by_date'
+    ),
+    url(
+        r'^get_next/(?P<count>[0-9]+)/$',
+        event_next_list,
+        name='api_event_get_next'
     ),
 ]

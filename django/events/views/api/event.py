@@ -1,6 +1,5 @@
-from django.contrib.auth import get_user_model
-from django.db.models import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
+from django.utils.timezone import now
 
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -212,6 +211,55 @@ def event_subscriptions_list_year(request, year):
                         'subscribed': subscribed,
                         'rejected': rejected,
                     })
+
+    return Response({
+            'success': success,
+            'msg': msg
+        }, status=status.HTTP_200_OK
+    )
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated,))
+def event_next_list(request, count):
+    success = True
+    msg = []
+
+    next_events = request.user.eventsubscription_set \
+        .filter(event__start_datetime__gte=now()) \
+        .order_by('event__start_datetime')[:int(count)]
+
+    for index, subs in enumerate(next_events):
+        msg.append({
+            'event': EventSerializer(subs.event).data,
+            'creator': (
+                subs.event.creator.first_name + ' ' +
+                subs.event.creator.last_name
+                if subs.event.creator != request.user
+                else None
+                # 'None' vira 'null' ao parsear em JSON
+            ),
+        })
+
+        if subs.event.creator == request.user:
+            subscribed = EventSubscription.objects \
+                .filter(event=subs.event) \
+                .exclude(user=request.user) \
+                .count()
+            invited = EventInvitation.objects \
+                .filter(event=subs.event) \
+                .exclude(rejected=True) \
+                .count()
+            rejected = EventInvitation.objects \
+                .filter(event=subs.event) \
+                .exclude(rejected=False) \
+                .count()
+
+            msg[index].update({
+                'invited': invited,
+                'subscribed': subscribed,
+                'rejected': rejected,
+            })
 
     return Response({
             'success': success,

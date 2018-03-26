@@ -15,8 +15,6 @@ import { EventosConvidarComponent } from './eventos-convidar/eventos-convidar.co
 import { EventosListaComponent } from './eventos-lista/eventos-lista.component';
 
 
-
-
 @NgModule({
   imports: [
     MaterializeModule,

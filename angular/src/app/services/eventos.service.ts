@@ -43,4 +43,9 @@ export class EventosService {
             .map(response => response);
     }
 
+    public getEventosProximos(quantidade: number) {
+        return this.httpService.get(`http://localhost:8000/api/events/get_next/${quantidade}/`)
+            .map(response => response);
+    }
+
 }

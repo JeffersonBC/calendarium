@@ -9,8 +9,8 @@ from ..models import Event, EventSubscription
 class EventSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=254)
     description = serializers.CharField(allow_blank=True)
-    start_datetime = serializers.DateTimeField(default=now)
-    end_datetime = serializers.DateTimeField(default=now)
+    start_datetime = serializers.DateTimeField()
+    end_datetime = serializers.DateTimeField()
 
     class Meta:
         model = Event

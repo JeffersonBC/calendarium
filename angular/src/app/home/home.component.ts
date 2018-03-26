@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { LoginEmitService } from '../services/login-emit.service';
 import { ContasService } from '../services/contas.service';
+import { EventosService } from '../services/eventos.service';
+import { FormService } from '../services/form.service';
 
 
 @Component({
@@ -14,13 +16,26 @@ export class HomeComponent implements OnInit {
   public loggedIn = false;
   public user_first_name = '';
 
+  public eventos: any[] = [];
+
   constructor(
     private contasService: ContasService,
     private loginEmitService: LoginEmitService,
+    private eventosService: EventosService,
+    public formService: FormService,
   ) {
+
     loginEmitService.changeEmitted$.subscribe(
       bool => {
         this.loggedIn = bool;
+      }
+    );
+
+    this.eventosService.getEventosProximos(5).subscribe(
+      dados => {
+        if (dados['success']) {
+          this.eventos = dados['msg'];
+        }
       }
     );
   }

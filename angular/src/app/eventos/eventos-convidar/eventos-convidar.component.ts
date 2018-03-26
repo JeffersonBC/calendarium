@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Select2OptionData } from 'ng2-select2';
 
 import { ConviteService } from '../../services/convite.service';
+import { CacheEventosService } from '../../services/cache-eventos.service';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class EventosConvidarComponent implements OnInit {
     private conviteService: ConviteService,
     private route: ActivatedRoute,
     private router: Router,
+    private cacheEventosService: CacheEventosService,
   ) { }
 
   ngOnInit() {
@@ -38,7 +40,6 @@ export class EventosConvidarComponent implements OnInit {
       this.route.snapshot.params['id']
     ).subscribe(
       dados => {
-        console.log(dados);
         this.router.navigate(['/eventos']);
       }
     );

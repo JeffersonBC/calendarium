@@ -73,4 +73,36 @@ export class FormService {
             }
         });
     }
+
+    comaparaDatas(inicio: string, fim: string): string {
+        const d0 = new Date(inicio);
+        const df = new Date(fim);
+
+        if (d0.getFullYear() === df.getFullYear()) {
+            if (d0.getMonth() === df.getMonth()) {
+                if (d0.getDate() === df.getDate()) {
+                    return 'igual';
+                } else {
+                    return 'dia_dif';
+                }
+            } else {
+                    return 'mes_dif';
+            }
+        } else {
+            return 'ano_dif';
+        }
+    }
+
+    // Verdadeiro se horas iguais, falso se diferentes
+    comparaHoras(inicio: string, fim: string): boolean {
+        const d0 = new Date(inicio);
+        const df = new Date(fim);
+
+        const result = (
+            d0.getHours() === df.getHours() &&
+            d0.getMinutes() === df.getMinutes()
+        );
+
+        return result;
+    }
 }
