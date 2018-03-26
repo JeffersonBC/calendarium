@@ -114,7 +114,7 @@ def event_get(request, event_id):
 
 @api_view(['GET'])
 @permission_classes((IsAuthenticated,))
-def event_subscriptions_list(request, year, month):
+def event_subscriptions_list_month(request, year, month):
     success = True
     msg = ''
 
@@ -163,7 +163,7 @@ def event_subscriptions_list(request, year, month):
 
 @api_view(['GET'])
 @permission_classes((IsAuthenticated,))
-def event_subscriptions_list(request, year):
+def event_subscriptions_list_year(request, year):
     success = True
     msg = ''
 

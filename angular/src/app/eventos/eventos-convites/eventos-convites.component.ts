@@ -14,7 +14,7 @@ export class EventosConvitesComponent implements OnInit {
   public mensagem = '';
   public temConvitesPendentes = false;
 
-  public cache_convites: any[];
+  public cache_convites: any[] = [];
 
 
   constructor(

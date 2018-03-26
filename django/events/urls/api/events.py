@@ -5,7 +5,8 @@ from events.views.api.event import (
     event_update,
     event_delete,
     event_get,
-    event_subscriptions_list,
+    event_subscriptions_list_month,
+    event_subscriptions_list_year,
 )
 
 
@@ -32,12 +33,12 @@ urlpatterns = [
     ),
     url(
         r'^get_by_date/(?P<year>[0-9]+)/(?P<month>[0-9]+)/$',
-        event_subscriptions_list,
+        event_subscriptions_list_month,
         name='api_event_get_by_date'
     ),
     url(
         r'^get_by_date/(?P<year>[0-9]+)/$',
-        event_subscriptions_list,
+        event_subscriptions_list_year,
         name='api_event_get_by_date'
     ),
 ]

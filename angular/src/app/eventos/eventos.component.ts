@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { MaterializeAction } from 'angular2-materialize';
 
 import { EventosService } from '../services/eventos.service';
+import { CacheEventosService } from '../services/cache-eventos.service';
 
 
 @Component({
@@ -21,58 +22,30 @@ export class EventosComponent implements OnInit {
   public hoje_mes = this.hoje.getMonth() + 1;
   public hoje_ano = this.hoje.getFullYear();
 
-  public cache_eventos = {};
-
-
-
   constructor(
-    private eventoService: EventosService
+    private eventoService: EventosService,
+    public cacheEventoService: CacheEventosService
   ) { }
 
   ngOnInit() {
-    for (let ano = 2018; ano <= 2023; ano++) {
-      this.cache_eventos[`${ano}`] = {};
+    if (!this.cacheEventoService.cache[`${this.hoje_ano}`]['carregado']) {
+      this.cacheEventoService.carregarAno(this.hoje_ano);
 
-      for (let mes = 1; mes <= 12; mes++) {
-        this.cache_eventos[`${ano}`][`${mes}`] = [];
-      }
+    } else {
+      this.cacheEventoService.atualizarMes(this.hoje_ano, this.hoje_mes);
     }
-
-    this.carregarEventosAno(this.hoje_ano);
-  }
-
-  public carregarEventosAno(ano: number) {
-    this.eventoService.getEventoPorData(ano).subscribe(
-      dados => {
-        if (dados['success']) {
-          this.cache_eventos[`${ano}`]['carregado'] = true;
-
-          for (const key in dados['msg']) {
-            if (dados['msg'].hasOwnProperty(key)) {
-
-              for (const evento in dados['msg'][key]) {
-                if (dados['msg'][key].hasOwnProperty(evento)) {
-
-                  this.cache_eventos[`${ano}`][`${key}`]
-                    .push(dados['msg'][key][evento]);
-                }
-              }
-            }
-          }
-        }
-      }
-    );
   }
 
   public setMes(mes: number) {
     this.hoje_mes = mes;
+    this.cacheEventoService.atualizarMes(this.hoje_ano, this.hoje_mes);
   }
 
   public setAno(ano: number) {
     this.hoje_ano = ano;
 
-    if (!this.cache_eventos[`${ano}`]['carregado']) {
-      this.carregarEventosAno(ano);
+    if (!this.cacheEventoService.cache[`${ano}`]['carregado']) {
+      this.cacheEventoService.carregarAno(ano);
     }
   }
 

@@ -33,9 +33,13 @@ export class EventosService {
             .map(response => response);
     }
 
-    public getEventoPorData(ano: number) {
-
+    public getEventosAno(ano: number) {
         return this.httpService.get(`http://localhost:8000/api/events/get_by_date/${ano}/`)
+            .map(response => response);
+    }
+
+    public getEventosMes(ano: number, mes: number) {
+        return this.httpService.get(`http://localhost:8000/api/events/get_by_date/${ano}/${mes}/`)
             .map(response => response);
     }
 

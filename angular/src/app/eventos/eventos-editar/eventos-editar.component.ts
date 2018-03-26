@@ -6,6 +6,7 @@ import { EventosService } from '../../services/eventos.service';
 import { FormService } from '../../services/form.service';
 
 import { Evento } from '../models/evento.model';
+import { CacheEventosService } from '../../services/cache-eventos.service';
 
 
 declare const Materialize;
@@ -30,6 +31,7 @@ export class EventosEditarComponent implements OnInit {
     private eventoService: EventosService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
+    private cacheEventosService: CacheEventosService,
   ) { }
 
   materializeDateParams() {
@@ -98,6 +100,7 @@ export class EventosEditarComponent implements OnInit {
           dados => {
             if (dados['success']) {
               this.router.navigate(['/eventos']);
+              this.cacheEventosService.setMesDirty(parseInt(s_date[2], 10), parseInt(s_date[1], 10));
 
             } else {
               this.mensagemErro = dados['msg'];
@@ -110,6 +113,7 @@ export class EventosEditarComponent implements OnInit {
           dados => {
             if (dados['success']) {
               this.router.navigate(['/eventos']);
+              this.cacheEventosService.setMesDirty(parseInt(s_date[2], 10), parseInt(s_date[1], 10));
 
             } else {
               this.mensagemErro = dados['msg'];
@@ -128,6 +132,10 @@ export class EventosEditarComponent implements OnInit {
       this.eventoService.postEventoDeletar(this.activatedRoute.snapshot.params['id'])
       .subscribe(dados => {
           console.log(dados);
+
+          const s_date: string[] = this.formulario.value['start_date'].split('/');
+          this.cacheEventosService.setMesDirty(parseInt(s_date[2], 10), parseInt(s_date[1], 10));
+
           this.router.navigate(['/eventos']);
         }
       );

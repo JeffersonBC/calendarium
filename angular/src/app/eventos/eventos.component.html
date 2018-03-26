@@ -30,7 +30,7 @@
   </div>
 
   <app-eventos-lista
-    [objetos]="cache_eventos['' + hoje_ano]['' + hoje_mes]"
+    [objetos]="cacheEventoService.cache['' + hoje_ano]['' + hoje_mes]"
     [mensagemArrayVazio]="'Não há nenhum evento cadastrado neste mês.'">
   </app-eventos-lista>
 

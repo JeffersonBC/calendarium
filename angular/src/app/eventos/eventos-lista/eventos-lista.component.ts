@@ -1,6 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+
 import { EventosService } from '../../services/eventos.service';
 import { ConviteService } from '../../services/convite.service';
+import { CacheEventosService } from '../../services/cache-eventos.service';
+import { FormService } from '../../services/form.service';
 
 @Component({
   selector: 'app-eventos-lista',
@@ -16,7 +19,9 @@ export class EventosListaComponent {
 
 
   constructor(
-    private conviteService: ConviteService
+    private conviteService: ConviteService,
+    private cacheEventosService: CacheEventosService,
+    private formService: FormService
   ) { }
 
   public comaparaDatas(inicio: string, fim: string): string {
@@ -72,6 +77,10 @@ export class EventosListaComponent {
       const responder$ = this.conviteService.postConviteAceitar(object_id).subscribe(
         dados => {
           if (dados['success']) {
+            // ISO DATE = 'yyyy-MM-ddThh:mm:ss'
+            const start_date = this.formService.isoDateToArray(this.objetos[array_id]['event']['start_datetime']);
+            this.cacheEventosService.setMesDirty(parseInt(start_date[0], 10), parseInt(start_date[1], 10));
+
             this.objetos.splice(array_id, 1);
 
           } else {
