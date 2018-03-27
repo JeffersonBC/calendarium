@@ -1,4 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { EventosService } from '../../services/eventos.service';
+import { FormService } from '../../services/form.service';
+
+import { Evento } from '../models/evento.model';
+import { CacheEventosService } from '../../services/cache-eventos.service';
 
 
 declare const Materialize;
@@ -11,45 +19,127 @@ declare const Materialize;
 })
 export class EventosEditarComponent implements OnInit {
 
-  private date_params = [{
-    monthsShort: [ 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez' ],
-    monthsFull: [ 'Janeiro', 'Fevereiro', 'Marco', 'Abril', 'Maio', 'Junho',
-    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro' , 'Dezembro' ],
-    weekdaysFull: [ 'Domingo', 'Segunda-Feira', 'Terca-Feira', 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira', 'Sabado' ],
-    weekdaysShort: [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab' ],
-    weekdaysLetter: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
-    format: 'dd/mm/yyyy',
-    min: [2018, 0, 1],
-    max: [2023, 11, 31],
-    selectMonths: true,
-    selectYears: 20,
-    today: 'Hoje',
-    clear: 'Limpar',
-    close: 'Ok',
-    closeOnSelect: false
-  }];
+  public formulario: FormGroup;
+  public editando: boolean;
 
-  private time_params = [{
-    default: '12:00',
-    twelvehour: false,
-    donetext: 'OK',
-    cleartext: 'Limpar',
-    canceltext: 'Cancelar',
-    autoclose: false
-  }];
+  public mensagemErro = '';
 
-  constructor() { }
+  constructor(
+    public formService: FormService,
+
+    private router: Router,
+    private eventoService: EventosService,
+    private formBuilder: FormBuilder,
+    private activatedRoute: ActivatedRoute,
+    private cacheEventosService: CacheEventosService,
+  ) { }
 
   materializeDateParams() {
-    return this.date_params;
+    return this.formService.getDateParams();
   }
 
   materializeTimeParams() {
-    return this.time_params;
+    return this.formService.getTimeParams();
   }
 
   ngOnInit() {
-    Materialize.updateTextFields();
+    this.editando = this.activatedRoute.snapshot.routeConfig.path === 'editar/:id';
+
+    this.formulario = this.formBuilder.group({
+      name: [null, Validators.required],
+      description: [null],
+      start_date: [null, Validators.required],
+      start_time: [null, Validators.required],
+      end_date: [null, Validators.required],
+      end_time: [null, Validators.required],
+    });
+
+    if (this.editando) {
+      this.eventoService.getEvento(this.activatedRoute.snapshot.params['id'])
+        .subscribe(dados => {
+            const start = this.formService.isoDateToArray(dados['msg']['start_datetime']);
+            const end = this.formService.isoDateToArray(dados['msg']['end_datetime']);
+
+            this.formulario.patchValue({
+              name: dados['msg']['name'],
+              description: dados['msg']['description'],
+              start_date: `${start[2]}/${start[1]}/${start[0]}`,
+              start_time: `${start[3]}:${start[4]}`,
+              end_date: `${end[2]}/${end[1]}/${end[0]}`,
+              end_time: `${end[3]}:${end[4]}`,
+            });
+            Materialize.updateTextFields();
+          }
+        );
+
+    } else {
+      Materialize.updateTextFields();
+    }
+  }
+
+  onSubmit() {
+    if (this.formulario.valid) {
+      const s_date: string[] = this.formulario.value['start_date'].split('/');
+      const s_time: string[] = this.formulario.value['start_time'].split(':');
+
+      const e_date: string[] = this.formulario.value['end_date'].split('/');
+      const e_time: string[] = this.formulario.value['end_time'].split(':');
+
+      const start_datetime = `${s_date[2]}-${s_date[1]}-${s_date[0]}T${s_time[0]}:${s_time[1]}:00`;
+      const end_datetime   = `${e_date[2]}-${e_date[1]}-${e_date[0]}T${e_time[0]}:${e_time[1]}:00`;
+
+      const evento: Evento = {
+        name: this.formulario.value['name'],
+        description: this.formulario.value['description'] == null ? '' : this.formulario.value['description'],
+        start_datetime: start_datetime,
+        end_datetime: end_datetime
+      };
+
+      if (this.editando) {
+        this.eventoService.postEventoAtualizar(evento, this.activatedRoute.snapshot.params['id']).subscribe(
+          dados => {
+            if (dados['success']) {
+              this.router.navigate(['/eventos']);
+              this.cacheEventosService.setMesDirty(parseInt(s_date[2], 10), parseInt(s_date[1], 10));
+
+            } else {
+              this.mensagemErro = dados['msg'];
+            }
+          }
+        );
+
+      } else {
+        this.eventoService.postEventoAdicionar(evento).subscribe(
+          dados => {
+            if (dados['success']) {
+              this.router.navigate(['/eventos']);
+              this.cacheEventosService.setMesDirty(parseInt(s_date[2], 10), parseInt(s_date[1], 10));
+
+            } else {
+              this.mensagemErro = dados['msg'];
+            }
+          }
+        );
+      }
+
+    } else {
+      this.formService.verificaValidacoesForm(this.formulario);
+    }
+  }
+
+  delete() {
+    if (confirm('Tem certeza que deseja DELETAR este evento?')) {
+      this.eventoService.postEventoDeletar(this.activatedRoute.snapshot.params['id'])
+      .subscribe(dados => {
+          console.log(dados);
+
+          const s_date: string[] = this.formulario.value['start_date'].split('/');
+          this.cacheEventosService.setMesDirty(parseInt(s_date[2], 10), parseInt(s_date[1], 10));
+
+          this.router.navigate(['/eventos']);
+        }
+      );
+    }
   }
 
 }

@@ -2,45 +2,91 @@
   <div class="col s12 m8 offset-m2">
     <h3>Convidar para evento</h3>
 
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title"></span>
+    <div *ngIf="evento_detalhes?.event">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">{{ evento_detalhes.event.name }}</span>
 
-          <p></p>
-          <br>
+          <div *ngIf="evento_detalhes.event.description">
+            <p>{{ evento_detalhes.event.description }}</p>
+            <br>
+          </div>
 
-        <p><span class="grey-text">De: </span></p>
-        <p><span class="grey-text">Até: </span></p>
+          <p><span class="grey-text">De: </span>{{ evento_detalhes.event.start_datetime | date:'dd/ MM/ yyyy\', às\' HH:mm'}}</p>
+          <p><span class="grey-text">Até: </span>{{ evento_detalhes.event.end_datetime | date:'dd/ MM/ yyyy\', às\' HH:mm'}}</p>
+
+          <div *ngIf="evento_detalhes.invitations.subscribed.length > 0">
+            <div class="divider" style="margin: 1rem 0;"></div>
+            <span class="card-title">Confirmados</span>
+            <div *ngFor="let user of evento_detalhes.invitations.subscribed">
+              <p>
+                {{ user.user__first_name }} {{ user.user__last_name }}
+              </p>
+            </div>
+          </div>
+
+          <div *ngIf="evento_detalhes.invitations.invited.length > 0">
+            <div class="divider" style="margin: 1rem 0;"></div>
+            <span class="card-title">Convidados</span>
+
+            <div *ngFor="let user of evento_detalhes.invitations.invited">
+              <p>
+                {{ user.user__first_name }} {{ user.user__last_name }}
+              </p>
+            </div>
+          </div>
+
+          <div *ngIf="evento_detalhes.invitations.rejected.length > 0">
+            <div class="divider" style="margin: 1rem 0;"></div>
+            <span class="card-title">Não irão</span>
+
+            <div *ngFor="let user of evento_detalhes.invitations.rejected">
+              <p>
+                {{ user.user__first_name }} {{ user.user__last_name }}
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
 
 
-          <div class="divider" style="margin: 1rem 0;"></div>
-          <span class="card-title">Confirmados</span>
+        <div class="row">
+          <div class="col s12">
+            <div class="input-field">
+              <div class="select-wrapper">
+                <select2 id="user_select"
+                  [data]="evento_detalhes.users"
+                  [width]="'100%'"
+                  [options]="options"
+                  (valueChanged)="changed($event)">
+                </select2>
+              </div>
 
-            <p></p>
+              <label>Convidar usuários</label>
+            </div>
+          </div>
+        </div>
 
+        <div class="row">
+          <div class="col s12">
+            <div class="right">
+              <button type="submit" class="btn waves-effect waves-light" (click)="onSubmit()" [disabled]="ids_usuarios == ''">
+                <i class="material-icons left">send</i>Enviar Convite</button>
+            </div>
+          </div>
+        </div>
 
-          <div class="divider" style="margin: 1rem 0;"></div>
-          <span class="card-title">Convidados</span>
+    </div>
 
-            <p></p>
-
-
-
-          <div class="divider" style="margin: 1rem 0;"></div>
-          <span class="card-title">Não irão</span>
-
-            <p></p>
-
+    <div *ngIf="!evento_detalhes" class="center-align">
+      <div class="preloader-wrapper small active">
+        <div class="spinner-layer spinner-green-only">
+          <div class="circle-clipper left"><div class="circle"></div></div>
+          <div class="gap-patch"><div class="circle"></div></div>
+          <div class="circle-clipper right"><div class="circle"></div></div>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col s12 m8 offset-m2">
-    <form method="post">
-
-
-      <div class="right">
-        <button type="submit" class="btn waves-effect waves-light"><i class="material-icons left">send</i>Enviar Convite</button>
-      </div>
-    </form>
   </div>
 </div>

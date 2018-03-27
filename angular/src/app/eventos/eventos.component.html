@@ -2,43 +2,36 @@
   <div class="col s12">
     <h3>Eventos</h3>
     <div class="fixed-action-btn">
-      <a routerLink="adicionar" class="btn-floating btn-large waves-effect waves-light"><i class="large material-icons">add</i></a>
+      <a routerLink="adicionar" class="btn-floating btn-large waves-effect waves-light">
+        <i class="large material-icons">add</i>
+      </a>
     </div>
   </div>
 
+  <!-- BARRA DE MESES -->
   <div class="col s12 card">
-    <div class="card-action pagination">
-      <a class="black-text">Jan</a>
-      <a class="black-text">Fev</a>
-      <a class="black-text">Mar</a>
-      <a class="black-text">Abr</a>
-      <a class="black-text">Mai</a>
-      <a class="black-text">Jun</a>
-      <a class="black-text">Jul</a>
-      <a class="black-text">Ago</a>
-      <a class="black-text">Set</a>
-      <a class="black-text">Out</a>
-      <a class="black-text">Nov</a>
-      <a class="black-text">Dez</a>
-    </div>
+    <button class="btn-flat waves-effect waves-green green-text col s2 m1"
+      *ngFor="let mes of meses; index as i"
+      (click)="setMes(i + 1)"
+      [ngClass]="{'bold black-text': hoje_mes == i + 1 }">{{ mes }}</button>
   </div>
 
+  <!-- BARRA DE ANOS -->
   <div class="row">
     <div class="col s12 center-align">
       <ul class="pagination" style="margin-top: 0;">
-        <li class="waves-effect"><a>2018</a></li>
-        <li class="waves-effect"><a>2019</a></li>
-        <li class="waves-effect"><a>2020</a></li>
-        <li class="waves-effect"><a>2021</a></li>
-        <li class="waves-effect"><a>2022</a></li>
-        <li class="waves-effect"><a>2023</a></li>
+        <li *ngFor="let ano of anos"
+            [ngClass]="{'active': hoje_ano == ano, 'waves-effect': hoje_ano != ano}"
+            (click)="setAno(ano)" >
+          <a>{{ ano }}</a>
+        </li>
       </ul>
     </div>
   </div>
 
-
-    <div class="card-panel">
-      Não há nenhum cadastrado evento neste mês.
-    </div>
+  <app-eventos-lista
+    [objetos]="cacheEventoService.cache['' + hoje_ano]['' + hoje_mes]"
+    [mensagemArrayVazio]="'Não há nenhum evento cadastrado neste mês.'">
+  </app-eventos-lista>
 
 </div>

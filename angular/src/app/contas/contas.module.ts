@@ -1,5 +1,9 @@
+import { MaterializeModule } from 'angular2-materialize';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ContasRoutingModule } from './contas.routing.module';
 
@@ -10,7 +14,10 @@ import { ContaEsqueceuComponent } from './conta-esqueceu/conta-esqueceu.componen
 
 @NgModule({
   imports: [
+    MaterializeModule,
     CommonModule,
+    ReactiveFormsModule,
+    HttpClientModule,
     ContasRoutingModule,
   ],
   declarations: [

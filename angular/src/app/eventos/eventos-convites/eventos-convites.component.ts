@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ConviteService } from '../../services/convite.service';
+
+
 @Component({
   selector: 'app-eventos-convites',
   templateUrl: './eventos-convites.component.html',
@@ -7,9 +10,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventosConvitesComponent implements OnInit {
 
-  constructor() { }
+  public listaConvites$;
+  public mensagem = '';
+  public temConvitesPendentes = false;
+
+  public cache_convites: any[] = [];
+
+
+  constructor(
+    private conviteService: ConviteService,
+  ) { }
 
   ngOnInit() {
+    this.conviteService.getConviteListar().subscribe(
+      dados => this.cache_convites = dados
+    );
+  }
+
+  onMensagem(mensagem: string) {
+    console.log(mensagem);
+    this.mensagem = mensagem;
   }
 
 }
