@@ -46,8 +46,15 @@ export class AppComponent implements OnInit {
     // 'Pinga' o servidor ao iniciar e depois a cada 20s para ver se recebeu algum convite novo
     // Se usuário aceitar/ rejeitar convite, diminui quantidade na hora
     this.qtdConvites$ = this.conviteService.getConviteQuantidade();
-    this.checaConvitesServidor();
-    setInterval(() => this.checaConvitesServidor(), 1000 * 20);
+    if (this.loggedIn) {
+      this.checaConvitesServidor();
+    }
+    setInterval(() => {
+        if (this.loggedIn) {
+          this.checaConvitesServidor();
+        }
+      } , 1000 * 20
+    );
 
     this.conviteService.emitirQuantidade$.subscribe(
       n => this.qtdConvites += n

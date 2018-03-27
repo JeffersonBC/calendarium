@@ -32,22 +32,19 @@ def event_add(request):
         EventSubscription(user=request.user, event=event).save()
 
         msg = 'Evento criado com sucesso.'
-
-        return Response({
-                'success': success,
-                'msg': msg
-            }, status=status.HTTP_201_CREATED
-        )
+        http_status = status.HTTP_201_CREATED
 
     else:
         for key, value in serializer.errors.items():
             msg = msg.join(value)
 
-        return Response({
-                'success': success,
-                'msg': msg
-            }, status=status.HTTP_304_NOT_MODIFIED
-        )
+        http_status = status.HTTP_200_OK
+
+    return Response({
+            'success': success,
+            'msg': msg
+        }, status=http_status
+    )
 
 
 @api_view(['POST'])
@@ -68,22 +65,19 @@ def event_update(request, event_id):
     if success:
         event = serializer.save()
         msg = 'Evento atualizado com sucesso.'
-
-        return Response({
-                'success': success,
-                'msg': msg
-            }, status=status.HTTP_202_ACCEPTED
-        )
+        http_status = status.HTTP_202_ACCEPTED
 
     else:
         for key, value in serializer.errors.items():
             msg = msg.join(value)
 
-        return Response({
-                'success': success,
-                'msg': msg
-            }, status=status.HTTP_304_NOT_MODIFIED
-        )
+        http_status = status.HTTP_200_OK
+
+    return Response({
+            'success': success,
+            'msg': msg
+        }, status=http_status
+    )
 
 
 @api_view(['POST'])

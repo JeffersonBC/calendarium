@@ -201,12 +201,6 @@ def event_invite_accept(request, invitation_id):
         msg = 'Não é possível aceitar este convite pois há conflito de' \
             ' horário com os seguintes eventos:' + evs
 
-        return Response({
-                'success': success,
-                'msg': msg
-            }, status=status.HTTP_304_NOT_MODIFIED
-        )
-
     # Se não há conflitos...
     else:
         subscription = EventSubscription(
@@ -216,11 +210,11 @@ def event_invite_accept(request, invitation_id):
 
         msg = 'Inscrição no evento confirmada'
 
-        return Response({
-                'success': success,
-                'msg': msg
-            }, status=status.HTTP_200_OK
-        )
+    return Response({
+            'success': success,
+            'msg': msg
+        }, status=status.HTTP_200_OK
+    )
 
 
 @api_view(['POST'])
