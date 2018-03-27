@@ -36,7 +36,7 @@
             <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:
                 true}">
                 <a class="waves-effect" routerLink="eventos/convites">
-                    <i class="material-icons">mail_outline</i>Convites
+                    <i class="material-icons">mail_outline</i>Convites<span *ngIf="qtdConvites > 0"  class="new badge" data-badge-caption="">{{ qtdConvites }}</span>
                 </a>
             </li>
 

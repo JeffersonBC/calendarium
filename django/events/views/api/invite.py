@@ -265,3 +265,19 @@ def event_invite_cancel(request, subscription_id):
             'msg': 'Inscrição cancelada com sucesso.'
         }, status=status.HTTP_200_OK
     )
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated,))
+def event_invite_count(request):
+    count = EventInvitation.objects \
+        .filter(user_id=request.user) \
+        .filter(rejected=False) \
+        .count()
+
+    return Response({
+        'success': True,
+        'msg': {
+            'count': count
+        }
+    })

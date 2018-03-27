@@ -3,8 +3,12 @@ import { environment } from '../environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/timeInterval';
+
 import { LoginEmitService } from './services/login-emit.service';
 import { CacheEventosService } from './services/cache-eventos.service';
+import { ConviteService } from './services/convite.service';
 
 
 @Component({
@@ -17,23 +21,37 @@ export class AppComponent implements OnInit {
 
   public loggedIn = false;
 
+  public qtdConvites = 0;
+  private qtdConvites$;
+
   constructor(
     private router: Router,
     private loginEmitService: LoginEmitService,
     private eventosCacheService: CacheEventosService,
-  ) {
-    loginEmitService.changeEmitted$.subscribe(
+    private conviteService: ConviteService,
+  ) {}
+
+  ngOnInit() {
+    // Checa se está logado agora e verifica mudanças de status de login
+    if (localStorage.getItem('auth_token')) {
+      this.loggedIn = true;
+    }
+
+    this.loginEmitService.changeEmitted$.subscribe(
       bool => {
         this.loggedIn = bool;
       }
     );
-  }
 
-  ngOnInit() {
-    const token = localStorage.getItem('auth_token');
-    if (token) {
-      this.loggedIn = true;
-    }
+    // 'Pinga' o servidor ao iniciar e depois a cada 20s para ver se recebeu algum convite novo
+    // Se usuário aceitar/ rejeitar convite, diminui quantidade na hora
+    this.qtdConvites$ = this.conviteService.getConviteQuantidade();
+    this.checaConvitesServidor();
+    setInterval(() => this.checaConvitesServidor(), 1000 * 20);
+
+    this.conviteService.emitirQuantidade$.subscribe(
+      n => this.qtdConvites += n
+    );
   }
 
   public logoff() {
@@ -43,6 +61,14 @@ export class AppComponent implements OnInit {
     this.eventosCacheService.limparCache();
 
     this.router.navigate(['']);
+  }
+
+  private checaConvitesServidor() {
+    this.qtdConvites$.subscribe(
+      dados => {
+        this.qtdConvites = dados['msg']['count'];
+      }
+    );
   }
 
 }

@@ -54,13 +54,10 @@ export class CacheEventosService {
 
       this.meses_dirty[ano.toString()][mes.toString()] = true;
     }
-    console.log(this.meses_dirty);
   }
 
   public setMesDirtyIsoDate(dateTime: string) {
     // ISO DATE = 'yyyy-MM-ddThh:mm:ss'
-    console.log(dateTime);
-
     const start_date = this.formService.isoDateToArray(dateTime);
     this.setMesDirty(parseInt(start_date[0], 10), parseInt(start_date[1], 10));
   }

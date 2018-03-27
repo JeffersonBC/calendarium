@@ -21,7 +21,7 @@ export class EventosListaComponent {
   constructor(
     private conviteService: ConviteService,
     private cacheEventosService: CacheEventosService,
-    public formService: FormService
+    public formService: FormService,
   ) { }
 
   public cancelar(array_id: number, object_id: number) {
@@ -49,6 +49,7 @@ export class EventosListaComponent {
             this.cacheEventosService.setMesDirtyIsoDate(this.objetos[array_id]['event']['start_datetime']);
 
             this.objetos.splice(array_id, 1);
+            this.conviteService.emitirMudancaQtd(-1);
 
           } else {
             this.emitirMensagem.emit(dados['msg']);
@@ -64,7 +65,7 @@ export class EventosListaComponent {
           dados => {
             if (dados['success']) {
               this.objetos.splice(array_id, 1);
-
+              this.conviteService.emitirMudancaQtd(-1);
             } else {
               this.emitirMensagem.emit(dados['msg']);
             }

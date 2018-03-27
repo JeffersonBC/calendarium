@@ -12,11 +12,12 @@
     <h3>Bem vindo, {{ user_first_name }}</h3>
     <br>
     <h4>Próximos Eventos</h4>
+    <a [routerLink]="['/eventos']" class="btn waves-effect waves-light"><i class="material-icons left">visibility</i>Ver todos</a>
     <ul class="collection card">
       <div *ngFor="let evento of eventos; index as i">
         <div *ngIf="i != 0" class="divider"></div>
 
-        <li class="collection-item" [ngClass]="{'yellow lighten-4': evento['creator']}"  style="padding: 0">
+        <li class="collection-item" [ngClass]="{'yellow lighten-4': evento['creator']}" style="padding: 0">
           <div class="row" style="width: 100%; margin-bottom: 0; margin-left: 0;">
             <div class="m8 s7 col" style="min-height: 100%; padding: .5rem 24px;">
               <span>

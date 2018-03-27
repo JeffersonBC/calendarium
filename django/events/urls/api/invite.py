@@ -7,6 +7,7 @@ from events.views.api.invite import (
     event_invite_accept,
     event_invite_reject,
     event_invite_cancel,
+    event_invite_count,
 )
 
 
@@ -41,5 +42,10 @@ urlpatterns = [
         r'^invitations/cancel/(?P<subscription_id>[0-9]+)/$',
         event_invite_cancel,
         name='api_event_invite_cancel'
+    ),
+    url(
+        r'^invitations/count/$',
+        event_invite_count,
+        name='api_event_invite_count'
     ),
 ]
