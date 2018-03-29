@@ -13,8 +13,10 @@ import { CacheEventosService } from '../services/cache-eventos.service';
   styleUrls: ['./eventos.component.css']
 })
 export class EventosComponent implements OnInit {
-  public meses: string[] = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
-    'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+  public meses: string[] = [
+    'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+    'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+  ];
 
   public anos: number[] = [2018, 2019, 2020, 2021, 2022, 2023];
 

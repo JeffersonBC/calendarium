@@ -1,4 +1,4 @@
-export const getUsuarioLogado = {
+export const getUsuarioLogadoObject = {
   'success': true,
   'msg': {
     'id': 1,
@@ -11,4 +11,8 @@ export const getUsuarioLogado = {
     'is_staff': false,
     'is_superuser': false
   }
+};
+
+export const postLoginObject = {
+  'token': 'ad2ae62a7828be96ca4d10ea57563dc9988dc300'
 };

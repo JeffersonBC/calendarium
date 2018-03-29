@@ -13,6 +13,7 @@ const routes: Routes = [
     { path: 'editar/:id', component: EventosEditarComponent },
     { path: 'convites', component: EventosConvitesComponent },
     { path: 'convidar/:id', component: EventosConvidarComponent },
+    { path: ':404', redirectTo: '', pathMatch: 'full' },
 ];
 
 

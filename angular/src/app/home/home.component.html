@@ -40,7 +40,7 @@
             <div class="m4 s5 col center-align" style="margin-left: 0; padding: .5rem 24px .5rem 0;">
 
               <div *ngIf="formService.comaparaDatas(evento['event']['start_datetime'], evento['event']['end_datetime']) == 'igual'">
-                <span>Dia {{ evento['event']['start_datetime'] | date : 'dd/MM/yyyy' }}</span>
+                <span>{{ evento['event']['start_datetime'] | date : 'dd \'de\' MMMM \'de\' yyyy' }}</span>
                 <div class="divider"></div>
                 <span class="grey-text">
                   {{ evento['event']['start_datetime'] | date : 'HH:mm' }}
@@ -52,11 +52,11 @@
 
               <div *ngIf="formService.comaparaDatas(evento['event']['start_datetime'], evento['event']['end_datetime']) != 'igual'">
                 <span>
-                  Dia {{ evento['event']['start_datetime'] | date : 'dd/MM/yyyy'}} às {{ evento['event']['start_datetime'] | date : 'HH:mm' }}
+                  {{ evento['event']['start_datetime'] | date : 'dd \'de\' MMMM \'de\' yyyy \'às\' HH:mm' }}
                 </span>
                 <div class="divider"></div>
                 <span class="grey-text">
-                  Até dia {{ evento['event']['end_datetime'] | date : 'dd/MM/yyyy' }} às {{ evento['event']['end_datetime'] | date : 'HH:mm' }}
+                  Até {{ evento['event']['end_datetime'] | date : 'dd \'de\' MMMM \'de\' yyyy \'às\' HH:mm' }}
                 </span>
               </div>
 

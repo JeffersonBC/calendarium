@@ -153,3 +153,14 @@ export const getEventosProximosObject = {
     }
   ],
 };
+
+export const getEventoObject = {
+  'success': true,
+  'msg': {
+    'id': 33,
+    'name': 'Evento de Teste',
+    'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum egestas enim maximus condimentum.',
+    'start_datetime': '2018-03-21T12:00:00',
+    'end_datetime': '2018-03-22T12:00:00'
+  }
+};

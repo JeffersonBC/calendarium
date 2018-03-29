@@ -10,6 +10,7 @@ const routes: Routes = [
         { path: 'login', component: ContaLoginComponent },
         { path: 'registrar', component: ContaRegistrarComponent },
         { path: 'esqueceu_senha', component: ContaEsqueceuComponent },
+        { path: ':404', redirectTo: '', pathMatch: 'full' },
     ] },
 ];
 

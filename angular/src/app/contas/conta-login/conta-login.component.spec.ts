@@ -1,11 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { ContaLoginComponent } from './conta-login.component';
-import { services } from '../../services';
+
+import { FormService } from '../../services/form.service';
+import { LoginEmitService } from '../../services/login-emit.service';
+import { ContasService } from '../../services/contas.service';
+
+import { MockContasService } from '../../../testing/mock-services/mock.contas.service';
 
 describe('ContaLoginComponent', () => {
   let component: ContaLoginComponent;
@@ -16,11 +20,14 @@ describe('ContaLoginComponent', () => {
       declarations: [ ContaLoginComponent ],
       imports: [
         CommonModule,
-        HttpClientModule,
         ReactiveFormsModule,
         RouterTestingModule,
       ],
-      providers: [ ...services ]
+      providers: [
+        FormService,
+        LoginEmitService,
+        { provide: ContasService, useValue: MockContasService },
+      ],
     })
     .compileComponents();
   }));

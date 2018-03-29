@@ -8,7 +8,7 @@ const appRoutes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'conta', loadChildren: 'app/contas/contas.module#ContasModule' },
     { path: 'eventos', loadChildren: 'app/eventos/eventos.module#EventosModule' },
-    { path: ':404', component: Page404Component },
+    { path: ':404', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({
