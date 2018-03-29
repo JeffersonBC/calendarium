@@ -19,7 +19,7 @@ export class FormService {
         clear: 'Limpar',
         close: 'Ok',
         closeOnSelect: false
-        }];
+    }];
 
     private time_params = [{
         default: '12:00',

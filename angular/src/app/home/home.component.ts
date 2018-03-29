@@ -20,11 +20,10 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private contasService: ContasService,
-    private loginEmitService: LoginEmitService,
     private eventosService: EventosService,
     public formService: FormService,
+    private loginEmitService: LoginEmitService,
   ) {
-
     loginEmitService.changeEmitted$.subscribe(
       bool => {
         this.loggedIn = bool;

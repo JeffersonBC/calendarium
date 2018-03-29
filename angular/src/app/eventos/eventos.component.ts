@@ -23,7 +23,6 @@ export class EventosComponent implements OnInit {
   public hoje_ano = this.hoje.getFullYear();
 
   constructor(
-    private eventoService: EventosService,
     public cacheEventoService: CacheEventosService
   ) { }
 

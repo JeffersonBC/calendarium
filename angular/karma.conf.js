@@ -15,6 +15,12 @@ module.exports = function (config) {
     client:{
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
+    files: [
+      { pattern: './node_modules/jquery/dist/jquery.js', watched: false},
+      { pattern: './node_modules/materialize-css/dist/js/materialize.js', watched: false},
+      { pattern: './node_modules/select2/dist/js/select2.min.js', watched: false},
+      { pattern: './src/test.ts', watched: false}
+    ],
     coverageIstanbulReporter: {
       reports: [ 'html', 'lcovonly' ],
       fixWebpackSourcePaths: true
