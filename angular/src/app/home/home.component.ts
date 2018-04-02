@@ -32,18 +32,20 @@ export class HomeComponent implements OnInit {
       }
     );
 
-    this.eventosService.getEventosProximos(5).subscribe(
-      dados => {
-        if (dados['success']) {
-          this.eventos = dados['msg'];
-        }
-      }
-    );
-
     const token = localStorage.getItem('auth_token');
     if (token) {
       this.loggedIn = true;
       this.getUserName();
+
+      // Se logado, busca 5 próximos eventos
+      this.eventosService.getEventosProximos(5).subscribe(
+        dados => {
+          if (dados['success']) {
+            this.eventos = dados['msg'];
+          }
+        }
+      );
+
     }
   }
 

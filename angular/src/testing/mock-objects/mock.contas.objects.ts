@@ -16,3 +16,11 @@ export const getUsuarioLogadoObject = {
 export const postLoginObject = {
   'token': 'ad2ae62a7828be96ca4d10ea57563dc9988dc300'
 };
+
+export const postLoginObjectFailure = {
+  'error': {
+    'non_field_errors': [
+      'Impossível fazer login com as credenciais fornecidas.'
+    ],
+  }
+};

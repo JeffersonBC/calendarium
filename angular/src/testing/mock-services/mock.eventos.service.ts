@@ -41,5 +41,4 @@ export const MockEventosService = {
       .map(response => response);
   },
 
-  /*  */
 };
