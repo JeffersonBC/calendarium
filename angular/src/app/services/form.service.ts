@@ -64,7 +64,6 @@ export class FormService {
 
     verificaValidacoesForm(formGroup: FormGroup) {
         Object.keys(formGroup.controls).forEach(campo => {
-            console.log(campo);
             const controle = formGroup.get(campo);
             controle.markAsDirty();
 

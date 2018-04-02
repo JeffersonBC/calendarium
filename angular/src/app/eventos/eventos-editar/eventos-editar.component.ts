@@ -26,12 +26,12 @@ export class EventosEditarComponent implements OnInit {
 
   constructor(
     public formService: FormService,
+    public cacheEventosService: CacheEventosService,
 
     private router: Router,
     private eventoService: EventosService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-    private cacheEventosService: CacheEventosService,
   ) { }
 
   materializeDateParams() {
@@ -131,8 +131,6 @@ export class EventosEditarComponent implements OnInit {
     if (confirm('Tem certeza que deseja DELETAR este evento?')) {
       this.eventoService.postEventoDeletar(this.activatedRoute.snapshot.params['id'])
       .subscribe(dados => {
-          console.log(dados);
-
           const s_date: string[] = this.formulario.value['start_date'].split('/');
           this.cacheEventosService.setMesDirty(parseInt(s_date[2], 10), parseInt(s_date[1], 10));
 
