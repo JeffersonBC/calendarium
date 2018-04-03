@@ -33,7 +33,9 @@
     </div>
   </div>
 
-  <app-eventos-lista [objetos]="cacheEventoService.cache['' + hoje_ano]['' + hoje_mes]" [mensagemArrayVazio]="'Não há nenhum evento cadastrado neste mês.'">
+  <app-eventos-lista
+    [objetos]="cacheEventoService.cache['' + hoje_ano]['' + hoje_mes]"
+    [mensagemArrayVazio]="'Não há nenhum evento cadastrado neste mês.'">
   </app-eventos-lista>
 
 </div>

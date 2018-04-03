@@ -18,31 +18,14 @@ export const getEventosAnoObject = {
       },
       {
         'event': {
-          'id': 33,
-          'name': 'Teste Teste Teste',
-          'description': 'aaaaaaaaaaa bbbb ccccc',
-          'start_datetime': '2018-03-21T12:00:00',
-          'end_datetime': '2018-03-22T12:00:00'
-        },
-        'creator': null,
-        'subscription_id': 28,
-        'invited': 5,
-        'subscribed': 0,
-        'rejected': 0
-      },
-      {
-        'event': {
-          'id': 34,
-          'name': 'ABC',
+          'id': 40,
+          'name': 'Convite Teste',
           'description': '',
-          'start_datetime': '2018-03-28T12:00:00',
-          'end_datetime': '2018-03-29T12:00:00'
+          'start_datetime': '2018-03-16T12:00:00',
+          'end_datetime': '2018-03-16T12:00:00'
         },
-        'creator': null,
-        'subscription_id': 29,
-        'invited': 2,
-        'subscribed': 1,
-        'rejected': 0
+        'creator': 'aaa aaaa',
+        'subscription_id': 55
       },
       {
         'event': {
@@ -50,27 +33,16 @@ export const getEventosAnoObject = {
           'name': 'ABCDEFGH',
           'description': '',
           'start_datetime': '2018-03-29T12:00:00',
-          'end_datetime': '2018-03-29T12:00:00'
+          'end_datetime': '2018-04-01T12:00:00'
         },
         'creator': null,
         'subscription_id': 21,
         'invited': 2,
         'subscribed': 0,
         'rejected': 0
-      }
+      },
     ],
     4: [
-      {
-        'event': {
-          'id': 40,
-          'name': 'Convite Teste',
-          'description': '',
-          'start_datetime': '2018-04-16T12:00:00',
-          'end_datetime': '2018-04-17T15:00:00'
-        },
-        'creator': 'aaa aaaa',
-        'subscription_id': 55
-      },
       {
         'event': {
           'id': 36,

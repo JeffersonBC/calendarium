@@ -24,13 +24,20 @@ header, main, footer {
     margin-bottom: 0;
 }
 
+.no-padding {
+    padding: 0;
+}
+
+.no-margin {
+    margin: 0;
+}
+
 /* Corrige bug do Materialize que fazia data-erros terem a largura da label */
 label[data-error], label[data-success] {
 	width: 100%;
 }
 
 /* Cria classes para tooltip, para poder ativar e desativar tooltips dinamicamente */
-
 .tooltip .tooltiptext {
     visibility: hidden;
     background-color: #323232;
@@ -51,8 +58,8 @@ label[data-error], label[data-success] {
     transition: opacity 0.3s;
 }
 
-/* Show the tooltip text when you mouse over the tooltip container */
 .tooltip:hover .tooltiptext {
+    /* Show the tooltip text when you mouse over the tooltip container */
     visibility: visible;
 	opacity: 1;
 	transition: opacity 0.3s;
