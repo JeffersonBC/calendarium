@@ -12,8 +12,6 @@ export class EventosConvitesComponent implements OnInit {
 
   public listaConvites$;
   public mensagem = '';
-  public temConvitesPendentes = false;
-
   public cache_convites: any[] = [];
 
 
@@ -28,7 +26,6 @@ export class EventosConvitesComponent implements OnInit {
   }
 
   onMensagem(mensagem: string) {
-    console.log(mensagem);
     this.mensagem = mensagem;
   }
 

@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -39,11 +40,10 @@ describe('EventosConvitesComponent', () => {
         RouterTestingModule,
       ],
       providers: [
-        { provide: EventosService, useValue: MockEventosService },
-        CacheEventosService,
-
         { provide: ActivatedRoute, useValue: MockActivatedRoute },
+        CacheEventosService,
         { provide: ConviteService, useValue: MockConviteService },
+        { provide: EventosService, useValue: MockEventosService },
         FormService,
       ],
       schemas: [ NO_ERRORS_SCHEMA ],
@@ -60,4 +60,17 @@ describe('EventosConvitesComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should show messages emmmited by the ConviteService',
+    fakeAsync(() => {
+      const mensagem = 'Mensagem de testes';
+
+      component.onMensagem(mensagem);
+      fixture.detectChanges();
+
+      const messageContainer = fixture.debugElement.query(By.css('#message_container'));
+      expect(messageContainer).toBeTruthy();
+      expect(messageContainer.nativeElement.textContent).toBe(mensagem);
+    }
+  ));
 });
