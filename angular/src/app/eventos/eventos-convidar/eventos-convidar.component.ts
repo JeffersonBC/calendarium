@@ -24,7 +24,7 @@ export class EventosConvidarComponent implements OnInit {
     private conviteService: ConviteService,
     private route: ActivatedRoute,
     private router: Router,
-    private cacheEventosService: CacheEventosService,
+    public cacheEventosService: CacheEventosService,
   ) { }
 
   ngOnInit() {

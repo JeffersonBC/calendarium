@@ -14,7 +14,7 @@ export const MockConviteService = {
 
   /* Eventos Convidar */
   getConviteDetalhesEvento: (id: number) => {
-    return Observable.of(getConviteDetalhesEventoObject).map(response => response);
+    return Observable.of(getConviteDetalhesEventoObject).map(response => response['msg']);
   },
 
   postConviteAdicionar: (ids_usuario: string, evento: number) => {
