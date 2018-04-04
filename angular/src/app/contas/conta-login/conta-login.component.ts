@@ -22,14 +22,13 @@ export class ContaLoginComponent implements OnInit {
 
   public formulario: FormGroup;
 
-  public loginError = false;
   public errorMessage = '';
 
   constructor(
     private contasService: ContasService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private loginEmitService: LoginEmitService,
+    public loginEmitService: LoginEmitService,
     public formService: FormService,
   ) { }
 
@@ -47,13 +46,18 @@ export class ContaLoginComponent implements OnInit {
 
     this.contasService.postLogin(login_info).subscribe(
       dados => {
-
         if (dados['token']) {
           localStorage.setItem('auth_token', dados['token']);
           this.loginEmitService.emitChange(true);
           this.router.navigate(['']);
         }
 
+      }, error => {
+        if (error['error']['non_field_errors']) {
+          for (const message of error['error']['non_field_errors']) {
+            this.errorMessage += message;
+          }
+        }
       }
     );
   }

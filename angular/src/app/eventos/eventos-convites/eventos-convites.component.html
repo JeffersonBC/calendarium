@@ -1,15 +1,8 @@
 <div class="col s12 m8 offset-m2">
   <h3>Convites</h3>
 
-
-    <ul *ngIf="mensagem != ''" class="messages card red lighten-1 white-text">
-      <div class="card-content">
-          <li>{{ mensagem }}</li>
-      </div>
-    </ul>
-
-    <div *ngIf="temConvitesPendentes" class="card-panel">
-      Não há nenhum convite pendente.
+    <div *ngIf="mensagem != ''" class="messages card red lighten-1 white-text">
+      <div id="message_container" class="card-content">{{ mensagem }}</div>
     </div>
 
     <app-eventos-lista

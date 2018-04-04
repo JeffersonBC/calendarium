@@ -19,7 +19,7 @@ export class FormService {
         clear: 'Limpar',
         close: 'Ok',
         closeOnSelect: false
-        }];
+    }];
 
     private time_params = [{
         default: '12:00',
@@ -64,7 +64,6 @@ export class FormService {
 
     verificaValidacoesForm(formGroup: FormGroup) {
         Object.keys(formGroup.controls).forEach(campo => {
-            console.log(campo);
             const controle = formGroup.get(campo);
             controle.markAsDirty();
 

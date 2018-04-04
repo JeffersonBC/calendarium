@@ -20,31 +20,32 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private contasService: ContasService,
-    private loginEmitService: LoginEmitService,
     private eventosService: EventosService,
     public formService: FormService,
-  ) {
+    private loginEmitService: LoginEmitService,
+  ) {}
 
-    loginEmitService.changeEmitted$.subscribe(
+  ngOnInit() {
+    this.loginEmitService.changeEmitted$.subscribe(
       bool => {
         this.loggedIn = bool;
       }
     );
 
-    this.eventosService.getEventosProximos(5).subscribe(
-      dados => {
-        if (dados['success']) {
-          this.eventos = dados['msg'];
-        }
-      }
-    );
-  }
-
-  ngOnInit() {
     const token = localStorage.getItem('auth_token');
     if (token) {
       this.loggedIn = true;
       this.getUserName();
+
+      // Se logado, busca 5 próximos eventos
+      this.eventosService.getEventosProximos(5).subscribe(
+        dados => {
+          if (dados['success']) {
+            this.eventos = dados['msg'];
+          }
+        }
+      );
+
     }
   }
 

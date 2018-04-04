@@ -1,18 +1,18 @@
 <div *ngIf="!objetos.length" >
-  <div class="card-panel">
-    {{ mensagemArrayVazio }}
-  </div>
+  <div id="message_container" class="card-panel">{{ mensagemArrayVazio }}</div>
 </div>
 
-<ul materialize="collapsible" class="collapsible popout" style="margin: 0" data-collapsible="accordion"
+<ul materialize="collapsible" class="collapsible popout no-margin" data-collapsible="accordion"
 *ngFor="let objeto of objetos; index as idx">
 
-  <li class="card" [ngClass]="{'yellow lighten-4': objeto['creator'] != null && !objeto['invite_id']}">
-    <div class="collapsible-header" style="padding: 0;"
-        [ngClass]="{'yellow lighten-4': objeto['creator'] != null && !objeto['invite_id']}">
+  <li id="object_card_{{ idx }}" class="card"
+  [ngClass]="{'yellow lighten-4': objeto['creator'] != null && !objeto['invite_id']}">
 
-      <div class="row" style="width: 100%; margin-bottom: 0; margin-left: 0;">
-        <div class="m8 s7 col" style="min-height: 100%; padding: .5rem 24px;">
+    <div class="collapsible-header no-padding"
+    [ngClass]="{'yellow lighten-4': objeto['creator'] != null && !objeto['invite_id']}">
+
+      <div class="row event-row">
+        <div class="m8 s7 col event-title-column">
           <span><strong>{{ objeto['event']['name'] }}</strong></span>
           <br>
 
@@ -31,7 +31,7 @@
         </div>
 
         <!-- DATA/ HORA -->
-        <div class="m4 s5 col center-align" style="margin-left: 0; padding: .5rem 24px .5rem 0;">
+        <div class="m4 s5 col center-align event-datetime-column">
           <!-- LISTA DE CONVITES -->
           <div *ngIf="objeto['invite_id']" >
             <div *ngIf="formService.comaparaDatas(objeto['event']['start_datetime'], objeto['event']['end_datetime']) == 'igual'" >
@@ -49,7 +49,7 @@
 
           <!-- MESMO DIA -->
           <div *ngIf="!objeto['invite_id'] && formService.comaparaDatas(objeto['event']['start_datetime'], objeto['event']['end_datetime']) == 'igual'" >
-              <span>Dia {{ objeto['event']['start_datetime'] | date:'dd' }}</span>
+              <span id="span_start_datetime_{{ idx }}">Dia {{ objeto['event']['start_datetime'] | date:'dd' }}</span>
               <div class="divider"></div>
 
               <span class="grey-text">
@@ -66,21 +66,21 @@
 
           <!-- MESMO MÊS, DIAS DIFERENTES -->
           <div *ngIf="!objeto['invite_id'] && formService.comaparaDatas(objeto['event']['start_datetime'], objeto['event']['end_datetime']) == 'dia_dif'" >
-            <span>Dia {{ objeto['event']['start_datetime'] | date:'dd \'às\' HH:mm'}}</span>
+            <span id="span_start_datetime_{{ idx }}">Dia {{ objeto['event']['start_datetime'] | date:'dd \'às\' HH:mm'}}</span>
             <div class="divider"></div>
             <span class="grey-text">Até dia {{ objeto['event']['end_datetime'] | date:'dd \'às\' HH:mm'}}</span>
           </div>
 
           <!-- MESMO ANO, MESES DIFERENTES -->
           <div *ngIf="!objeto['invite_id'] && formService.comaparaDatas(objeto['event']['start_datetime'], objeto['event']['end_datetime']) == 'mes_dif'" >
-            <span>{{ objeto['start_datetime'] | date:'dd/MM \'às\' HH:mm'}}</span>
+            <span id="span_start_datetime_{{ idx }}">{{ objeto['event']['start_datetime'] | date:'dd \'de\' MMMM \'às\' HH:mm'}}</span>
             <div class="divider"></div>
-            <span class="grey-text">Até {{ objeto['event']['end_datetime'] | date:'dd/MM \'às\' HH:mm'}}</span>
+            <span class="grey-text">Até {{ objeto['event']['end_datetime'] | date:'dd \'de\' MMMM \'às\' HH:mm'}}</span>
           </div>
 
           <!-- ANOS DIFERENTES -->
           <div *ngIf="!objeto['invite_id'] && formService.comaparaDatas(objeto['event']['start_datetime'], objeto['event']['end_datetime']) == 'ano_dif'" >
-            <span>{{ objeto['event']['start_datetime'] | date:'dd/MM/yyyy \'às\' HH:mm'}}</span>
+            <span id="span_start_datetime_{{ idx }}">{{ objeto['event']['start_datetime'] | date:'dd/MM/yyyy \'às\' HH:mm'}}</span>
             <div class="divider"></div>
             <span class="grey-text">Até {{ objeto['event']['end_datetime'] | date:'dd/MM/yyyy \'às\' HH:mm'}}</span>
           </div>
@@ -88,7 +88,7 @@
       </div>
 
     </div>
-    <div class="collapsible-body" style="padding: 0;">
+    <div class="collapsible-body no-padding">
       <div *ngIf="objeto['event']['description'] != ''" class="card-content">
         {{ objeto['event']['description']}}
       </div>
@@ -96,17 +96,17 @@
       <!-- AÇÕES DO CARD -->
       <div class="card-action">
         <div *ngIf="objeto['creator'] == null" >
-          <a routerLink="editar/{{ objeto['event']['id'] }}">Editar</a>
-          <a routerLink="convidar/{{ objeto['event']['id'] }}">Enviar convite</a>
+          <a id="a_edit_{{ idx }}" routerLink="editar/{{ objeto['event']['id'] }}">Editar</a>
+          <a id="a_send_{{ idx }}" routerLink="convidar/{{ objeto['event']['id'] }}">Enviar convite</a>
         </div>
 
         <div *ngIf="objeto['creator'] != null && !objeto['invite_id']" >
-          <button class="btn-flat link green-text" (click)="cancelar(idx, objeto['subscription_id'])">Cancelar</button>
+          <button id="button_cancel_{{ idx }}" class="btn-flat link green-text" (click)="cancelar(idx, objeto['subscription_id'])">Cancelar</button>
         </div>
 
         <div *ngIf="objeto['invite_id']" >
-          <button class="btn-flat link green-text" (click)="responderConvite(true, idx, objeto['invite_id'])">Aceitar</button>
-          <button class="btn-flat link green-text" (click)="responderConvite(false, idx, objeto['invite_id'])">Rejeitar</button>
+          <button id="button_accept_{{ idx }}" class="btn-flat link green-text" (click)="responderConvite(true, idx, objeto['invite_id'])">Aceitar</button>
+          <button id="button_reject_{{ idx }}" class="btn-flat link green-text" (click)="responderConvite(false, idx, objeto['invite_id'])">Rejeitar</button>
         </div>
       </div>
 

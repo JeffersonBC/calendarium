@@ -2,7 +2,7 @@
   <div class="col s12">
     <h3>Eventos</h3>
     <div class="fixed-action-btn">
-      <a routerLink="adicionar" class="btn-floating btn-large waves-effect waves-light">
+      <a id="button_add_event" routerLink="adicionar" class="btn-floating btn-large waves-effect waves-light">
         <i class="large material-icons">add</i>
       </a>
     </div>
@@ -10,10 +10,13 @@
 
   <!-- BARRA DE MESES -->
   <div class="col s12 card">
-    <button class="btn-flat waves-effect waves-green green-text col s2 m1"
-      *ngFor="let mes of meses; index as i"
-      (click)="setMes(i + 1)"
-      [ngClass]="{'bold black-text': hoje_mes == i + 1 }">{{ mes }}</button>
+    <button class="btn-flat waves-effect waves-green col s2 m1"
+    *ngFor="let mes of meses; index as i"
+    (click)="setMes(i + 1)"
+    [ngClass]="{'bold black-text': hoje_mes == i + 1, 'green-text': hoje_mes != i + 1 }"
+    id="button_mes_{{ i + 1 }}">
+      {{ mes }}
+    </button>
   </div>
 
   <!-- BARRA DE ANOS -->
@@ -21,8 +24,9 @@
     <div class="col s12 center-align">
       <ul class="pagination" style="margin-top: 0;">
         <li *ngFor="let ano of anos"
-            [ngClass]="{'active': hoje_ano == ano, 'waves-effect': hoje_ano != ano}"
-            (click)="setAno(ano)" >
+        [ngClass]="{'active': hoje_ano == ano, 'waves-effect': hoje_ano != ano}"
+        (click)="setAno(ano)"
+        id="button_ano_{{ ano }}">
           <a>{{ ano }}</a>
         </li>
       </ul>

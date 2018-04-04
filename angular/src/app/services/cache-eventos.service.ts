@@ -68,6 +68,18 @@ export class CacheEventosService {
     }
   }
 
+  getMesDirty(ano: number, mes: number) {
+    if (this.meses_dirty[`${ano}`]) {
+      if (this.meses_dirty[`${ano}`][`${mes}`]) {
+        return true;
+
+      } else {
+        return false;
+      }
+    }
+    return false;
+  }
+
   // Caso ano esteja em cache e mes esteja marcado como 'dirty', atualiza mês
   public atualizarMes(ano: number, mes: number) {
     if (this.cache[`${ano}`]['carregado']) {

@@ -7,3 +7,19 @@
 .btn-flat.link:focus {
     background-color: rgba(0,0,0,0)
 }
+
+.event-row {
+    width: 100%;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+.event-title-column {
+    min-height: 100%;
+    padding: .5rem 24px;
+}
+
+.event-datetime-column {
+    margin-left: 0;
+    padding: .5rem 24px .5rem 0;
+}

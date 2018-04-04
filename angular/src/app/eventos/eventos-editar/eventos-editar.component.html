@@ -42,7 +42,7 @@
 
         <div class="col s12 m6">
           <div class="input-field tooltip">
-            <input type="text" formControlName="start_time" materialize="pickatime" [materializeParams]="materializeTimeParams()" [ngClass]="formService.inputInvalidoCss(formulario, 'start_time')"
+            <input id="event_startt" type="text" formControlName="start_time" materialize="pickatime" [materializeParams]="materializeTimeParams()" [ngClass]="formService.inputInvalidoCss(formulario, 'start_time')"
             />
 
             <span class="tooltiptext" *ngIf="formService.verificaInvalidTouched(formulario, 'start_time')">Este campo é obrigatório</span>
@@ -67,7 +67,7 @@
 
         <div class="col s12 m6">
           <div class="input-field tooltip">
-            <input type="text" formControlName="end_time" materialize="pickatime" [materializeParams]="materializeTimeParams()" [ngClass]="formService.inputInvalidoCss(formulario, 'end_time')"
+            <input id="event_endt" type="text" formControlName="end_time" materialize="pickatime" [materializeParams]="materializeTimeParams()" [ngClass]="formService.inputInvalidoCss(formulario, 'end_time')"
             />
 
             <span class="tooltiptext" *ngIf="formService.verificaInvalidTouched(formulario, 'end_time')">Este campo é obrigatório</span>
