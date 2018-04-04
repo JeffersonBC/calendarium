@@ -3,12 +3,11 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/r
 
 import { Observable } from 'rxjs/Observable';
 
-import { Evento } from '../models/evento.model';
-import { EventosService } from '../../services/eventos.service';
+import { EventosService } from '../services/eventos.service';
 
 
 @Injectable()
-export class EventosDetalhesResolver implements Resolve<Evento> {
+export class EventosProximosResolver implements Resolve<any> {
   constructor(
     private eventosService: EventosService,
   ) { }
@@ -16,8 +15,13 @@ export class EventosDetalhesResolver implements Resolve<Evento> {
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<any> {
+  ): Observable<any> | any {
 
-    return this.eventosService.getEvento(route.params.id);
+    if (localStorage.getItem('auth_token')) {
+      return this.eventosService.getEventosProximos(5);
+
+    } else {
+      return {};
+    }
   }
 }

@@ -1,7 +1,2 @@
-import { EventosDetalhesResolver } from './eventos-detalhes.resolver';
-import { EventosListaResolver } from './eventos-lista.resolver';
-
-export const eventosGuards = [
-    EventosDetalhesResolver,
-    EventosListaResolver,
-];
+export * from './eventos-detalhes.resolver';
+export * from './eventos-lista.resolver';

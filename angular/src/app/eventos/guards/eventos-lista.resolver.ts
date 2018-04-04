@@ -20,13 +20,13 @@ export class EventosListaResolver implements Resolve<EventoDetalhes[]> {
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<any> | any[] {
+  ): Observable<any> | any {
 
     if (!this.cacheEventosService.cache[`${this.dataAtual.ano}`]['carregado']) {
       return this.cacheEventosService.carregarAnoObservable(this.dataAtual.ano);
 
     } else {
-      return [];
+      return {};
     }
   }
 }

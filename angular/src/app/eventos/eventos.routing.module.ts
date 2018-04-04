@@ -6,8 +6,7 @@ import { EventosEditarComponent } from './eventos-editar/eventos-editar.componen
 import { EventosConvitesComponent } from './eventos-convites/eventos-convites.component';
 import { EventosConvidarComponent } from './eventos-convidar/eventos-convidar.component';
 
-import { EventosListaResolver } from './guards/eventos-lista.resolver';
-import { EventosDetalhesResolver } from './guards/eventos-detalhes.resolver';
+import { EventosListaResolver, EventosDetalhesResolver } from './guards';
 
 
 const routes: Routes = [

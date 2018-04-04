@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { LoginEmitService } from '../services/login-emit.service';
 import { ContasService } from '../services/contas.service';
@@ -19,10 +20,12 @@ export class HomeComponent implements OnInit {
   public eventos: any[] = [];
 
   constructor(
+    public formService: FormService,
+
     private contasService: ContasService,
     private eventosService: EventosService,
-    public formService: FormService,
     private loginEmitService: LoginEmitService,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
@@ -38,7 +41,7 @@ export class HomeComponent implements OnInit {
       this.getUserName();
 
       // Se logado, busca 5 próximos eventos
-      this.eventosService.getEventosProximos(5).subscribe(
+      this.route.data.map(dados => dados['proximos']).subscribe(
         dados => {
           if (dados['success']) {
             this.eventos = dados['msg'];

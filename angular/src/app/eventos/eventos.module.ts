@@ -14,7 +14,7 @@ import { EventosEditarComponent } from './eventos-editar/eventos-editar.componen
 import { EventosConvidarComponent } from './eventos-convidar/eventos-convidar.component';
 import { EventosListaComponent } from './eventos-lista/eventos-lista.component';
 
-import { eventosGuards } from './guards';
+import { eventosGuards } from './guards/list';
 
 
 @NgModule({
