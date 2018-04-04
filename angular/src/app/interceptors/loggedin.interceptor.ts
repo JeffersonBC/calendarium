@@ -17,7 +17,7 @@ export class LoggedInInterceptor implements HttpInterceptor {
         if (localStorage.getItem('auth_token') !== null) {
             req = req.clone({
                 setHeaders: {
-                    Authorization: 'Token ' + localStorage.getItem('auth_token')
+                    Authorization: 'JWT ' + localStorage.getItem('auth_token')
                 }
             });
         }
