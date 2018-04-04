@@ -13,7 +13,7 @@
     <button class="btn-flat waves-effect waves-green col s2 m1"
     *ngFor="let mes of meses; index as i"
     (click)="setMes(i + 1)"
-    [ngClass]="{'bold black-text': hoje_mes == i + 1, 'green-text': hoje_mes != i + 1 }"
+    [ngClass]="{'bold black-text': dataAtual.mes == i + 1, 'green-text': dataAtual.mes != i + 1 }"
     id="button_mes_{{ i + 1 }}">
       {{ mes }}
     </button>
@@ -24,7 +24,7 @@
     <div class="col s12 center-align">
       <ul class="pagination" style="margin-top: 0;">
         <li *ngFor="let ano of anos"
-        [ngClass]="{'active': hoje_ano == ano, 'waves-effect': hoje_ano != ano}"
+        [ngClass]="{'active': dataAtual.ano == ano, 'waves-effect': dataAtual.ano != ano}"
         (click)="setAno(ano)"
         id="button_ano_{{ ano }}">
           <a>{{ ano }}</a>
@@ -34,7 +34,7 @@
   </div>
 
   <app-eventos-lista
-    [objetos]="cacheEventoService.cache['' + hoje_ano]['' + hoje_mes]"
+    [objetos]="cacheEventoService.cache['' + dataAtual.ano]['' + dataAtual.mes]"
     [mensagemArrayVazio]="'Não há nenhum evento cadastrado neste mês.'">
   </app-eventos-lista>
 
