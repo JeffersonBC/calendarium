@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 import { HttpService } from './http.service';
-import { Login } from '../contas/models/usuario.model';
+import { Login, NovoUsuario } from '../contas/models/usuario.model';
 
 
 @Injectable()
@@ -12,6 +12,10 @@ export class ContasService {
 
     constructor(private httpService: HttpService) { }
 
+    public postNovoUsuario(usuario: NovoUsuario) {
+        return this.httpService.post('http://localhost:8000/api/accounts/user_create/', usuario)
+            .map(response => response);
+    }
 
     public postLogin(login_info: Login) {
         return this.httpService.post('http://localhost:8000/api/accounts/auth_token_get/', login_info)
