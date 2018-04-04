@@ -28,7 +28,7 @@ export class EventosConvidarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.conviteService.getConviteDetalhesEvento(this.route.snapshot.params['id']).subscribe(
+    this.route.data.map(dados => dados['evento']).subscribe(
       dados => this.evento_detalhes = dados
     );
 

@@ -6,7 +6,12 @@ import { EventosEditarComponent } from './eventos-editar/eventos-editar.componen
 import { EventosConvitesComponent } from './eventos-convites/eventos-convites.component';
 import { EventosConvidarComponent } from './eventos-convidar/eventos-convidar.component';
 
-import { EventosListaResolver, EventosDetalhesResolver } from './guards';
+import {
+    EventosListaResolver,
+    EventosDetalhesResolver,
+    EventosConvitesResolver,
+    EventosConvidarResolver
+} from './guards';
 
 
 const routes: Routes = [
@@ -17,8 +22,11 @@ const routes: Routes = [
     { path: 'editar/:id', component: EventosEditarComponent ,
         resolve: { evento: EventosDetalhesResolver }
     },
-    { path: 'convites', component: EventosConvitesComponent },
-    { path: 'convidar/:id', component: EventosConvidarComponent },
+    { path: 'convites', component: EventosConvitesComponent,
+        resolve: { convites: EventosConvitesResolver } },
+    { path: 'convidar/:id', component: EventosConvidarComponent,
+        resolve: { evento: EventosConvidarResolver}
+    },
     { path: ':404', redirectTo: '', pathMatch: 'full' },
 ];
 

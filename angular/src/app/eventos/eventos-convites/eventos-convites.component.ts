@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ConviteService } from '../../services/convite.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -17,10 +18,11 @@ export class EventosConvitesComponent implements OnInit {
 
   constructor(
     private conviteService: ConviteService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
-    this.conviteService.getConviteListar().subscribe(
+    this.route.data.map(dados => dados['convites']).subscribe(
       dados => this.cache_convites = dados
     );
   }
