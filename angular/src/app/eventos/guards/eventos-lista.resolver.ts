@@ -3,14 +3,14 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve } from '@angular/r
 
 import { Observable } from 'rxjs/Observable';
 
-import { CacheEventosService } from '../services/cache-eventos.service';
-import { DataAtualService } from '../services/data-atual.service';
+import { CacheEventosService } from '../../services/cache-eventos.service';
+import { DataAtualService } from '../../services/data-atual.service';
 
-import { EventoDetalhes } from '../eventos/models/evento.model';
+import { EventoDetalhes } from '../models/evento.model';
 
 
 @Injectable()
-export class EventosResolver implements Resolve<EventoDetalhes[]> {
+export class EventosListaResolver implements Resolve<EventoDetalhes[]> {
 
   constructor(
     private cacheEventosService: CacheEventosService,

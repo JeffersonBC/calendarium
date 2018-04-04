@@ -33,9 +33,9 @@ export class EventosComponent implements OnInit {
   ngOnInit() {
     // Se ano não está em cache, carrega o cache
     if (!this.cacheEventoService.cache[`${this.dataAtual.ano}`]['carregado']) {
-      this.route.data.subscribe(
-        (info) => {
-          this.cacheEventoService.popularCache(this.dataAtual.ano, info['listaEventos']);
+      this.route.data.map(dados => dados['listaEventos']).subscribe(
+        (dados) => {
+          this.cacheEventoService.popularCache(this.dataAtual.ano, dados);
         }
       );
     // Se não está em cache, checa se mês está 'dirty', e se estiver atualiza o mês

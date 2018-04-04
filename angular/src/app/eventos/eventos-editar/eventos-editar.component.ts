@@ -55,22 +55,22 @@ export class EventosEditarComponent implements OnInit {
     });
 
     if (this.editando) {
-      this.eventoService.getEvento(this.activatedRoute.snapshot.params['id'])
-        .subscribe(dados => {
-            const start = this.formService.isoDateToArray(dados['msg']['start_datetime']);
-            const end = this.formService.isoDateToArray(dados['msg']['end_datetime']);
+      this.activatedRoute.data.map(dados => dados['evento']).subscribe(
+        dados => {
+          const start = this.formService.isoDateToArray(dados['msg']['start_datetime']);
+          const end = this.formService.isoDateToArray(dados['msg']['end_datetime']);
 
-            this.formulario.patchValue({
-              name: dados['msg']['name'],
-              description: dados['msg']['description'],
-              start_date: `${start[2]}/${start[1]}/${start[0]}`,
-              start_time: `${start[3]}:${start[4]}`,
-              end_date: `${end[2]}/${end[1]}/${end[0]}`,
-              end_time: `${end[3]}:${end[4]}`,
-            });
-            Materialize.updateTextFields();
-          }
-        );
+          this.formulario.patchValue({
+            name: dados['msg']['name'],
+            description: dados['msg']['description'],
+            start_date: `${start[2]}/${start[1]}/${start[0]}`,
+            start_time: `${start[3]}:${start[4]}`,
+            end_date: `${end[2]}/${end[1]}/${end[0]}`,
+            end_time: `${end[3]}:${end[4]}`,
+          });
+          Materialize.updateTextFields();
+        }
+      );
 
     } else {
       Materialize.updateTextFields();
