@@ -11,7 +11,7 @@ import { AppRoutingModule } from './app.routing.module';
 
 import { LoggedInInterceptor } from './interceptors/loggedin.interceptor';
 
-import { AuthGuard } from './guards/auth.guard';
+import { guards } from './guards';
 import { services } from './services';
 
 import { registerLocaleData } from '@angular/common';
@@ -30,8 +30,7 @@ registerLocaleData(ptBr);
     AppRoutingModule
   ],
   providers: [
-    AuthGuard,
-
+    ...guards,
     ...services,
 
     { provide: HTTP_INTERCEPTORS, useClass: LoggedInInterceptor, multi: true },

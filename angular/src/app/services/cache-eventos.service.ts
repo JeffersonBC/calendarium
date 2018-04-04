@@ -46,6 +46,23 @@ export class CacheEventosService {
     );
   }
 
+  public carregarAnoObservable(ano: number) {
+    return this.eventoService.getEventosAno(ano);
+  }
+
+  public popularCache(ano: number, dados: any) {
+    if (dados['success']) {
+      this.cache[`${ano}`]['carregado'] = true;
+
+      for (const mes of Object.keys(dados['msg'])) {
+        for (const evento of Object.keys(dados['msg'][mes])) {
+
+          this.cache[`${ano}`][`${mes}`].push(dados['msg'][mes][evento]);
+        }
+      }
+    }
+  }
+
   public setMesDirty(ano: number, mes: number) {
     if (this.cache[`${ano}`]) {           // Se ano ainda não está no cache, não faz nada
       if (!this.meses_dirty[`${ano}`]) {  // Se ano no cache mas não em 'meses_dirty', inicializa ano
