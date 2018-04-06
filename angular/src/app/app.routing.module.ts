@@ -4,11 +4,15 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 
 import { AuthGuard } from './guards/auth.guard';
-import { EventosProximosResolver } from './guards/eventos-proximos.resolver';
+import { EventosProximosResolver, NomeUsuarioResolver } from './guards/eventos-proximos.resolver';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent,
-        resolve: { proximos: EventosProximosResolver } },
+        resolve: {
+            proximos: EventosProximosResolver,
+            usuario: NomeUsuarioResolver,
+        },
+    },
     { path: 'conta', loadChildren: 'app/contas/contas.module#ContasModule' },
     { path: 'eventos',
         loadChildren: 'app/eventos/eventos.module#EventosModule',

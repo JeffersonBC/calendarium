@@ -47,8 +47,7 @@ export class ContaLoginComponent implements OnInit {
     this.contasService.postLogin(login_info).subscribe(
       dados => {
         if (dados['token']) {
-          localStorage.setItem('auth_token', dados['token']);
-          this.loginEmitService.emitChange(true);
+          this.contasService.authTokenSet(dados['token']);
           this.router.navigate(['']);
         }
 

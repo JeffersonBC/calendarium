@@ -23,7 +23,9 @@ export class AppComponent implements OnInit {
   public loggedIn = false;
 
   public qtdConvites = 0;
-  private qtdConvites$;
+  private qtdConvitesInterval: NodeJS.Timer;
+
+  private authTokenRenovarInterval: NodeJS.Timer;
 
   constructor(
     private router: Router,
@@ -34,53 +36,60 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Checa se está logado agora e verifica mudanças de status de login
-    if (localStorage.getItem('auth_token')) {
-      this.loggedIn = true;
-    }
-
+    // Como reagir caso usuário esteja logado ou não
     this.loginEmitService.changeEmitted$.subscribe(
-      bool => {
-        this.loggedIn = bool;
+      isLoggedIn => {
+        // Usuário logado
+        if (isLoggedIn) {
+
+          // Caso emit positivo seja uma mudança de estado
+          if (!this.loggedIn) {
+
+            this.loggedIn = true;
+
+            // 'Pinga' o servidor ao iniciar e depois a cada 20s para ver se recebeu algum convite novo
+            this.checaConvitesServidor();
+            this.qtdConvitesInterval = setInterval(
+              () => { if (this.loggedIn) { this.checaConvitesServidor(); } } , 1000 * 20
+            );
+
+            // Se usuário aceitar/ rejeitar convite, diminui quantidade na hora
+            this.conviteService.emitirQuantidade$.subscribe(
+              n => this.qtdConvites += n
+            );
+
+            // Renova o token de autenticação ao executar o webapp, e depois de novo a cada 5 minutos
+            this.contasService.authTokenRenovar();
+            this.authTokenRenovarInterval = setInterval(
+              () => { this.contasService.authTokenRenovar(); } , 1000 * 60 * 5
+            );
+
+          }
+
+        // Usuário não logado
+        } else {
+          clearInterval(this.qtdConvitesInterval);
+          clearInterval(this.authTokenRenovarInterval);
+        }
       }
     );
 
-    // 'Pinga' o servidor ao iniciar e depois a cada 20s para ver se recebeu algum convite novo
-    // Se usuário aceitar/ rejeitar convite, diminui quantidade na hora
-    this.qtdConvites$ = this.conviteService.getConviteQuantidade();
-    if (this.loggedIn) {
-      this.checaConvitesServidor();
-    }
-    setInterval(() => {
-        if (this.loggedIn) {
-          this.checaConvitesServidor();
-        }
-      } , 1000 * 20
-    );
-
-    this.conviteService.emitirQuantidade$.subscribe(
-      n => this.qtdConvites += n
-    );
-
-    // Renova o token de autenticação ao executar o webapp, e depois de novo a cada 5 minutos
-    this.contasService.RenovarAuthToken();
-    setInterval(() => { this.contasService.RenovarAuthToken(); } , 1000 * 60 * 5);
+    // Se tem um auth token guardado, verifica validade com o backend e emite o resultado em LoginEmitService
+    this.contasService.authTokenVerificar();
   }
 
   public logoff() {
-    localStorage.removeItem('auth_token');
     this.loggedIn = false;
-    this.loginEmitService.emitChange(false);
+
+    this.contasService.authTokenLimpar();
     this.eventosCacheService.limparCache();
 
     this.router.navigate(['']);
   }
 
   private checaConvitesServidor() {
-    this.qtdConvites$.subscribe(
-      dados => {
-        this.qtdConvites = dados['msg']['count'];
-      }
+    this.conviteService.getConviteQuantidade().subscribe(
+      dados => { this.qtdConvites = dados['msg']['count']; }
     );
   }
 
