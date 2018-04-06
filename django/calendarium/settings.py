@@ -11,6 +11,21 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from datetime import timedelta
+
+
+var_prefix = 'CALENDARIUM_'
+
+
+def get_site_var(var_name, default=None):
+    full_var_name = f'{var_prefix}{var_name}'
+    var = os.getenv(full_var_name, default)
+    if var is None:
+        raise ValueError(
+            f'"{full_var_name}" não foi definida'
+        )
+    return var
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,7 +35,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'v4!b26t2@u+mqi$otnt9y^aw*&hyn84^urbt1(kr=_r@%$883i'
+SECRET_KEY = get_site_var('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -89,8 +104,9 @@ WSGI_APPLICATION = 'calendarium.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
+        'NAME': get_site_var('DB_NAME'),
+        'USER': get_site_var('DB_USER'),
+        'PASSWORD': get_site_var('DB_PASSWORD'),
         'HOST': 'db',
         'PORT': 5432,
     }
@@ -124,13 +140,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
 LANGUAGE_CODE = 'pt-br'
-
 TIME_ZONE = 'Brazil/East'
 
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = False
 
 
@@ -148,6 +161,23 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     )
+}
+
+# Autenticação por tokens JWT
+JWT_AUTH = {
+    # Variáveis de segurança
+    # 'JWT_SECRET_KEY': settings.SECRET_KEY,
+    # 'JWT_GET_USER_SECRET_KEY': None,
+    # 'JWT_PUBLIC_KEY': None,
+    # 'JWT_PRIVATE_KEY': None,
+    # 'JWT_ALGORITHM': 'HS256',
+    # 'JWT_VERIFY': True,
+    # 'JWT_VERIFY_EXPIRATION': True,
+
+    # Variáveis de expiração de tokens
+    'JWT_EXPIRATION_DELTA': timedelta(days=2),
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=14),
 }
 
 

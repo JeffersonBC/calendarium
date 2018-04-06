@@ -9,6 +9,7 @@ import 'rxjs/add/operator/timeInterval';
 import { LoginEmitService } from './services/login-emit.service';
 import { CacheEventosService } from './services/cache-eventos.service';
 import { ConviteService } from './services/convite.service';
+import { ContasService } from './services/contas.service';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class AppComponent implements OnInit {
     private loginEmitService: LoginEmitService,
     private eventosCacheService: CacheEventosService,
     private conviteService: ConviteService,
+    private contasService: ContasService,
   ) {}
 
   ngOnInit() {
@@ -59,6 +61,10 @@ export class AppComponent implements OnInit {
     this.conviteService.emitirQuantidade$.subscribe(
       n => this.qtdConvites += n
     );
+
+    // Renova o token de autenticação ao executar o webapp, e depois de novo a cada 5 minutos
+    this.contasService.RenovarAuthToken();
+    setInterval(() => { this.contasService.RenovarAuthToken(); } , 1000 * 60 * 5);
   }
 
   public logoff() {

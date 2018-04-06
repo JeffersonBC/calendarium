@@ -15,6 +15,13 @@ services:
       - "8000:8000"
     depends_on:
       - db
+    environment:
+      # Chave de segurança geral do Django
+      CALENDARIUM_SECRET_KEY: "chave-de-segurança-secreta"
+      # Variáveis do DB
+      CALENDARIUM_DB_NAME: "postgres"
+      CALENDARIUM_DB_USER: "postgres"
+      CALENDARIUM_DB_PASSWORD: "password"
 
   front:
     build: ./angular
