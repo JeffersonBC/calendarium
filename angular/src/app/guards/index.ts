@@ -1,9 +1,14 @@
 import { AuthGuard } from './auth.guard';
-import { EventosProximosResolver, NomeUsuarioResolver } from './eventos-proximos.resolver';
+import { AuthResolver } from './auth.resolver';
+import {
+    EventosProximosResolver,
+    NomeUsuarioResolver
+} from './eventos-proximos.resolver';
 
 
 export const guards = [
     AuthGuard,
+    AuthResolver,
     EventosProximosResolver,
     NomeUsuarioResolver,
 ];

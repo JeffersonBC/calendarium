@@ -32,6 +32,22 @@ export class ContasService {
       .map(response => response);
   }
 
+  public getAuthTokenVerificar() {
+    const auth_token = localStorage.getItem('auth_token');
+
+    if (auth_token) {
+      const auth_token_payload = {
+        token: localStorage.getItem('auth_token'),
+      };
+
+      return this.httpService.post('http://localhost:8000/api/accounts/auth_token_verify/', auth_token_payload)
+        .map(response => response);
+
+    } else {
+      return null;
+    }
+  }
+
   public authTokenSet(auth_token: string) {
     localStorage.setItem('auth_token', auth_token);
     this.loginEmitService.emitChange(true);
