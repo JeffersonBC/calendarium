@@ -8,7 +8,7 @@ import { FormService } from '../../services/form.service';
 @Component({
   selector: 'app-eventos-lista',
   templateUrl: './eventos-lista.component.html',
-  styleUrls: ['./eventos-lista.component.css']
+  styleUrls: ['./eventos-lista.component.scss']
 })
 export class EventosListaComponent {
 

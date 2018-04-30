@@ -1,9 +1,19 @@
+@import '~materialize-css/sass/components/color';
+@import './style/variables';
+
+@import '~materialize-css/sass/materialize';
+
+
 header, main, footer {
 	padding-left: 300px;
 }
 
 .side-nav {
 	margin-top: 64px;
+}
+
+.side-nav.z-auto {
+	z-index: auto;
 }
 
 @media only screen and (max-width : 992px) {
@@ -13,6 +23,10 @@ header, main, footer {
 
 	.side-nav {
 		margin-top: 0;
+	}
+
+	.side-nav.z-auto {
+		z-index: 999;
 	}
 }
 

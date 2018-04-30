@@ -11,7 +11,7 @@ import { CacheEventosService } from '../../services/cache-eventos.service';
 @Component({
   selector: 'app-eventos-convidar',
   templateUrl: './eventos-convidar.component.html',
-  styleUrls: ['./eventos-convidar.component.css']
+  styleUrls: ['./eventos-convidar.component.scss']
 })
 export class EventosConvidarComponent implements OnInit {
 

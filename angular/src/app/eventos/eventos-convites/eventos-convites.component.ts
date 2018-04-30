@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-eventos-convites',
   templateUrl: './eventos-convites.component.html',
-  styleUrls: ['./eventos-convites.component.css']
+  styleUrls: ['./eventos-convites.component.scss']
 })
 export class EventosConvitesComponent implements OnInit {
 

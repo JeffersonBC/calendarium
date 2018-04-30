@@ -8,7 +8,7 @@ import { FormService } from '../../services/form.service';
 @Component({
   selector: 'app-conta-registrar',
   templateUrl: './conta-registrar.component.html',
-  styleUrls: ['./conta-registrar.component.css']
+  styleUrls: ['./conta-registrar.component.scss']
 })
 export class ContaRegistrarComponent implements OnInit {
 
