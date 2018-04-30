@@ -16,7 +16,7 @@ declare const Materialize;
 @Component({
   selector: 'app-conta-login',
   templateUrl: './conta-login.component.html',
-  styleUrls: ['./conta-login.component.css']
+  styleUrls: ['./conta-login.component.scss']
 })
 export class ContaLoginComponent implements OnInit {
 
