@@ -29,13 +29,13 @@
 
     <div *ngIf="loggedIn">
       <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <a id="sidemenu_calendar" class="waves-effect" routerLink="eventos">
+        <a id="sidemenu_calendar" class="waves-effect" routerLink="/eventos">
           <i class="material-icons">event</i>Calendário de Eventos
         </a>
       </li>
 
       <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <a id="sidemenu_invitations" class="waves-effect" routerLink="eventos/convites">
+        <a id="sidemenu_invitations" class="waves-effect" routerLink="/eventos/convites">
           <i class="material-icons">mail_outline</i>Convites
           <span *ngIf="qtdConvites > 0" class="new badge" data-badge-caption="">{{ qtdConvites }}</span>
         </a>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { LoginEmitService } from '../services/login-emit.service';
 import { CacheEventosService } from '../services/cache-eventos.service';
 import { ConviteService } from '../services/convite.service';
@@ -16,9 +17,9 @@ export class AppRootComponent implements OnInit {
   public loggedIn = false;
 
   public qtdConvites = 0;
-  private qtdConvitesInterval: NodeJS.Timer;
+  private qtdConvitesInterval;
 
-  private authTokenRenovarInterval: NodeJS.Timer;
+  private authTokenRenovarInterval;
 
 
   constructor(
@@ -74,8 +75,6 @@ export class AppRootComponent implements OnInit {
     // Se tem um auth token guardado, verifica validade com o backend e emite o resultado em LoginEmitService
     this.route.data.map(dados => dados).subscribe(
       dados => {
-        console.log(dados);
-
         this.loginEmitService.emitChange(true);
       },
       erro => this.loginEmitService.emitChange(false)
