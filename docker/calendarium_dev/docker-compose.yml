@@ -4,10 +4,12 @@ services:
   db:
     image: postgres # Por padrão já expõe a porta 5432 pros outros containers
     volumes:
-      - calendarium_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
 
   back:
-    build: ./django
+    build:
+      context: ../../django
+      dockerfile: Dockerfile
     command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
       - ./django:/code
@@ -17,14 +19,16 @@ services:
       - db
     environment:
       # Chave de segurança geral do Django
-      CALENDARIUM_SECRET_KEY: "chave-de-segurança-secreta"
+      CALENDARIUM_SECRET_KEY: "chave-secreta"
       # Variáveis do DB
       CALENDARIUM_DB_NAME: "postgres"
       CALENDARIUM_DB_USER: "postgres"
       CALENDARIUM_DB_PASSWORD: "password"
 
   front:
-    build: ./angular
+    build:
+      context: ../../angular
+      dockerfile: Dockerfile
     ports:
       - "4200:4200"
     volumes:
@@ -34,5 +38,5 @@ services:
       - back
 
 volumes:
-  calendarium_data:
+  postgres_data:
     driver: local
