@@ -25,11 +25,11 @@ services:
 
   front:
     build: ./angular
-    command: ng serve --host 0.0.0.0
     ports:
       - "4200:4200"
     volumes:
-      - ./angular/:/code
+      - ./angular/:/app
+      - /app/node_modules
     depends_on:
       - back
 

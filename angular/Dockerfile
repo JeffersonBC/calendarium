@@ -1,7 +1,11 @@
-FROM teracy/angular-cli
+FROM node:8.6
 
-WORKDIR /code
-COPY package.json /code/
+WORKDIR /app
+
+COPY package.json /app/
+COPY package-lock.json /app/
+
 RUN npm install
 
-COPY . /code/
+COPY . /app/
+CMD [ "npm", "run-script", "start" ]
