@@ -225,7 +225,7 @@ def event_invite_reject(request, invitation_id):
     if (invitation.user != request.user):
         return Response({
                 'success': False,
-                'msg': 'Você não tem autorização para rejeitar este convite.'
+                'msg': 'Você não tem autorização para recusar este convite.'
             }, status=status.HTTP_403_FORBIDDEN
         )
 
@@ -248,7 +248,7 @@ def event_invite_cancel(request, subscription_id):
     if (subscription.user != request.user):
         return Response({
                 'success': False,
-                'msg': 'Você não tem autorização para rejeitar este convite.'
+                'msg': 'Você não tem autorização para cancelar este convite.'
             }, status=status.HTTP_403_FORBIDDEN
         )
 

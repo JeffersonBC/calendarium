@@ -1,15 +1,26 @@
 from django.conf.urls import url
 
-from rest_framework.authtoken import views as rest_framework_views
-
+from rest_framework_jwt.views import (
+    obtain_jwt_token, refresh_jwt_token, verify_jwt_token
+)
 from accounts.views.api import current_user, user_create
 
 
 urlpatterns = [
     url(
         r'^auth_token_get/$',
-        rest_framework_views.obtain_auth_token,
+        obtain_jwt_token,
         name='api_auth_token_get'
+    ),
+    url(
+        r'^auth_token_refresh/$',
+        refresh_jwt_token,
+        name='api_auth_token_refresh'
+    ),
+    url(
+        r'^auth_token_verify/$',
+        verify_jwt_token,
+        name='api_auth_token_verify'
     ),
     url(
         r'^user_get_current/$',

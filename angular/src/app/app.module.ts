@@ -5,6 +5,7 @@ import { NgModule, LOCALE_ID } from '@angular/core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
+import { AppRootComponent } from './app-root/app-root.component';
 import { HomeComponent } from './home/home.component';
 
 import { AppRoutingModule } from './app.routing.module';
@@ -21,6 +22,7 @@ registerLocaleData(ptBr);
 @NgModule({
   declarations: [
     AppComponent,
+    AppRootComponent,
     HomeComponent,
   ],
   imports: [

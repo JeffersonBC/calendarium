@@ -30,32 +30,22 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.loginEmitService.changeEmitted$.subscribe(
-      bool => {
-        this.loggedIn = bool;
+      isLoggedIn => this.loggedIn = isLoggedIn
+    );
+
+    // Carrega eventos e nome do usuario do resolver
+    this.route.data.map(dados => dados).subscribe(
+      dados => {
+        if (dados['proximos']['success']) {
+          this.loggedIn = true;
+          this.eventos = dados['proximos']['msg'];
+        }
+
+        if (dados['usuario']['success']) {
+          this.user_first_name = dados['usuario']['msg']['first_name'];
+        }
       }
     );
 
-    const token = localStorage.getItem('auth_token');
-    if (token) {
-      this.loggedIn = true;
-      this.getUserName();
-
-      // Se logado, busca 5 próximos eventos
-      this.route.data.map(dados => dados['proximos']).subscribe(
-        dados => {
-          if (dados['success']) {
-            this.eventos = dados['msg'];
-          }
-        }
-      );
-
-    }
-  }
-
-  getUserName() {
-    this.contasService.getUsuarioLogado().subscribe(
-      dados => this.user_first_name = dados['msg']['first_name'],
-      (error: any) => console.log(error)
-    );
   }
 }

@@ -4,3 +4,4 @@ psycopg2
 # Dependências para a rest framework
 djangorestframework
 django-cors-headers
+djangorestframework-jwt
