@@ -27,7 +27,7 @@ services:
       context: ../../angular
       dockerfile: Dockerfile.prod
     ports:
-      - "4200:80"
+      - "80:80"
     depends_on:
       - back
 
