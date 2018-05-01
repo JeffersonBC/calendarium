@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 
 import { Evento } from '../eventos/models/evento.model';
 import { HttpService } from './http.service';
-import { Subject } from 'rxjs/Subject';
-
+import { environment } from '../../environments/environment';
 
 
 @Injectable()
@@ -22,12 +22,12 @@ export class ConviteService {
     }
 
     public getConviteDetalhesEvento(id: number) {
-        return this.httpService.get(`http://localhost:8000/api/events/invite/${id}/`)
+        return this.httpService.get(environment.backendUrl + `:8000/api/events/invite/${id}/`)
             .map(response => response['msg']);
     }
 
     public getConviteListar() {
-        return this.httpService.get(`http://localhost:8000/api/events/invitations/`)
+        return this.httpService.get(environment.backendUrl + ':8000/api/events/invitations/')
             .map(response => response['msg']);
     }
 
@@ -37,27 +37,27 @@ export class ConviteService {
             event: evento
         };
 
-        return this.httpService.post(`http://localhost:8000/api/events/invite/${evento}/add/`, objeto)
+        return this.httpService.post(environment.backendUrl + `:8000/api/events/invite/${evento}/add/`, objeto)
             .map(response => response);
     }
 
     public postConviteAceitar(convite: number) {
-        return this.httpService.post(`http://localhost:8000/api/events/invitations/accept/${convite}/`, {})
+        return this.httpService.post(environment.backendUrl + `:8000/api/events/invitations/accept/${convite}/`, {})
             .map(response => response);
     }
 
     public postConviteRejeitar(convite: number) {
-        return this.httpService.post(`http://localhost:8000/api/events/invitations/reject/${convite}/`, {})
+        return this.httpService.post(environment.backendUrl + `:8000/api/events/invitations/reject/${convite}/`, {})
             .map(response => response);
     }
 
     public postConviteCancelar(convite: number) {
-        return this.httpService.post(`http://localhost:8000/api/events/invitations/cancel/${convite}/`, {})
+        return this.httpService.post(environment.backendUrl + `:8000/api/events/invitations/cancel/${convite}/`, {})
             .map(response => response);
     }
 
     public getConviteQuantidade() {
-        return this.httpService.get(`http://localhost:8000/api/events/invitations/count/`)
+        return this.httpService.get(environment.backendUrl + `:8000/api/events/invitations/count/`)
             .map(response => response);
     }
 }

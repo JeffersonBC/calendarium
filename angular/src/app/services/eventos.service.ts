@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 
 import { Evento } from '../eventos/models/evento.model';
 import { HttpService } from './http.service';
-
+import { environment } from '../../environments/environment';
 
 
 @Injectable()
@@ -14,37 +14,37 @@ export class EventosService {
     constructor(private httpService: HttpService) { }
 
     public postEventoAdicionar(evento: Evento) {
-        return this.httpService.post('http://localhost:8000/api/events/add/', evento)
+        return this.httpService.post(environment.backendUrl + ':8000/api/events/add/', evento)
             .map(response => response);
     }
 
     public postEventoDeletar(evento_id: number) {
-        return this.httpService.post(`http://localhost:8000/api/events/delete/${evento_id}/`, {})
+        return this.httpService.post(environment.backendUrl + `:8000/api/events/delete/${evento_id}/`, {})
             .map(response => response);
     }
 
     public getEvento(evento_id: number) {
-        return this.httpService.get(`http://localhost:8000/api/events/get/${evento_id}/`)
+        return this.httpService.get(environment.backendUrl + `:8000/api/events/get/${evento_id}/`)
             .map(response => response);
     }
 
     public postEventoAtualizar(evento: Evento, evento_id: number) {
-        return this.httpService.post(`http://localhost:8000/api/events/update/${evento_id}/`, evento)
+        return this.httpService.post(environment.backendUrl + `:8000/api/events/update/${evento_id}/`, evento)
             .map(response => response);
     }
 
     public getEventosAno(ano: number) {
-        return this.httpService.get(`http://localhost:8000/api/events/get_by_date/${ano}/`)
+        return this.httpService.get(environment.backendUrl + `:8000/api/events/get_by_date/${ano}/`)
             .map(response => response);
     }
 
     public getEventosMes(ano: number, mes: number) {
-        return this.httpService.get(`http://localhost:8000/api/events/get_by_date/${ano}/${mes}/`)
+        return this.httpService.get(environment.backendUrl + `:8000/api/events/get_by_date/${ano}/${mes}/`)
             .map(response => response);
     }
 
     public getEventosProximos(quantidade: number) {
-        return this.httpService.get(`http://localhost:8000/api/events/get_next/${quantidade}/`)
+        return this.httpService.get(environment.backendUrl + `:8000/api/events/get_next/${quantidade}/`)
             .map(response => response);
     }
 
