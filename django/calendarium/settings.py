@@ -40,7 +40,9 @@ SECRET_KEY = get_site_var('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '35.196.7.65'
+]
 
 
 # Application definition
@@ -183,7 +185,9 @@ JWT_AUTH = {
 
 CORS_ORIGIN_WHITELIST = (
     'localhost:4200',
+    '35.196.7.65'
 )
 CORS_ORIGIN_REGEX_WHITELIST = (
     'localhost:4200',
+    '35.196.7.65'
 )
