@@ -41,7 +41,8 @@ SECRET_KEY = get_site_var('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '35.196.7.65'
+    '35.196.7.65',
+    'localhost',
 ]
 
 

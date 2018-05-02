@@ -2,7 +2,7 @@ version: '3'
 
 services:
   db:
-    image: postgres # Por padrão já expõe a porta 5432 pros outros containers
+    image: postgres:10.3-alpine # Por padrão já expõe a porta 5432 pros outros containers
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
