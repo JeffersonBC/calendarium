@@ -71,11 +71,10 @@ export class AppRootComponent implements OnInit {
       }
     );
 
-
     // Se tem um auth token guardado, verifica validade com o backend e emite o resultado em LoginEmitService
-    this.route.data.map(dados => dados).subscribe(
+    this.route.data.map(dados => dados['isLogged']).subscribe(
       dados => {
-        this.loginEmitService.emitChange(true);
+        this.loginEmitService.emitChange('token' in dados);
       },
       erro => this.loginEmitService.emitChange(false)
     );
