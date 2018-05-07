@@ -42,7 +42,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '35.196.7.65',
-    'calendarium.jeffersonbc.com',
+    'service.calendarium.jeffersonbc.com',
     'localhost',
 ]
 
@@ -187,9 +187,11 @@ JWT_AUTH = {
 
 CORS_ORIGIN_WHITELIST = (
     'localhost:4200',
+    'calendarium.jeffersonbc.com',
     '35.196.7.65'
 )
 CORS_ORIGIN_REGEX_WHITELIST = (
     'localhost:4200',
+    'calendarium.jeffersonbc.com',
     '35.196.7.65'
 )
