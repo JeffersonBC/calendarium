@@ -5,13 +5,24 @@ services:
     image: postgres:10.3-alpine # Por padrão já expõe a porta 5432 pros outros containers
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - default
+    labels:
+      traefik.enable: "false"
 
   back:
     build:
       context: ../../django
       dockerfile: Dockerfile.prod
-    ports:
-      - "8000:8000"
+    networks: 
+      - default
+      - proxy
+    labels:
+      traefik.backend: back
+      traefik.frontend.entryPoints: https
+      traefik.frontend.rule: Host:service.calendarium.jeffersonbc.com
+      traefik.docker.network: proxy
+      traefik.port: "8000"
     depends_on:
       - db
     environment:
@@ -26,11 +37,21 @@ services:
     build:
       context: ../../angular
       dockerfile: Dockerfile.prod
-    ports:
-      - "80:80"
+    networks: 
+      - proxy
+    labels:
+      traefik.backend: front
+      traefik.frontend.entryPoints: https
+      traefik.frontend.rule: Host:calendarium.jeffersonbc.com
+      traefik.docker.network: proxy
+      traefik.port: "80"
     depends_on:
       - back
 
 volumes:
   postgres_data:
     driver: local
+
+networks: 
+  proxy:
+    external: true

@@ -19,17 +19,17 @@ export class ContasService {
   ) { }
 
   public postNovoUsuario(usuario: NovoUsuario) {
-    return this.httpService.post(environment.backendUrl + ':8000/api/accounts/user_create/', usuario)
+    return this.httpService.post(environment.backendUrl + '/api/accounts/user_create/', usuario)
       .map(response => response);
   }
 
   public postLogin(login_info: Login) {
-    return this.httpService.post(environment.backendUrl + ':8000/api/accounts/auth_token_get/', login_info)
+    return this.httpService.post(environment.backendUrl + '/api/accounts/auth_token_get/', login_info)
       .map(response => response);
   }
 
   public getUsuarioLogado() {
-    return this.httpService.get(environment.backendUrl + ':8000/api/accounts/user_get_current/')
+    return this.httpService.get(environment.backendUrl + '/api/accounts/user_get_current/')
       .map(response => response);
   }
 
@@ -41,7 +41,7 @@ export class ContasService {
         token: localStorage.getItem('auth_token'),
       };
 
-      return this.httpService.post(environment.backendUrl + ':8000/api/accounts/auth_token_verify/', auth_token_payload)
+      return this.httpService.post(environment.backendUrl + '/api/accounts/auth_token_verify/', auth_token_payload)
         .map(response => response);
 
     } else {
@@ -71,7 +71,7 @@ export class ContasService {
         token: localStorage.getItem('auth_token'),
       };
 
-      this.httpService.post(environment.backendUrl + ':8000/api/accounts/auth_token_verify/', auth_token_payload)
+      this.httpService.post(environment.backendUrl + '/api/accounts/auth_token_verify/', auth_token_payload)
         .map(response => response)
         .subscribe(
           dados => {
@@ -92,7 +92,7 @@ export class ContasService {
         token: localStorage.getItem('auth_token'),
       };
 
-      this.httpService.post(environment.backendUrl + ':8000/api/accounts/auth_token_refresh/', auth_token_payload)
+      this.httpService.post(environment.backendUrl + '/api/accounts/auth_token_refresh/', auth_token_payload)
         .map(response => response)
         .subscribe(
           dados => {

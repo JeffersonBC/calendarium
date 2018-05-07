@@ -42,6 +42,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '35.196.7.65',
+    'calendarium.jeffersonbc.com',
     'localhost',
 ]
 
