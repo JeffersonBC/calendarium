@@ -19,7 +19,7 @@ services:
       - proxy
     labels:
       traefik.backend: back
-      traefik.frontend.entryPoints: https
+      traefik.frontend.entryPoints: http, https
       traefik.frontend.rule: Host:service.calendarium.jeffersonbc.com
       traefik.docker.network: proxy
       traefik.port: "8000"
@@ -41,7 +41,7 @@ services:
       - proxy
     labels:
       traefik.backend: front
-      traefik.frontend.entryPoints: https
+      traefik.frontend.entryPoints: http, https
       traefik.frontend.rule: Host:calendarium.jeffersonbc.com
       traefik.docker.network: proxy
       traefik.port: "80"
