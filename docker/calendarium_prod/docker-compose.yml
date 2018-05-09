@@ -14,7 +14,7 @@ services:
     build:
       context: ../../django
       dockerfile: Dockerfile.prod
-    networks: 
+    networks:
       - default
       - proxy
     labels:
@@ -32,12 +32,13 @@ services:
       CALENDARIUM_DB_NAME: "postgres"
       CALENDARIUM_DB_USER: "postgres"
       CALENDARIUM_DB_PASSWORD: "password"
+      CALENDARIUM_DB_HOST: "db"
 
   front:
     build:
       context: ../../angular
       dockerfile: Dockerfile.prod
-    networks: 
+    networks:
       - proxy
     labels:
       traefik.backend: front
@@ -52,6 +53,6 @@ volumes:
   postgres_data:
     driver: local
 
-networks: 
+networks:
   proxy:
     external: true

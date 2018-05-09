@@ -111,7 +111,7 @@ DATABASES = {
         'NAME': get_site_var('DB_NAME'),
         'USER': get_site_var('DB_USER'),
         'PASSWORD': get_site_var('DB_PASSWORD'),
-        'HOST': 'db',
+        'HOST': get_site_var('DB_HOST'),
         'PORT': 5432,
     }
 }
