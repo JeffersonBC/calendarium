@@ -26,12 +26,17 @@
                 <span class="grey-text">De: </span> {{ evento['creator'] }}
               </div>
 
-              <div *ngIf="!evento['creator']">
-                <span class="grey-text">Confirmados:&nbsp;</span><span>{{ evento['subscribed'] }}</span>
-                <span class="grey-text">Pendentes:&nbsp;</span><span>{{ evento['invited'] }}</span>
-                <span class="grey-text">Não&nbsp;irão:&nbsp;</span><span>{{ evento['rejected'] }}</span>
+              <div class="flexbox" *ngIf="!evento['creator']">
+                <div class="space-to-right">
+                  <span class="grey-text">Confirmados:&nbsp;</span><span>{{ evento['subscribed'] }}</span>
+                </div>
+                <div class="space-to-right">
+                  <span class="grey-text">Pendentes:&nbsp;</span><span>{{ evento['invited'] }}</span>
+                </div>
+                <div class="space-to-right">
+                  <span class="grey-text">Não&nbsp;irão:&nbsp;</span><span>{{ evento['rejected'] }}</span>
+                </div>
               </div>
-
             </div>
 
             <div class="m4 s5 col center-align" style="margin-left: 0; padding: .5rem 24px .5rem 0;">
