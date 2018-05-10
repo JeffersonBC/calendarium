@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { HttpService } from './http.service';
 import { LoginEmitService } from './login-emit.service';
@@ -20,17 +20,17 @@ export class ContasService {
 
   public postNovoUsuario(usuario: NovoUsuario) {
     return this.httpService.post(environment.backendUrl + '/api/accounts/user_create/', usuario)
-      .map(response => response);
+      .pipe(map(response => response));
   }
 
   public postLogin(login_info: Login) {
     return this.httpService.post(environment.backendUrl + '/api/accounts/auth_token_get/', login_info)
-      .map(response => response);
+      .pipe(map(response => response));
   }
 
   public getUsuarioLogado() {
     return this.httpService.get(environment.backendUrl + '/api/accounts/user_get_current/')
-      .map(response => response);
+      .pipe(map(response => response));
   }
 
   public getAuthTokenVerificar() {
@@ -42,7 +42,7 @@ export class ContasService {
       };
 
       return this.httpService.post(environment.backendUrl + '/api/accounts/auth_token_verify/', auth_token_payload)
-        .map(response => response);
+        .pipe(map(response => response));
 
     } else {
       return null;
@@ -72,7 +72,7 @@ export class ContasService {
       };
 
       this.httpService.post(environment.backendUrl + '/api/accounts/auth_token_verify/', auth_token_payload)
-        .map(response => response)
+        .pipe(map(response => response))
         .subscribe(
           dados => {
             this.loginEmitService.emitChange(true);
@@ -93,7 +93,7 @@ export class ContasService {
       };
 
       this.httpService.post(environment.backendUrl + '/api/accounts/auth_token_refresh/', auth_token_payload)
-        .map(response => response)
+        .pipe(map(response => response))
         .subscribe(
           dados => {
             localStorage.setItem('auth_token', dados['token']);

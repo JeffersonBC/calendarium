@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { map } from 'rxjs/operators';
+
 import { LoginEmitService } from '../services/login-emit.service';
 import { ContasService } from '../services/contas.service';
 import { EventosService } from '../services/eventos.service';
@@ -34,7 +36,7 @@ export class HomeComponent implements OnInit {
     );
 
     // Carrega eventos e nome do usuario do resolver
-    this.route.data.map(dados => dados).subscribe(
+    this.route.data.pipe(map(dados => dados)).subscribe(
       dados => {
         if (dados['proximos']['success']) {
           this.loggedIn = true;

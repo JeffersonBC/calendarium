@@ -13,8 +13,7 @@ RUN npm install
 COPY . /app/
 
 # Compila em ambiente de prod
-ARG env=prod
-RUN npm run build -- --prod --environment $env
+RUN npm run build -- --prod
 
 
 # Fase de execução ==========

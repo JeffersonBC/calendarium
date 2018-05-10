@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { Select2OptionData } from 'ng2-select2';
 
 import { ConviteService } from '../../services/convite.service';
@@ -28,7 +30,7 @@ export class EventosConvidarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.data.map(dados => dados['evento']).subscribe(
+    this.route.data.pipe(map(dados => dados['evento'])).subscribe(
       dados => this.evento_detalhes = dados
     );
 

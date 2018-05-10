@@ -2,8 +2,7 @@ import { Component, OnInit, Injectable, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
 
 import { ContasService } from '../../services/contas.service';
 import { FormService } from '../../services/form.service';

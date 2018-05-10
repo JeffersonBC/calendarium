@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/map';
+import { Observable ,  Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Evento } from '../eventos/models/evento.model';
 import { HttpService } from './http.service';
@@ -23,12 +22,12 @@ export class ConviteService {
 
     public getConviteDetalhesEvento(id: number) {
         return this.httpService.get(environment.backendUrl + `/api/events/invite/${id}/`)
-            .map(response => response['msg']);
+            .pipe(map(response => response['msg']));
     }
 
     public getConviteListar() {
         return this.httpService.get(environment.backendUrl + '/api/events/invitations/')
-            .map(response => response['msg']);
+            .pipe(map(response => response['msg']));
     }
 
     public postConviteAdicionar(ids_usuario: string, evento: number) {
@@ -38,26 +37,26 @@ export class ConviteService {
         };
 
         return this.httpService.post(environment.backendUrl + `/api/events/invite/${evento}/add/`, objeto)
-            .map(response => response);
+            .pipe(map(response => response));
     }
 
     public postConviteAceitar(convite: number) {
         return this.httpService.post(environment.backendUrl + `/api/events/invitations/accept/${convite}/`, {})
-            .map(response => response);
+            .pipe(map(response => response));
     }
 
     public postConviteRejeitar(convite: number) {
         return this.httpService.post(environment.backendUrl + `/api/events/invitations/reject/${convite}/`, {})
-            .map(response => response);
+            .pipe(map(response => response));
     }
 
     public postConviteCancelar(convite: number) {
         return this.httpService.post(environment.backendUrl + `/api/events/invitations/cancel/${convite}/`, {})
-            .map(response => response);
+            .pipe(map(response => response));
     }
 
     public getConviteQuantidade() {
         return this.httpService.get(environment.backendUrl + `/api/events/invitations/count/`)
-            .map(response => response);
+            .pipe(map(response => response));
     }
 }

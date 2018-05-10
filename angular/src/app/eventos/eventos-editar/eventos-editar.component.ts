@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { map } from 'rxjs/operators';
+
 import { EventosService } from '../../services/eventos.service';
 import { FormService } from '../../services/form.service';
 
@@ -55,7 +57,7 @@ export class EventosEditarComponent implements OnInit {
     });
 
     if (this.editando) {
-      this.activatedRoute.data.map(dados => dados['evento']).subscribe(
+      this.activatedRoute.data.pipe(map(dados => dados['evento'])).subscribe(
         dados => {
           const start = this.formService.isoDateToArray(dados['msg']['start_datetime']);
           const end = this.formService.isoDateToArray(dados['msg']['end_datetime']);

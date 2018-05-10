@@ -1,7 +1,9 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { MaterializeAction } from 'angular2-materialize';
 
 import { EventosService } from '../services/eventos.service';
@@ -33,7 +35,7 @@ export class EventosComponent implements OnInit {
   ngOnInit() {
     // Se ano não está em cache, carrega o cache
     if (!this.cacheEventoService.cache[`${this.dataAtual.ano}`]['carregado']) {
-      this.route.data.map(dados => dados['listaEventos']).subscribe(
+      this.route.data.pipe(map(dados => dados['listaEventos'])).subscribe(
         (dados) => {
           this.cacheEventoService.popularCache(this.dataAtual.ano, dados);
         }
