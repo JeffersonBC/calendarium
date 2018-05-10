@@ -1,6 +1,6 @@
 {
-  "name": "angular",
-  "short_name": "angular",
+  "name": "Calendarium",
+  "short_name": "Calendarium",
   "theme_color": "#689f38",
   "background_color": "#fafafa",
   "display": "standalone",
