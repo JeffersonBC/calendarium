@@ -2,7 +2,8 @@ import { Component, OnInit, Injectable, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Observable } from 'rxjs';
+import { Observable, empty } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { ContasService } from '../../services/contas.service';
 import { FormService } from '../../services/form.service';
@@ -49,12 +50,16 @@ export class ContaLoginComponent implements OnInit {
           this.contasService.authTokenSet(dados['token']);
           this.router.navigate(['']);
         }
-
-      }, error => {
-        if (error['error']['non_field_errors']) {
-          for (const message of error['error']['non_field_errors']) {
-            this.errorMessage += message;
+      },
+      error => {
+        if ('error' in error && error['error'] != null) {
+          if ('non_field_errors' in error['error']) {
+            for (const message of error['error']['non_field_errors']) {
+              this.errorMessage += message;
+            }
           }
+        } else {
+          this.errorMessage = 'Não foi possíve se conectar ao servidor de login, tente novamente mais tarde';
         }
       }
     );

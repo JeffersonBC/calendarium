@@ -2,42 +2,48 @@
   <div class="col s12 m8 offset-m2">
     <h3>Registro de usuário</h3>
 
-    <div *ngIf="mensagemErro">{{ mensagemErro }}</div>
+    <div class="row" *ngIf="mensagemErro !== ''">
+      <div class="col s12">
+        <div class="card-panel red darken-1 white-text error-message">
+          {{ mensagemErro }}
+        </div>
+      </div>
+    </div>
 
     <form [formGroup]="formulario" (ngSubmit)="registrar()">
 
       <div class="input-field">
-        <input id="user_username" formControlName='username' type="text" class="validate"
+        <input id="user_username" formControlName='username' type="text"
         [ngClass]="formService.inputInvalidoCss(formulario, 'username')">
         <label for="user_username">Usuario</label>
       </div>
 
       <div class="input-field">
-        <input id="user_email" formControlName='email' type="email" class="validate"
+        <input id="user_email" formControlName='email' type="email"
         [ngClass]="formService.inputInvalidoCss(formulario, 'email')">
         <label for="user_email">Email</label>
       </div>
 
       <div class="input-field">
-        <input id="user_first_name" formControlName='first_name' type="text" class="validate"
+        <input id="user_first_name" formControlName='first_name' type="text"
         [ngClass]="formService.inputInvalidoCss(formulario, 'first_name')">
         <label for="user_first_name">Nome</label>
       </div>
 
       <div class="input-field">
-        <input id="user_last_name" formControlName='last_name' type="text" class="validate"
+        <input id="user_last_name" formControlName='last_name' type="text"
         [ngClass]="formService.inputInvalidoCss(formulario, 'last_name')">
         <label for="user_last_name">Sobrenome</label>
       </div>
 
       <div class="input-field">
-        <input id="user_password1" formControlName='password_1' type="password" class="validate"
+        <input id="user_password1" formControlName='password_1' type="password"
         [ngClass]="formService.inputInvalidoCss(formulario, 'password_1')">
         <label for="user_password1">Senha</label>
       </div>
 
       <div class="input-field">
-        <input id="user_password2" formControlName='password_2' type="password" class="validate"
+        <input id="user_password2" formControlName='password_2' type="password"
         [ngClass]="formService.inputInvalidoCss(formulario, 'password_2')">
         <label for="user_password2">Confirmação de Senha</label>
       </div>

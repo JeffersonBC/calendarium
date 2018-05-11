@@ -43,7 +43,7 @@ export class LoggedInInterceptor implements HttpInterceptor {
           return throwError(error);
         }
 
-        // return throwError(error);
+        return throwError(error);
 
       }) as any);
   }

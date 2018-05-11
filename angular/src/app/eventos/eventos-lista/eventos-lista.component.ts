@@ -51,9 +51,13 @@ export class EventosListaComponent {
             this.objetos.splice(array_id, 1);
             this.conviteService.emitirMudancaQtd(-1);
 
+            this.emitirMensagem.emit('');
           } else {
             this.emitirMensagem.emit(dados['msg']);
           }
+        },
+        erro => {
+          this.emitirMensagem.emit('Ocorreu um erro ao enviar os dados para o servidor. Por favor, tente novamente mais tarde.');
         }
       );
 
@@ -66,9 +70,14 @@ export class EventosListaComponent {
             if (dados['success']) {
               this.objetos.splice(array_id, 1);
               this.conviteService.emitirMudancaQtd(-1);
+
+              this.emitirMensagem.emit('');
             } else {
               this.emitirMensagem.emit(dados['msg']);
             }
+          },
+          erro => {
+            this.emitirMensagem.emit('Ocorreu um erro ao enviar os dados para o servidor. Por favor, tente novamente mais tarde.');
           }
         );
       }

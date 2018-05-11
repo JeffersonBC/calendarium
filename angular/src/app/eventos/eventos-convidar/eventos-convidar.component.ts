@@ -22,6 +22,8 @@ export class EventosConvidarComponent implements OnInit {
 
   public ids_usuarios = '';
 
+  public mensagemErro = '';
+
   constructor(
     private conviteService: ConviteService,
     private route: ActivatedRoute,
@@ -47,6 +49,9 @@ export class EventosConvidarComponent implements OnInit {
       dados => {
         this.cacheEventosService.setMesDirtyIsoDate(this.evento_detalhes['event']['start_datetime']);
         this.router.navigate(['/eventos']);
+      },
+      erro => {
+        this.mensagemErro = 'Ocorreu um erro ao se comunicar com o servidor. Por favor, tente novamente mais tarde.';
       }
     );
   }

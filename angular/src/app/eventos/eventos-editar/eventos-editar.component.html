@@ -3,9 +3,9 @@
     <h3 *ngIf="!editando">Adicionar Evento</h3>
     <h3 *ngIf="editando">Editar Evento</h3>
 
-    <div class="row">
+    <div class="row" *ngIf="mensagemErro != ''">
       <div class="col s12">
-        <div class="card-panel red lighten-1 white-text" *ngIf="mensagemErro != ''" >
+        <div class="card-panel red lighten-1 white-text">
           {{ mensagemErro }}
         </div>
       </div>
@@ -78,7 +78,7 @@
 
       <!-- BOTÕES -->
       <div class="right">
-        <button type="button" *ngIf="editando" (click)="delete()" class="waves-effect waves-light btn">
+        <button type="button" *ngIf="editando" (click)="delete()" class="waves-effect waves-light btn space-margin-right">
           <i class="material-icons left">delete</i>Deletar
         </button>
 

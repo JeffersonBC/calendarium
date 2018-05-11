@@ -2,8 +2,12 @@
   <div class="col s12 m8 l6 offset-m2 offset-l3">
     <h3>Login</h3>
 
-    <div class="card-panel red darken-1 white-text error-message" *ngIf="errorMessage !== ''" >
-      {{ errorMessage }}
+    <div class="row" *ngIf="errorMessage !== ''">
+      <div class="col s12">
+        <div class="card-panel red darken-1 white-text error-message">
+          {{ errorMessage }}
+        </div>
+      </div>
     </div>
 
     <form [formGroup]="formulario" (ngSubmit)="tryLogin()">

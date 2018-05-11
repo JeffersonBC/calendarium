@@ -107,6 +107,9 @@ export class EventosEditarComponent implements OnInit {
             } else {
               this.mensagemErro = dados['msg'];
             }
+          },
+          erro => {
+            this.mensagemErro = 'Ocorreu um erro ao enviar os dados para o servidor. Por favor, tente novamente mais tarde.';
           }
         );
 
@@ -120,6 +123,9 @@ export class EventosEditarComponent implements OnInit {
             } else {
               this.mensagemErro = dados['msg'];
             }
+          },
+          erro => {
+            this.mensagemErro = 'Ocorreu um erro ao enviar os dados para o servidor. Por favor, tente novamente mais tarde.';
           }
         );
       }

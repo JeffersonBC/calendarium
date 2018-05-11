@@ -58,7 +58,7 @@ export class ContaRegistrarComponent implements OnInit {
             }
           },
           erro => {
-            console.log(erro);
+            this.mensagemErro = 'Ocorreu um erro ao enviar seus dados para o servidor. Por favor, tente novamente mais tarde.';
           }
         );
       }
