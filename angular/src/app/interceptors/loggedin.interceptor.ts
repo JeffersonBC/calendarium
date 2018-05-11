@@ -34,8 +34,8 @@ export class LoggedInInterceptor implements HttpInterceptor {
 
     return next.handle(req)
       .pipe(catchError((error, caught) => {
-        // Se backend retornar erro significa que o token é inválido ou expirou, ou que não há conexão com o backend
-        if (error.status >= 400) {
+        // Se backend retornar erro significa que o token é inválido ou expirou
+        if (error.status === 401) {
           this.loginEmitService.emitChange(false);
           localStorage.removeItem('auth_token');
 
@@ -43,7 +43,7 @@ export class LoggedInInterceptor implements HttpInterceptor {
           return throwError(error);
         }
 
-        return throwError(error);
+        // return throwError(error);
 
       }) as any);
   }
