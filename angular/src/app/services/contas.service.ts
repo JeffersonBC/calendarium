@@ -37,11 +37,7 @@ export class ContasService {
     const auth_token = localStorage.getItem('auth_token');
 
     if (auth_token) {
-      const auth_token_payload = {
-        token: localStorage.getItem('auth_token'),
-      };
-
-      return this.httpService.post(environment.backendUrl + '/api/accounts/auth_token_verify/', auth_token_payload)
+      return this.httpService.get(environment.backendUrl + '/api/accounts/auth_token_verify/')
         .pipe(map(response => response));
 
     } else {
@@ -67,11 +63,7 @@ export class ContasService {
     const auth_token = localStorage.getItem('auth_token');
 
     if (auth_token) {
-      const auth_token_payload = {
-        token: localStorage.getItem('auth_token'),
-      };
-
-      this.httpService.post(environment.backendUrl + '/api/accounts/auth_token_verify/', auth_token_payload)
+      this.httpService.get(environment.backendUrl + '/api/accounts/auth_token_verify/')
         .pipe(map(response => response))
         .subscribe(
           dados => {
@@ -97,10 +89,10 @@ export class ContasService {
         .subscribe(
           dados => {
             localStorage.setItem('auth_token', dados['token']);
-            this.loginEmitService.emitChange(true);
+            this.authTokenVerificar();
           },
           erro => {
-            this.loginEmitService.emitChange(false);
+            this.authTokenVerificar();
           }
         );
     }

@@ -11,7 +11,7 @@ export class LoginEmitService {
     changeEmitted$ = this.emitChangeStatus.asObservable();
 
     // Service message commands
-    emitChange(change: any) {
+    emitChange(change: boolean) {
         this.emitChangeStatus.next(change);
     }
 }
