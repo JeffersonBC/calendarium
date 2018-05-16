@@ -6,9 +6,24 @@
   </div>
 
   <div *ngIf="loggedIn">
-    <h3>Bem vindo, {{ user_first_name }}</h3>
+    <div *ngIf="user_first_name" >
+      <h3>Bem vindo, {{ user_first_name }}</h3>
+    </div>
+    <div *ngIf="!user_first_name" >
+      <h3>Bem vindo ao Calendarium!</h3>
+    </div>
     <br>
+
     <h4>Próximos Eventos</h4>
+
+    <div class="row" *ngIf="mensagemErro != ''">
+      <div class="col s12">
+        <div class="card-panel red lighten-1 white-text">
+          {{ mensagemErro }}
+        </div>
+      </div>
+    </div>
+
     <a [routerLink]="['/eventos']" class="btn waves-effect waves-light"><i class="material-icons left">visibility</i>Ver todos</a>
     <ul id="next_events_collection" class="collection card">
       <div *ngFor="let evento of eventos; index as i">
