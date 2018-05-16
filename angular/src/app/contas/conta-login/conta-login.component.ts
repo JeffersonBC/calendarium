@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Observable, empty } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 
 import { ContasService } from '../../services/contas.service';
 import { FormService } from '../../services/form.service';

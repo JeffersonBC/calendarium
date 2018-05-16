@@ -1,6 +1,15 @@
 <div class="row">
   <div class="col s12">
     <h3>Eventos</h3>
+
+    <div class="row" *ngIf="mensagemErro != ''">
+      <div class="col s12">
+        <div class="card-panel red lighten-1 white-text">
+          {{ mensagemErro }}
+        </div>
+      </div>
+    </div>
+
     <div class="fixed-action-btn">
       <a id="button_add_event" routerLink="adicionar" class="btn-floating btn-large waves-effect waves-light">
         <i class="large material-icons">add</i>

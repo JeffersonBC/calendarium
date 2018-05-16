@@ -33,7 +33,12 @@ export class EventosConvidarComponent implements OnInit {
 
   ngOnInit() {
     this.route.data.pipe(map(dados => dados['evento'])).subscribe(
-      dados => this.evento_detalhes = dados
+      dados => {
+        this.evento_detalhes = dados['msg'];
+        if (!dados['success']) {
+          this.mensagemErro = 'Não foi possível se conectar com o servidor, por favor tente novamente mais tarde.';
+        }
+      }
     );
 
     this.options = {

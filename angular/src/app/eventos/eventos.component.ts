@@ -25,6 +25,8 @@ export class EventosComponent implements OnInit {
 
   public anos: number[] = [2018, 2019, 2020, 2021, 2022, 2023];
 
+  public mensagemErro = '';
+
   constructor(
     private route: ActivatedRoute,
 
@@ -37,7 +39,12 @@ export class EventosComponent implements OnInit {
     if (!this.cacheEventoService.cache[`${this.dataAtual.ano}`]['carregado']) {
       this.route.data.pipe(map(dados => dados['listaEventos'])).subscribe(
         (dados) => {
-          this.cacheEventoService.popularCache(this.dataAtual.ano, dados);
+          if (dados['success']) {
+            this.cacheEventoService.popularCache(this.dataAtual.ano, dados);
+            this.mensagemErro = '';
+          } else {
+            this.mensagemErro = 'Não foi possível ler a lista de eventos do servidor, por favor tente novamente mais tarde.';
+          }
         }
       );
     // Se não está em cache, checa se mês está 'dirty', e se estiver atualiza o mês

@@ -21,13 +21,11 @@ export class ConviteService {
     }
 
     public getConviteDetalhesEvento(id: number) {
-        return this.httpService.get(environment.backendUrl + `/api/events/invite/${id}/`)
-            .pipe(map(response => response['msg']));
+        return this.httpService.get(environment.backendUrl + `/api/events/invite/${id}/`);
     }
 
     public getConviteListar() {
-        return this.httpService.get(environment.backendUrl + '/api/events/invitations/')
-            .pipe(map(response => response['msg']));
+        return this.httpService.get(environment.backendUrl + '/api/events/invitations/');
     }
 
     public postConviteAdicionar(ids_usuario: string, evento: number) {

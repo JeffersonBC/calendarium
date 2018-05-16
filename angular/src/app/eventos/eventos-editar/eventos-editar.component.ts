@@ -25,6 +25,7 @@ export class EventosEditarComponent implements OnInit {
   public editando: boolean;
 
   public mensagemErro = '';
+  public desabilitaFormulario = false;
 
   constructor(
     public formService: FormService,
@@ -59,18 +60,24 @@ export class EventosEditarComponent implements OnInit {
     if (this.editando) {
       this.activatedRoute.data.pipe(map(dados => dados['evento'])).subscribe(
         dados => {
-          const start = this.formService.isoDateToArray(dados['msg']['start_datetime']);
-          const end = this.formService.isoDateToArray(dados['msg']['end_datetime']);
+          if (dados['success']) {
+            const start = this.formService.isoDateToArray(dados['msg']['start_datetime']);
+            const end = this.formService.isoDateToArray(dados['msg']['end_datetime']);
 
-          this.formulario.patchValue({
-            name: dados['msg']['name'],
-            description: dados['msg']['description'],
-            start_date: `${start[2]}/${start[1]}/${start[0]}`,
-            start_time: `${start[3]}:${start[4]}`,
-            end_date: `${end[2]}/${end[1]}/${end[0]}`,
-            end_time: `${end[3]}:${end[4]}`,
-          });
-          Materialize.updateTextFields();
+            this.formulario.patchValue({
+              name: dados['msg']['name'],
+              description: dados['msg']['description'],
+              start_date: `${start[2]}/${start[1]}/${start[0]}`,
+              start_time: `${start[3]}:${start[4]}`,
+              end_date: `${end[2]}/${end[1]}/${end[0]}`,
+              end_time: `${end[3]}:${end[4]}`,
+            });
+            Materialize.updateTextFields();
+
+          } else {
+            this.mensagemErro = 'Não foi possível ler os dados do evento do servidor. Por favor tente novamente mais tarde.';
+            this.desabilitaFormulario = true;
+          }
         }
       );
 

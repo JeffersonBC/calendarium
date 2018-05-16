@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { ConviteService } from '../../services/convite.service';
 
@@ -17,6 +18,12 @@ export class EventosConvitesResolver implements Resolve<any> {
     state: RouterStateSnapshot
   ): Observable<any> {
 
-    return this.convitesService.getConviteListar();
+    return this.convitesService.getConviteListar()
+    .pipe(catchError((error, caught) => {
+      return of({
+        'success': false,
+        'msg': []
+      });
+    }));
   }
 }

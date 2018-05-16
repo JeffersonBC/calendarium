@@ -25,7 +25,13 @@ export class EventosConvitesComponent implements OnInit {
 
   ngOnInit() {
     this.route.data.pipe(map(dados => dados['convites'])).subscribe(
-      dados => this.cache_convites = dados
+      dados => {
+        if (dados['success']) {
+          this.cache_convites = dados['msg'];
+        } else {
+          this.mensagem = 'Não foi possível ler a lista de convites do servidor, por favor tente novamente mais tarde';
+        }
+      }
     );
   }
 
