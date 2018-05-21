@@ -1,7 +1,9 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { MaterializeAction } from 'angular2-materialize';
 
 import { EventosService } from '../services/eventos.service';
@@ -23,6 +25,8 @@ export class EventosComponent implements OnInit {
 
   public anos: number[] = [2018, 2019, 2020, 2021, 2022, 2023];
 
+  public mensagemErro = '';
+
   constructor(
     private route: ActivatedRoute,
 
@@ -33,9 +37,14 @@ export class EventosComponent implements OnInit {
   ngOnInit() {
     // Se ano não está em cache, carrega o cache
     if (!this.cacheEventoService.cache[`${this.dataAtual.ano}`]['carregado']) {
-      this.route.data.map(dados => dados['listaEventos']).subscribe(
+      this.route.data.pipe(map(dados => dados['listaEventos'])).subscribe(
         (dados) => {
-          this.cacheEventoService.popularCache(this.dataAtual.ano, dados);
+          if (dados['success']) {
+            this.cacheEventoService.popularCache(this.dataAtual.ano, dados);
+            this.mensagemErro = '';
+          } else {
+            this.mensagemErro = 'Não foi possível ler a lista de eventos do servidor, por favor tente novamente mais tarde.';
+          }
         }
       );
     // Se não está em cache, checa se mês está 'dirty', e se estiver atualiza o mês

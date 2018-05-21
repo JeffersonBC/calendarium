@@ -1,6 +1,6 @@
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/map';
+import { of } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 
 import {
   getEventosAnoObject,
@@ -13,32 +13,32 @@ export const MockEventosService = {
 
   /* EventosComponent */
   getEventosAno(ano: number) {
-    return Observable.of(getEventosAnoObject).map(response => response);
+    return of(getEventosAnoObject).pipe(map(response => response));
   },
 
   /* HomeComponent */
   getEventosProximos(quantidade: number) {
-    return Observable.of(getEventosProximosObject).map(response => response);
+    return of(getEventosProximosObject).pipe(map(response => response));
   },
 
   /* EventosEditarComponent */
   getEvento(evento_id: number) {
-    return Observable.of(getEventoObject).map(response => response);
+    return of(getEventoObject).pipe(map(response => response));
   },
 
   postEventoAdicionar(evento: Evento) {
-    return Observable.of({'success': true, 'msg': 'Evento criado com sucesso.'})
-      .map(response => response);
+    return of({'success': true, 'msg': 'Evento criado com sucesso.'})
+      .pipe(map(response => response));
   },
 
   postEventoAtualizar(evento: Evento) {
-    return Observable.of({'success': true, 'msg': 'Evento atualizado com sucesso.'})
-      .map(response => response);
+    return of({'success': true, 'msg': 'Evento atualizado com sucesso.'})
+      .pipe(map(response => response));
   },
 
   postEventoDeletar(evento_id: number) {
-    return Observable.of({'success': true, 'msg': 'Evento deletado com sucesso.'})
-      .map(response => response);
+    return of({'success': true, 'msg': 'Evento deletado com sucesso.'})
+      .pipe(map(response => response));
   },
 
 };

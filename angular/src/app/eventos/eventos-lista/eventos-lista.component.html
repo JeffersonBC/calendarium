@@ -17,10 +17,16 @@
           <br>
 
           <!-- EVENTO CRIADO -->
-          <div *ngIf="objeto['creator'] == null">
-            <span class="grey-text">Confirmados:&nbsp;</span><span>{{ objeto['subscribed'] }}</span>
-            <span class="grey-text">Pendentes:&nbsp;</span><span>{{ objeto['invited'] }}</span>
-            <span class="grey-text">Não&nbsp;irão:&nbsp;</span><span>{{ objeto['rejected'] }}</span>
+          <div class="flexbox" *ngIf="objeto['creator'] == null">
+            <div class="space-to-right">
+              <span class="grey-text">Confirmados:&nbsp;</span><span>{{ objeto['subscribed'] }}</span>
+            </div>
+            <div class="space-to-right">
+              <span class="grey-text">Pendentes:&nbsp;</span><span>{{ objeto['invited'] }}</span>
+            </div>
+            <div class="space-to-right">
+              <span class="grey-text">Não&nbsp;irão:&nbsp;</span><span>{{ objeto['rejected'] }}</span>
+            </div>
           </div>
 
           <!-- EVENTO CONVIDADO -->

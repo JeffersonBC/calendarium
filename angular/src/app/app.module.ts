@@ -3,6 +3,7 @@ import { MaterializeModule } from 'angular2-materialize';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { AppComponent } from './app.component';
 import { AppRootComponent } from './app-root/app-root.component';
@@ -17,6 +18,7 @@ import { services } from './services';
 
 import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
+import { environment } from '../environments/environment';
 registerLocaleData(ptBr);
 
 @NgModule({
@@ -29,7 +31,8 @@ registerLocaleData(ptBr);
     MaterializeModule,
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     ...guards,

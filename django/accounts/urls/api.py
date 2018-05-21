@@ -1,9 +1,15 @@
 from django.conf.urls import url
 
 from rest_framework_jwt.views import (
-    obtain_jwt_token, refresh_jwt_token, verify_jwt_token
+    obtain_jwt_token,
+    refresh_jwt_token,
+    # verify_jwt_token
 )
-from accounts.views.api import current_user, user_create
+from accounts.views.api import (
+    current_user,
+    user_create,
+    verify_token
+)
 
 
 urlpatterns = [
@@ -19,7 +25,7 @@ urlpatterns = [
     ),
     url(
         r'^auth_token_verify/$',
-        verify_jwt_token,
+        verify_token,
         name='api_auth_token_verify'
     ),
     url(

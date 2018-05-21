@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { map } from 'rxjs/operators';
+
 import { LoginEmitService } from '../services/login-emit.service';
 import { ContasService } from '../services/contas.service';
 import { EventosService } from '../services/eventos.service';
@@ -16,6 +18,7 @@ export class HomeComponent implements OnInit {
 
   public loggedIn = false;
   public user_first_name = '';
+  public mensagemErro = '';
 
   public eventos: any[] = [];
 
@@ -34,15 +37,20 @@ export class HomeComponent implements OnInit {
     );
 
     // Carrega eventos e nome do usuario do resolver
-    this.route.data.map(dados => dados).subscribe(
+    this.route.data.pipe(map(dados => dados)).subscribe(
       dados => {
         if (dados['proximos']['success']) {
           this.loggedIn = true;
           this.eventos = dados['proximos']['msg'];
+        } else {
+          // Usado para checar status anterior se offline
+          this.loggedIn = this.loginEmitService.currentStatus;
         }
 
         if (dados['usuario']['success']) {
           this.user_first_name = dados['usuario']['msg']['first_name'];
+        } else {
+          this.mensagemErro = 'Não foi possível ler os próximos eventos do servidor, por favor tente novamente mais tarde.';
         }
       }
     );

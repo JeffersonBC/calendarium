@@ -8,10 +8,8 @@ import {
 } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/observable/throw';
+import { throwError,  Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { LoginEmitService } from '../services/login-emit.service';
 import { ContasService } from '../services/contas.service';
@@ -35,18 +33,18 @@ export class LoggedInInterceptor implements HttpInterceptor {
     }
 
     return next.handle(req)
-      .catch((error, caught) => {
-        // Se backend retornar '401 Unauthorized', significa que o token é inválido ou expirou
+      .pipe(catchError((error, caught) => {
+        // Se backend retornar erro significa que o token é inválido ou expirou
         if (error.status === 401) {
           this.loginEmitService.emitChange(false);
           localStorage.removeItem('auth_token');
 
           this.router.navigate(['conta/login']);
-          return Observable.throw(error);
+          return throwError(error);
         }
 
-        return Observable.throw(error);
+        return throwError(error);
 
-      }) as any;
+      }) as any);
   }
 }

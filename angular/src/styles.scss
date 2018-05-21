@@ -3,7 +3,7 @@
 
 @import '~materialize-css/sass/materialize';
 
-
+/* Classes para configurar o layout do site */
 header, main, footer {
 	padding-left: 300px;
 }
@@ -30,6 +30,7 @@ header, main, footer {
 	}
 }
 
+/* Classes de uso geral */
 .bold {
 	font-weight: bold;
 }
@@ -44,6 +45,10 @@ header, main, footer {
 
 .no-margin {
     margin: 0;
+}
+
+.space-to-right {
+    padding-right: .5rem;
 }
 
 /* Corrige bug do Materialize que fazia data-erros terem a largura da label */

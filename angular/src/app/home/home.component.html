@@ -6,9 +6,24 @@
   </div>
 
   <div *ngIf="loggedIn">
-    <h3>Bem vindo, {{ user_first_name }}</h3>
+    <div *ngIf="user_first_name" >
+      <h3>Bem vindo, {{ user_first_name }}</h3>
+    </div>
+    <div *ngIf="!user_first_name" >
+      <h3>Bem vindo ao Calendarium!</h3>
+    </div>
     <br>
+
     <h4>Próximos Eventos</h4>
+
+    <div class="row" *ngIf="mensagemErro != ''">
+      <div class="col s12">
+        <div class="card-panel red lighten-1 white-text">
+          {{ mensagemErro }}
+        </div>
+      </div>
+    </div>
+
     <a [routerLink]="['/eventos']" class="btn waves-effect waves-light"><i class="material-icons left">visibility</i>Ver todos</a>
     <ul id="next_events_collection" class="collection card">
       <div *ngFor="let evento of eventos; index as i">
@@ -26,12 +41,17 @@
                 <span class="grey-text">De: </span> {{ evento['creator'] }}
               </div>
 
-              <div *ngIf="!evento['creator']">
-                <span class="grey-text">Confirmados:&nbsp;</span><span>{{ evento['subscribed'] }}</span>
-                <span class="grey-text">Pendentes:&nbsp;</span><span>{{ evento['invited'] }}</span>
-                <span class="grey-text">Não&nbsp;irão:&nbsp;</span><span>{{ evento['rejected'] }}</span>
+              <div class="flexbox" *ngIf="!evento['creator']">
+                <div class="space-to-right">
+                  <span class="grey-text">Confirmados:&nbsp;</span><span>{{ evento['subscribed'] }}</span>
+                </div>
+                <div class="space-to-right">
+                  <span class="grey-text">Pendentes:&nbsp;</span><span>{{ evento['invited'] }}</span>
+                </div>
+                <div class="space-to-right">
+                  <span class="grey-text">Não&nbsp;irão:&nbsp;</span><span>{{ evento['rejected'] }}</span>
+                </div>
               </div>
-
             </div>
 
             <div class="m4 s5 col center-align" style="margin-left: 0; padding: .5rem 24px .5rem 0;">

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { map } from 'rxjs/operators';
 
 import { ConviteService } from '../../services/convite.service';
-import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -22,8 +24,14 @@ export class EventosConvitesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.data.map(dados => dados['convites']).subscribe(
-      dados => this.cache_convites = dados
+    this.route.data.pipe(map(dados => dados['convites'])).subscribe(
+      dados => {
+        if (dados['success']) {
+          this.cache_convites = dados['msg'];
+        } else {
+          this.mensagem = 'Não foi possível ler a lista de convites do servidor, por favor tente novamente mais tarde';
+        }
+      }
     );
   }
 

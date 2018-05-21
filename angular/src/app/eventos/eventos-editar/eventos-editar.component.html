@@ -3,9 +3,9 @@
     <h3 *ngIf="!editando">Adicionar Evento</h3>
     <h3 *ngIf="editando">Editar Evento</h3>
 
-    <div class="row">
+    <div class="row" *ngIf="mensagemErro != ''">
       <div class="col s12">
-        <div class="card-panel red lighten-1 white-text" *ngIf="mensagemErro != ''" >
+        <div class="card-panel red lighten-1 white-text">
           {{ mensagemErro }}
         </div>
       </div>
@@ -14,15 +14,14 @@
     <form materialize [formGroup]="formulario" (ngSubmit)="onSubmit()">
 
       <div class="input-field tooltip">
-        <input id="event_name" type="text" formControlName="name" [ngClass]="formService.inputInvalidoCss(formulario, 'name')" />
+        <input id="event_name" type="text" formControlName="name" [ngClass]="formService.inputInvalidoCss(formulario, 'name')" [attr.disabled]="desabilitaFormulario ? '' : null"/>
 
         <label for="event_name">Nome</label>
         <span class="tooltiptext" *ngIf="formService.verificaInvalidTouched(formulario, 'name')">Este campo é obrigatório</span>
       </div>
 
       <div class="input-field">
-        <input id="event_desc" type="text" formControlName="description" [ngClass]="formService.inputInvalidoCss(formulario, 'description')"
-        />
+        <input id="event_desc" type="text" formControlName="description" [ngClass]="formService.inputInvalidoCss(formulario, 'description')" [attr.disabled]="desabilitaFormulario ? '' : null"/>
         <label for="event_desc">Descrição</label>
       </div>
 
@@ -31,8 +30,7 @@
 
         <div class="col s12 m6">
           <div class="input-field tooltip">
-            <input id="event_startd" type="text" formControlName="start_date" materialize="pickadate" [materializeParams]="materializeDateParams()"
-              [ngClass]="formService.inputInvalidoCss(formulario, 'start_date')" />
+            <input id="event_startd" type="text" formControlName="start_date" materialize="pickadate" [materializeParams]="materializeDateParams()" [ngClass]="formService.inputInvalidoCss(formulario, 'start_date')" [attr.disabled]="desabilitaFormulario ? '' : null"/>
 
             <label for="event_startd">Início</label>
             <span class="tooltiptext" *ngIf="formService.verificaInvalidTouched(formulario, 'start_date')">Este campo é obrigatório</span>
@@ -42,8 +40,7 @@
 
         <div class="col s12 m6">
           <div class="input-field tooltip">
-            <input id="event_startt" type="text" formControlName="start_time" materialize="pickatime" [materializeParams]="materializeTimeParams()" [ngClass]="formService.inputInvalidoCss(formulario, 'start_time')"
-            />
+            <input id="event_startt" type="text" formControlName="start_time" materialize="pickatime" [materializeParams]="materializeTimeParams()" [ngClass]="formService.inputInvalidoCss(formulario, 'start_time')" [attr.disabled]="desabilitaFormulario ? '' : null"/>
 
             <span class="tooltiptext" *ngIf="formService.verificaInvalidTouched(formulario, 'start_time')">Este campo é obrigatório</span>
           </div>
@@ -56,8 +53,7 @@
 
         <div class="col s12 m6">
           <div class="input-field tooltip">
-            <input id="event_endd" type="text" formControlName="end_date" materialize="pickadate" [materializeParams]="materializeDateParams()"
-              [ngClass]="formService.inputInvalidoCss(formulario, 'end_date')" />
+            <input id="event_endd" type="text" formControlName="end_date" materialize="pickadate" [materializeParams]="materializeDateParams()" [ngClass]="formService.inputInvalidoCss(formulario, 'end_date')" [attr.disabled]="desabilitaFormulario ? '' : null"/>
 
             <label for="event_endd">Fim</label>
             <span class="tooltiptext" *ngIf="formService.verificaInvalidTouched(formulario, 'end_date')">Este campo é obrigatório</span>
@@ -67,8 +63,7 @@
 
         <div class="col s12 m6">
           <div class="input-field tooltip">
-            <input id="event_endt" type="text" formControlName="end_time" materialize="pickatime" [materializeParams]="materializeTimeParams()" [ngClass]="formService.inputInvalidoCss(formulario, 'end_time')"
-            />
+            <input id="event_endt" type="text" formControlName="end_time" materialize="pickatime" [materializeParams]="materializeTimeParams()" [ngClass]="formService.inputInvalidoCss(formulario, 'end_time')" [attr.disabled]="desabilitaFormulario ? '' : null"/>
 
             <span class="tooltiptext" *ngIf="formService.verificaInvalidTouched(formulario, 'end_time')">Este campo é obrigatório</span>
           </div>
@@ -78,11 +73,11 @@
 
       <!-- BOTÕES -->
       <div class="right">
-        <button type="button" *ngIf="editando" (click)="delete()" class="waves-effect waves-light btn">
+        <button type="button" *ngIf="editando" (click)="delete()" class="waves-effect waves-light btn space-margin-right" [disabled]="desabilitaFormulario">
           <i class="material-icons left">delete</i>Deletar
         </button>
 
-        <button type="submit" class="btn waves-effect waves-light">
+        <button type="submit" class="btn waves-effect waves-light" [disabled]="desabilitaFormulario">
           <i class="material-icons left">save</i>Salvar
         </button>
       </div>

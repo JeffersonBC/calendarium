@@ -1,6 +1,5 @@
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/map';
+import { of, throwError } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import {
   getUsuarioLogadoObject,
@@ -9,20 +8,19 @@ import {
 } from '../mock-objects/mock.contas.objects';
 
 import { Login } from '../../app/contas/models/usuario.model';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
 
 export const MockContasService = {
   getUsuarioLogado() {
-    return Observable.of(getUsuarioLogadoObject).map(response => response);
+    return of(getUsuarioLogadoObject).pipe(map(response => response));
   },
 
   postLogin(login_info: Login) {
     if (login_info.username === 'Teste' && login_info.password === 'a12345678') {
-      return Observable.of(postLoginObject).map(response => response);
+      return of(postLoginObject).pipe(map(response => response));
 
     } else {
-      return new ErrorObservable(postLoginObjectFailure).map(response => response);
+      return throwError(postLoginObjectFailure).pipe(map(response => response));
     }
   },
 };

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { Select2OptionData } from 'ng2-select2';
 
 import { ConviteService } from '../../services/convite.service';
@@ -20,6 +22,8 @@ export class EventosConvidarComponent implements OnInit {
 
   public ids_usuarios = '';
 
+  public mensagemErro = '';
+
   constructor(
     private conviteService: ConviteService,
     private route: ActivatedRoute,
@@ -28,8 +32,13 @@ export class EventosConvidarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.data.map(dados => dados['evento']).subscribe(
-      dados => this.evento_detalhes = dados
+    this.route.data.pipe(map(dados => dados['evento'])).subscribe(
+      dados => {
+        this.evento_detalhes = dados['msg'];
+        if (!dados['success']) {
+          this.mensagemErro = 'Não foi possível se conectar com o servidor, por favor tente novamente mais tarde.';
+        }
+      }
     );
 
     this.options = {
@@ -45,6 +54,9 @@ export class EventosConvidarComponent implements OnInit {
       dados => {
         this.cacheEventosService.setMesDirtyIsoDate(this.evento_detalhes['event']['start_datetime']);
         this.router.navigate(['/eventos']);
+      },
+      erro => {
+        this.mensagemErro = 'Ocorreu um erro ao se comunicar com o servidor. Por favor, tente novamente mais tarde.';
       }
     );
   }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { map } from 'rxjs/operators';
+
 import { LoginEmitService } from '../services/login-emit.service';
 import { CacheEventosService } from '../services/cache-eventos.service';
 import { ConviteService } from '../services/convite.service';
@@ -72,9 +74,9 @@ export class AppRootComponent implements OnInit {
     );
 
     // Se tem um auth token guardado, verifica validade com o backend e emite o resultado em LoginEmitService
-    this.route.data.map(dados => dados['isLogged']).subscribe(
+    this.route.data.pipe(map(dados => dados['isLogged'])).subscribe(
       dados => {
-        this.loginEmitService.emitChange('token' in dados);
+        this.loginEmitService.emitChange(dados['success']);
       },
       erro => this.loginEmitService.emitChange(false)
     );
