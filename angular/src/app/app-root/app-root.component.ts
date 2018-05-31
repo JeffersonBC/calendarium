@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 
 import { map } from 'rxjs/operators';
 
@@ -32,7 +32,14 @@ export class AppRootComponent implements OnInit {
     private eventosCacheService: CacheEventosService,
     private conviteService: ConviteService,
     private contasService: ContasService,
-  ) { }
+  ) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        (<any>window).ga('set', 'page', event.urlAfterRedirects);
+        (<any>window).ga('send', 'pageview');
+      }
+    });
+  }
 
   ngOnInit() {
     // Como reagir caso usuário esteja logado ou não
