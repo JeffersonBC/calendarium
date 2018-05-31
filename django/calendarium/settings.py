@@ -64,7 +64,6 @@ INSTALLED_APPS = [
 
     'accounts',
     'events',
-    'website',
 ]
 
 MIDDLEWARE = [
