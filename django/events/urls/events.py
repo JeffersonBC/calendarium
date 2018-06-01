@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from events.views.api.event import (
+from events.api.event import (
     event_add,
     event_update,
     event_delete,
