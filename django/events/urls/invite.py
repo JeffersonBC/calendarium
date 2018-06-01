@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from events.views.api.invite import (
+from events.api.invite import (
     event_invite_details,
     event_invite_add,
     event_invite_list,

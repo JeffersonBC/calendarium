@@ -5,7 +5,7 @@ from rest_framework_jwt.views import (
     refresh_jwt_token,
     # verify_jwt_token
 )
-from accounts.views.api import (
+from accounts.api import (
     current_user,
     user_create,
     verify_token
