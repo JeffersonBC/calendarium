@@ -55,12 +55,14 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
 
     # Rest Framework apps
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+
+    # Websocket apps
+    'channels',
 
     'accounts',
     'events',
@@ -150,21 +152,13 @@ USE_L10N = True
 USE_TZ = False
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
-
-STATIC_URL = '/static/'
-
-LOGIN_REDIRECT_URL = 'event_calendar'
-LOGOUT_REDIRECT_URL = 'index'
-
-
 # Rest Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     )
 }
+
 
 # Autenticação por tokens JWT
 JWT_AUTH = {
@@ -184,6 +178,7 @@ JWT_AUTH = {
 }
 
 
+# CORS
 CORS_ORIGIN_WHITELIST = (
     'localhost:4200',
     'localhost',
@@ -196,3 +191,17 @@ CORS_ORIGIN_REGEX_WHITELIST = (
     'calendarium.jeffersonbc.com',
     '35.196.7.65'
 )
+
+
+# Channels
+ASGI_APPLICATION = "calendarium.routing.application"
+
+ASGI_APPLICATION = 'calendarium.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('redis', 6379)],
+        },
+    },
+}
