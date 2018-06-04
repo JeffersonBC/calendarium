@@ -25,6 +25,7 @@ export class AppRootComponent implements OnInit {
   private authTokenRenovarInterval;
 
   private countSocket;
+  private userId = 0;
 
   constructor(
     private router: Router,
@@ -68,13 +69,19 @@ export class AppRootComponent implements OnInit {
 
             // Checa quantidade de convites atual e depois se conecta a um websocket para atualizar quantidade de convites
             this.checaConvitesServidor();
-            this.countSocket = webSocket('ws://localhost:8000/ws/invitations/count/1/')
-              .pipe(retry(5))
-              .subscribe(
-                (msg) => this.qtdConvites += msg['msg']['count'],
-                (err) => console.log(err),
-                () => console.log('complete')
-              );
+
+            this.contasService.getUsuarioLogado().pipe(retry(5)).subscribe(
+              (dados) => {
+                this.userId = dados['msg']['id'];
+
+                this.countSocket = webSocket(`ws://localhost:8000/ws/invitations/count/${this.userId}/`)
+                  .pipe(retry()).subscribe(
+                    (dadosSocket) => this.qtdConvites += dadosSocket['msg']['count'],
+                    (erro) => console.log(erro),
+                    () => console.log('complete')
+                  );
+              }
+            );
           }
 
         // Usuário não logado

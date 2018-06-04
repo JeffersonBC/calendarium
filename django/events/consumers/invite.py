@@ -10,7 +10,6 @@ class InvitationCountConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.user_id = self.scope['url_route']['kwargs']['user_id']
         self.group_name = 'inv_count_' + self.user_id
-        self.count = await database_sync_to_async(self.get_invitation_count)(self.user_id)
 
         # Connects to the group
         await self.channel_layer.group_add(
@@ -28,16 +27,14 @@ class InvitationCountConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-
         newCount = text_data_json['msg']['count']
-        self.count += newCount
 
         await self.channel_layer.group_send(
             self.group_name,
             {
                 'type': 'count_update',
                 'msg': {
-                    'count': self.count
+                    'count': newCount
                 }
             }
         )
@@ -48,9 +45,3 @@ class InvitationCountConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'msg': message
         }))
-
-    def get_invitation_count(self, user_id):
-        return EventInvitation.objects \
-            .filter(user_id=self.user_id) \
-            .filter(rejected=False) \
-            .count()
