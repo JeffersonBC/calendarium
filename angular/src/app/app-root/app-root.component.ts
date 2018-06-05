@@ -86,6 +86,7 @@ export class AppRootComponent implements OnInit {
 
         // Usuário não logado
         } else {
+          this.countSocket.unsubscribe();
           clearInterval(this.authTokenRenovarInterval);
         }
       }
