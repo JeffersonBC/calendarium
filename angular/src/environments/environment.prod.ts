@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  backendUrl: 'https://service.calendarium.jeffersonbc.com',
+  backendUrl: 'http://localhost:8000',
   analyticsTrackingID: 'UA-XXXXX-Y',
 };

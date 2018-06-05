@@ -195,8 +195,6 @@ CORS_ORIGIN_REGEX_WHITELIST = (
 
 # Channels
 ASGI_APPLICATION = "calendarium.routing.application"
-
-ASGI_APPLICATION = 'calendarium.routing.application'
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
