@@ -6,5 +6,6 @@
 export const environment = {
   production: false,
   backendUrl: 'http://localhost:8000',
+  backendWsUrl: 'ws://localhost:8000',
   analyticsTrackingID: 'UA-XXXXX-Y',
 };

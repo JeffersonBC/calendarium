@@ -5,10 +5,13 @@ import { Observable } from 'rxjs';
 import { map, retry } from 'rxjs/operators';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 
-import { LoginEmitService } from '../services/login-emit.service';
 import { CacheEventosService } from '../services/cache-eventos.service';
-import { ConviteService } from '../services/convite.service';
 import { ContasService } from '../services/contas.service';
+import { ConviteService } from '../services/convite.service';
+import { LoginEmitService } from '../services/login-emit.service';
+
+import { environment } from '../../environments/environment';
+
 
 @Component({
   selector: 'app-app-root',
@@ -74,7 +77,7 @@ export class AppRootComponent implements OnInit {
               (dados) => {
                 this.userId = dados['msg']['id'];
 
-                this.countSocket = webSocket(`ws://localhost:8000/ws/invitations/count/${this.userId}/`)
+                this.countSocket = webSocket(`${environment.backendWsUrl}/ws/invitations/count/${this.userId}/`)
                   .pipe(retry()).subscribe(
                     (dadosSocket) => this.qtdConvites += dadosSocket['msg']['count'],
                     (erro) => console.log(erro),
