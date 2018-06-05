@@ -41,7 +41,6 @@ SECRET_KEY = get_site_var('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '35.196.7.65',
     'service.calendarium.jeffersonbc.com',
     'localhost',
 ]
@@ -179,17 +178,10 @@ JWT_AUTH = {
 
 
 # CORS
-CORS_ORIGIN_WHITELIST = (
-    'localhost:4200',
-    'localhost',
-    'calendarium.jeffersonbc.com',
-    '35.196.7.65'
-)
+# CORS_ORIGIN_WHITELIST = (
 CORS_ORIGIN_REGEX_WHITELIST = (
-    'localhost:4200',
-    'localhost',
-    'calendarium.jeffersonbc.com',
-    '35.196.7.65'
+    r'(http(s)?://)?localhost(.)*(/)?',
+    r'(http(s)?://)?(.)*\.jeffersonbc\.com(/)?',
 )
 
 
