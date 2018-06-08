@@ -38,6 +38,8 @@ services:
       CALENDARIUM_DB_USER: "postgres"
       CALENDARIUM_DB_PASSWORD: "password"
       CALENDARIUM_DB_HOST: "db"
+      #Variáveis do Redis usado pelo Channels
+      CALENDARIUM_REDIS_HOST: "redis"
 
   front:
     build:
