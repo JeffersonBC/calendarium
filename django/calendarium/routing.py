@@ -12,8 +12,8 @@ application = ProtocolTypeRouter(
         'websocket': OriginValidator(
             URLRouter(
                 events.routing.invite.websocket_urlpatterns
-            )
-        ),
-        ["calendarium.jeffersonbc.com"]
+            ),
+            ["calendarium.jeffersonbc.com"]
+        )
     }
 )

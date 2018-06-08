@@ -27,14 +27,14 @@ class InvitationCountConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        newCount = text_data_json['msg']['count']
+        sumToCount = text_data_json['msg']['count']
 
         await self.channel_layer.group_send(
             self.group_name,
             {
                 'type': 'count_update',
                 'msg': {
-                    'count': newCount
+                    'count': sumToCount
                 }
             }
         )

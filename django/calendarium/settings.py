@@ -63,8 +63,10 @@ INSTALLED_APPS = [
     # Websocket apps
     'channels',
 
+    # Internal apps
     'accounts',
     'events',
+    'healthcheck',
 ]
 
 MIDDLEWARE = [
