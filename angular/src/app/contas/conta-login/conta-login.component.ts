@@ -53,6 +53,7 @@ export class ContaLoginComponent implements OnInit {
       error => {
         if ('error' in error && error['error'] != null) {
           if ('non_field_errors' in error['error']) {
+            this.errorMessage = '';
             for (const message of error['error']['non_field_errors']) {
               this.errorMessage += message;
             }

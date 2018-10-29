@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, retry } from 'rxjs/operators';
+import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 
-import { LoginEmitService } from '../services/login-emit.service';
 import { CacheEventosService } from '../services/cache-eventos.service';
-import { ConviteService } from '../services/convite.service';
 import { ContasService } from '../services/contas.service';
+import { ConviteService } from '../services/convite.service';
+import { LoginEmitService } from '../services/login-emit.service';
+
+import { environment } from '../../environments/environment';
 
 
 @Component({
@@ -23,6 +27,8 @@ export class AppRootComponent implements OnInit {
 
   private authTokenRenovarInterval;
 
+  private countSocket;
+  private userId = 0;
 
   constructor(
     private router: Router,
@@ -53,12 +59,6 @@ export class AppRootComponent implements OnInit {
 
             this.loggedIn = true;
 
-            // 'Pinga' o servidor ao iniciar e depois a cada 20s para ver se recebeu algum convite novo
-            this.checaConvitesServidor();
-            this.qtdConvitesInterval = setInterval(
-              () => { if (this.loggedIn) { this.checaConvitesServidor(); } } , 1000 * 20
-            );
-
             // Se usuário aceitar/ rejeitar convite, diminui quantidade na hora
             this.conviteService.emitirQuantidade$.subscribe(
               n => this.qtdConvites += n
@@ -70,11 +70,28 @@ export class AppRootComponent implements OnInit {
               () => { this.contasService.authTokenRenovar(); } , 1000 * 60 * 5
             );
 
+            // Checa quantidade de convites atual e depois se conecta a um websocket para atualizar quantidade de convites
+            this.checaConvitesServidor();
+
+            this.contasService.getUsuarioLogado().pipe(retry(5)).subscribe(
+              (dados) => {
+                this.userId = dados['msg']['id'];
+
+                this.countSocket = webSocket(`${environment.backendWsUrl}/ws/invitations/count/${this.userId}/`)
+                  .pipe(retry()).subscribe(
+                    (dadosSocket) => this.qtdConvites += dadosSocket['msg']['count'],
+                    (erro) => console.log(erro),
+                    () => console.log('complete')
+                  );
+              }
+            );
           }
 
         // Usuário não logado
         } else {
-          clearInterval(this.qtdConvitesInterval);
+          if (this.countSocket) {
+            this.countSocket.unsubscribe();
+          }
           clearInterval(this.authTokenRenovarInterval);
         }
       }

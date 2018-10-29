@@ -5,3 +5,7 @@ psycopg2
 djangorestframework
 django-cors-headers
 djangorestframework-jwt
+
+# Dependências para usar WebSocket
+channels
+channels_redis

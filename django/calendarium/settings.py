@@ -41,7 +41,6 @@ SECRET_KEY = get_site_var('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '35.196.7.65',
     'service.calendarium.jeffersonbc.com',
     'localhost',
 ]
@@ -55,15 +54,19 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
 
     # Rest Framework apps
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
 
+    # Websocket apps
+    'channels',
+
+    # Internal apps
     'accounts',
     'events',
+    'healthcheck',
 ]
 
 MIDDLEWARE = [
@@ -150,21 +153,13 @@ USE_L10N = True
 USE_TZ = False
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
-
-STATIC_URL = '/static/'
-
-LOGIN_REDIRECT_URL = 'event_calendar'
-LOGOUT_REDIRECT_URL = 'index'
-
-
 # Rest Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     )
 }
+
 
 # Autenticação por tokens JWT
 JWT_AUTH = {
@@ -184,15 +179,21 @@ JWT_AUTH = {
 }
 
 
-CORS_ORIGIN_WHITELIST = (
-    'localhost:4200',
-    'localhost',
-    'calendarium.jeffersonbc.com',
-    '35.196.7.65'
-)
+# CORS
+# CORS_ORIGIN_WHITELIST = (
 CORS_ORIGIN_REGEX_WHITELIST = (
-    'localhost:4200',
-    'localhost',
-    'calendarium.jeffersonbc.com',
-    '35.196.7.65'
+    r'(http(s)?://)?localhost(.)*(/)?',
+    r'(http(s)?://)?(.)*\.jeffersonbc\.com(/)?',
 )
+
+
+# Channels
+ASGI_APPLICATION = "calendarium.routing.application"
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [(get_site_var('REDIS_HOST'), 6379)],
+        },
+    },
+}

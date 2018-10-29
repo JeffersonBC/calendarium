@@ -43,14 +43,14 @@ export class HomeComponent implements OnInit {
           this.loggedIn = true;
           this.eventos = dados['proximos']['msg'];
         } else {
-          // Usado para checar status anterior se offline
-          this.loggedIn = this.loginEmitService.currentStatus;
+          this.mensagemErro = 'Não foi possível ler os próximos eventos do servidor, por favor tente novamente mais tarde.';
         }
 
         if (dados['usuario']['success']) {
           this.user_first_name = dados['usuario']['msg']['first_name'];
         } else {
-          this.mensagemErro = 'Não foi possível ler os próximos eventos do servidor, por favor tente novamente mais tarde.';
+          // Usado para checar status anterior se offline
+          this.loggedIn = this.loginEmitService.currentStatus;
         }
       }
     );

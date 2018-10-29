@@ -102,8 +102,8 @@
       <!-- AÇÕES DO CARD -->
       <div class="card-action">
         <div *ngIf="objeto['creator'] == null" >
-          <a id="a_edit_{{ idx }}" routerLink="editar/{{ objeto['event']['id'] }}">Editar</a>
-          <a id="a_send_{{ idx }}" routerLink="convidar/{{ objeto['event']['id'] }}">Enviar convite</a>
+          <a id="a_edit_{{ idx }}" class="green-text" routerLink="editar/{{ objeto['event']['id'] }}">Editar</a>
+          <a id="a_send_{{ idx }}" class="green-text" routerLink="convidar/{{ objeto['event']['id'] }}">Enviar convite</a>
         </div>
 
         <div *ngIf="objeto['creator'] != null && !objeto['invite_id']" >

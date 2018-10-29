@@ -14,7 +14,7 @@ RUN npm install -g purify-css
 COPY . /app/
 
 # Compila em ambiente de prod
-RUN npm run build -- --prod
+RUN npm run build
 
 # Remove classes não usadas do css
 WORKDIR /app/dist/

@@ -1,3 +1,6 @@
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 
@@ -133,6 +136,18 @@ def event_invite_add(request, id):
                             'com sucesso.'.format(u_id, json_request['event'])
                         )
 
+                        # Tenta enviar atualização de qtd de convites para websocket
+                        channel_layer = get_channel_layer()
+                        async_to_sync(channel_layer.group_send)(
+                            'inv_count_' + str(u_id),
+                            {
+                                'type': 'count_update',
+                                'msg': {
+                                    'count': 1
+                                }
+                            }
+                        )
+
                     else:
                         msg.append(serializer.errors)
 
@@ -210,6 +225,18 @@ def event_invite_accept(request, invitation_id):
 
         msg = 'Inscrição no evento confirmada'
 
+        # Tenta enviar atualização de qtd de convites para websocket
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            'inv_count_' + str(request.user.id),
+            {
+                'type': 'count_update',
+                'msg': {
+                    'count': -1
+                }
+            }
+        )
+
     return Response({
             'success': success,
             'msg': msg
@@ -232,6 +259,18 @@ def event_invite_reject(request, invitation_id):
     else:
         invitation.rejected = True
         invitation.save()
+
+        # Tenta enviar atualização de qtd de convites para websocket
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            'inv_count_' + str(request.user.id),
+            {
+                'type': 'count_update',
+                'msg': {
+                    'count': -1
+                }
+            }
+        )
 
     return Response({
             'success': True,

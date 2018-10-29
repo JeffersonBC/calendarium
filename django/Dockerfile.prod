@@ -10,10 +10,7 @@ WORKDIR /code
 ADD requirements.txt /code/
 RUN pip install -r requirements.txt
 
-ADD requirements.prod.txt /code/
-RUN pip install -r requirements.prod.txt
-
 # Copia código desta pasta para '/code' no container
 ADD . /code/
 
-CMD [ "uwsgi", "--ini", "/code/uwsgi.ini" ]
+CMD [ "daphne", "-b", "0.0.0.0", "-p", "8000", "calendarium.asgi:application" ]

@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable ,  Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Evento } from '../eventos/models/evento.model';
 import { HttpService } from './http.service';
 import { environment } from '../../environments/environment';
 

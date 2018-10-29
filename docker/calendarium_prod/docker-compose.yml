@@ -10,6 +10,11 @@ services:
     labels:
       traefik.enable: "false"
 
+  redis:
+    image: redis:4.0.9-alpine
+    ports:
+      - "6379:6379"
+
   back:
     build:
       context: ../../django
@@ -33,6 +38,8 @@ services:
       CALENDARIUM_DB_USER: "postgres"
       CALENDARIUM_DB_PASSWORD: "password"
       CALENDARIUM_DB_HOST: "db"
+      #Variáveis do Redis usado pelo Channels
+      CALENDARIUM_REDIS_HOST: "redis"
 
   front:
     build:
